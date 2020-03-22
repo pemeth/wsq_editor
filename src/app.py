@@ -2,7 +2,7 @@ import sys
 import numpy as np
 from PIL import Image
 import wsq
-from normalize import normalize
+from normalize import normalizeMinMax, normalizeMeanVariance
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
 from PyQt5.QtCore import Qt
@@ -40,9 +40,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.imgShape = self.imgArray.shape
             self.showImage()
 
-    def normalize(self):
-        self.imgArray = normalize(self.imgArray)
-        self.showImage()
+    def normalizeMinMax(self):
+        try:
+            self.imgArray = normalizeMinMax(self.imgArray)
+            self.showImage()
+        except AttributeError:
+            print("An exception occurred! No loaded image found!")
+
+    def normalizeMeanVar(self):
+        try:
+            self.imgArray = normalizeMeanVariance(self.imgArray)
+            self.showImage()
+        except AttributeError:
+            print("An exception occurred! No loaded image found!")
 
     def showImage(self):
         imgBytes = self.imgArray.tobytes()
@@ -67,7 +77,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
-        self.normalizeImageAction = QAction("Normalize", self, triggered=self.normalize)
+        # TODO: prerobit nejak ten triggered callback, aby sa volala jedna funkcia ale s parametrami na rozlisenie sposobu normalizacie
+        #       mozno pomoze: https://www.mfitzp.com/article/qt-transmit-extra-data-with-signals/
+        self.normalizeImageActionSimple = QAction("Normalize with min/max method", self, triggered=self.normalizeMinMax)
+        self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -75,7 +88,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fileMenu.addAction(self.openImageAction)
 
         self.imageMenu = self.menubar.addMenu("Image")
-        self.imageMenu.addAction(self.normalizeImageAction)
+        self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
+
+        self.normalizeSubmenu.addAction(self.normalizeImageActionSimple)
+        self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
+
+    def __checkForLoadedImage(self):
+        if self.imgArray == None:
+            return False
+        return True
+
 
 
 app = QApplication(sys.argv)

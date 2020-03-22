@@ -1,12 +1,10 @@
 import numpy as np
 from PIL import Image
 
-def normalize(imgArray):
+def normalizeMinMax(imgArray):
+    # Image normalization (as per source: Fingerprint Authentication using Gabor Filter based Matching Algorithm)
     # Get the original shape of the image and then flatten it to a 1D array
-    shape = imgArray.shape
     imgArray = imgArray.flatten()
-
-    arrNew = np.empty(imgArray.size, dtype=np.uint8)
 
     gMin = min(imgArray)
     gMax = max(imgArray)
@@ -14,12 +12,28 @@ def normalize(imgArray):
 
     # Normalize
     for i, v in enumerate(imgArray):
-        arrNew[i] = ((v - gMin) * 255) / gRange
-
-    # Reshape to original shape of the image
-    #arrNew = np.reshape(arrNew, shape)
-
-    #imgNew = Image.fromarray(arrNew)
-    #imgNew.show()
+        imgArray[i] = ((v - gMin) * 255) / gRange
     
-    return arrNew
+    return imgArray
+
+def normalizeMeanVariance(imgArray):
+    imgArray = imgArray.flatten()
+
+    MEAN = imgArray.sum() / imgArray.size
+
+    varSum = 0
+    for i in imgArray:
+        varSum = varSum + (i - MEAN) ** 2
+
+    VAR = varSum / imgArray.size
+
+    DESIRED_VAR = 100
+    DESIRED_MEAN = 100
+
+    for i, _ in enumerate(imgArray):
+        if imgArray[i] > MEAN:
+            imgArray[i] = DESIRED_MEAN + ((DESIRED_VAR * ((imgArray[i] - MEAN)**2)) / VAR)**(1/2.0)
+        else:
+            imgArray[i] = DESIRED_MEAN - ((DESIRED_VAR * ((imgArray[i] - MEAN)**2)) / VAR)**(1/2.0)
+
+    return imgArray
