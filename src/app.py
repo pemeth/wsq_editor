@@ -1,8 +1,12 @@
 import sys
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
 import wsq
+
 from normalize import normalizeMinMax, normalizeMeanVariance
+import ridge_orientation as ro
+
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
 from PyQt5.QtCore import Qt
@@ -38,24 +42,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #imgBytes = self.imgArray.tobytes() # Convert to raw grayscale bytes
 
             self.imgShape = self.imgArray.shape
-            self.showImage()
+            self.showImage(self.imgArray)
 
     def normalizeMinMax(self):
         try:
             self.imgArray = normalizeMinMax(self.imgArray)
-            self.showImage()
+            self.showImage(self.imgArray)
+            self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
     def normalizeMeanVar(self):
         try:
             self.imgArray = normalizeMeanVariance(self.imgArray)
-            self.showImage()
+            self.showImage(self.imgArray)
+            self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
-    def showImage(self):
-        imgBytes = self.imgArray.tobytes()
+    def showImage(self, img):
+        imgBytes = img.tobytes()
 
         # Calculate number of bytes per line in the image
         bytesPerLine = (self.imgShape[1] * self.imgShape[0]) / self.imgShape[0]
@@ -73,6 +79,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
 
+    def showOrientation(self):
+        # TODO: check for a loaded image
+        orientim = ro.getOrientationImage(self.imgArray)
+
+        # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
+        #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
+        self.showImage(((np.uint8(orientim * 15))))
+
+        spacing = 7
+        orientim = orientim[spacing:self.imgShape[0] - spacing:spacing, spacing:self.imgShape[1] - spacing:spacing]
+
+        # Deconstruct the orientation image into its horizontal and vertical components
+        u = 2 * np.cos(orientim)
+        v = 2 * np.sin(orientim)
+
+        quiveropts = dict(color='red', headlength=0, pivot='middle', headaxislength=0,
+                          linewidth=.9, units='xy', width=.05, headwidth=1)
+
+        # Create a subplot and use quiver() to visualize the data
+        fig, ax = plt.subplots()
+        ax.set_axis_off()
+        ax.quiver(u, v, **quiveropts)
+        plt.show()
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -82,6 +112,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.normalizeImageActionSimple = QAction("Normalize with min/max method", self, triggered=self.normalizeMinMax)
         self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
 
+        self.ridgeOrientAction = QAction("Show ridge orientation", self, triggered=self.showOrientation)
+
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
         self.fileMenu = self.menubar.addMenu("File")
@@ -89,9 +121,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.imageMenu = self.menubar.addMenu("Image")
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
+        #self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
 
         self.normalizeSubmenu.addAction(self.normalizeImageActionSimple)
         self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
+        self.imageMenu.addAction(self.ridgeOrientAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
