@@ -196,10 +196,11 @@
   Súbory tvorené snímkami komprimovanými algoritmom WSQ majú definovanú štruktúru. Tieto súbory v sebe nesú informácie potrebné pre úspešnú
   dekompresiu snímok, čo znamená, že obsahujú transormačnú tabuľku, kvantovaciu tabuľku a Huffmanovu tabuľku vrátane ich metadát.
   Samotná štruktúra súboru vo formáte WSQ je podobná tej vo formáte JPEG. Jednotlivé časti súboru sú oddelené dvojbytovými značkami,
-  zobrazenými v tabuľke \ref{tab:znacky_WSQ_suboru}, reprezentujúce začiatky segmentov v súbore. Niektoré segmenty obsahujú dodatočné parametre,
+  zobrazenými v tabuľke~\ref{tab:znacky_WSQ_suboru}, reprezentujúce začiatky segmentov v súbore. Niektoré segmenty obsahujú dodatočné parametre,
   ktoré popisujú dĺžku, štruktúru a hodnoty daných segmentov.
 
   \begin{table}
+    \caption{Dvojbytové značky vo WSQ súboroch}
     \begin{center}
       \begin{tabular}{ |l c l| }
         \hline
@@ -218,8 +219,6 @@
         \hline
       \end{tabular}
     \end{center}
-
-    \caption{Dvojbytové značky vo WSQ súboroch}
     \label{tab:znacky_WSQ_suboru}
   \end{table}
 
@@ -293,7 +292,7 @@
     \label{rov:kvantovanie_reverz}
   \end{equation}
   kde subskript $k$ označuje $k$-te podpásmo, $a_k(m,n)$ označuje koeficient v danom podpásme, $Z_k$ je šírkou nulovej kvantovacej nádoby,
-  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob. $C$ je špecifikáciou daný ako $C = 0.44$ pre najnovší enkodér,
+  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob. $C$ je špecifikáciou daný ako $C = 0,44$ pre najnovší enkodér,
   pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem.
 
 
