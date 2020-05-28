@@ -1,0 +1,2 @@
+Konverzia .ui filu do .py filu:
+	exec python3 -m PyQt5.uic.pyuic -x mainwindow.ui -o MainWindow.py
