@@ -46,11 +46,12 @@
   %bez vonkajšieho zásahu nijak zásadne nezmenia. Odtlačok zanechaný na povrchoch materiálov osobou, ktorá sa ho dotkne je obecne nazývaný odtlačkom prstu.
     
   \section{Klasifikácia odtlačkov prsta}
-  Prvú klasifikáciu vzorov tvorených papilárnymi líniami na končekoch prstov je možné nájsť v dizertácii českého profesora Jana Evangelista Purkyně
+  Prvú klasifikáciu vzorov tvorených papilárnymi líniami na končekoch prstov je možné nájsť v dizertácii českého profesora Jana Evangelisty Purkyně
   z roku 1823\cite{FingerprintSrcBook}. Začiatkom 20. storočia Edward Henry vyvinul klasifikačný systém, ktorý bol neskôr použitý ako základ pre systém
-  AFIS. Tento systém bol vyvinutý FBI pre extrakciu markantov odtlačkov prstov automatizovanými metódami za pomoci počítačov.
+  automatizovanej identifikácie odtlačkov prsta (AFIS). Tento systém bol vyvinutý FBI pre extrakciu markantov odtlačkov prstov automatizovanými metódami
+  za pomoci počítačov.
 
-  Odtlačky prstov je možné skúmať na rôznych úrovniach globálnosti. Vlastne sa jedná o mieru špecifickosti, podľa akej zaraďujeme vlastnosti
+  Odtlačky prstov je možné skúmať na rôznych úrovniach detailu. Vlastne sa jedná o mieru špecifickosti, podľa akej zaraďujeme vlastnosti
   papilárnych línií na jednotlivých odtlačkoch prstov.
 
   \textbf{Na prvej úrovni}, najglobálnejšej, sa jedná o takzvané singularity, ktoré sa prejavujú ako náhle zmeny v priebehu papilárnych línií. Tieto 
@@ -67,7 +68,6 @@
     \item dvojitá slučka\cite{Henry}.
   \end{itemize}
   Klasifikačný systém AFIS využívaný v FBI rozlišuje prvé štyri spomenuté\cite{FingerprintSrcBook}.
-
   Triedy odtlačkov prsta nie sú v ľudskej populácii distribuované rovnomerne.
   Slučky majú najväčšie zastúpenie a sú pozorovateľné až u 61\% obyvateľstva, špirály u 34\% obyvateľstva a oblúky u zvyšných
   5\% obyvateľstva\cite{sciencing}.
@@ -81,8 +81,11 @@
   situáciách redukuje, pričom sa často využívajú iba prvé dva druhy markantov.
 
   \textbf{Na tretej úrovni}, najlokálnejšej, sa rozoznávajú detaily kože a atribúty papilárnych línií. Na tejto úrovni je možné pozorovať
-  póry, šírku papilárnych línií, jazvy a poranenia kože, kožné ochorenia, atp. V súčasnosti sa pri automatizovanej analýze detaily na tejto úrovni
-  často nespracúvajú. Je to z dôvodu, že pri nižších rozlíšeniach snímok, typicky pod 1000ppi, tieto detaily nie sú pozorovateľné\cite{Handbook}.
+  póry, šírku papilárnych línií, jazvy a poranenia kože, kožné ochorenia, atp. Dlhú dobu sa pri automatizovanej analýze detaily na tejto úrovni
+  nespracúvali z dôvodu, že pri nižších rozlíšeniach snímok, typicky pod 1000ppi (bodov na palec - jednotka používaná napr. pri snímačoch a skeneroch),
+  tieto detaily nie sú pozorovateľné\cite{Handbook}.
+  %TODO: v skratke popísať ako sa teraz využívajú póry a info tretej úrovne v dnešnej dobe  
+  %       napr. https://www.sciencedirect.com/science/article/pii/S0167865518303350
 
   \section{Spracovanie a analýza snímok odtlačkov prstov} \label{sec:analyza}
   %V súčasnosti automatizované analyzátory odtlačkov prstov vyžadujú úpravu zdrojových snímok. Surové snímky odtlačkov totiž nie sú vhodné pre
@@ -110,7 +113,8 @@
     \item \emph{Dobre rozoznateľná oblasť} obsahuje jasne oddelené hrebene od údolí papilárnych línií bez prerušení ich priebehu.
     \item \emph{Poškodená zotaviteľná oblasť} obsahuje malé množstvo narušení priebehu línií ako sú napríklad drobné jazvy, mierne poškodenie
           samotného odtlačku apod., avšak snímka je stále dostatočne jednotná aby z nej bolo možné extrahovať užitočné informácie.
-    \item \emph{Poškodená nezotaviteľná oblasť} je oblasť, ktorá je natoľko poškodená, že extrakcia informácií z nej je nerentabilná\cite{Hong}.
+    \item \emph{Poškodená nezotaviteľná oblasť} je oblasť, ktorá je natoľko poškodená, že extrakcia informácií o štruktúrach papilárnych línií
+          z nej nemá zmysel\cite{Hong}.
   \end{itemize}
   Operácie vylepšenia snímok majú za úlohu zvýšiť rozoznateľnosť priebehu papilárnych línií v prvých dvoch kategóriách a odstrániť oblasti tretej
   kategórie\cite{Hong}.
@@ -133,7 +137,7 @@
   Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusoidné v priebehu
   hodnôt pixelov naprieč líniami v ich normálnom smere a línie sú tiež orientované.
   
-  Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $w \times w$, 
+  Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $h \times w$, 
   pre ktoré je možné diskrétne vypočítať frekvenciu línií a ich orientáciu a teda je možné Gaborov filter vyladiť presne pre jednotlivé bloky.
   
 
@@ -147,14 +151,14 @@
   Orientáciu línií je možné vypočítať mnohými spôsobmi, v tejto práci sa však venujem metóde navrhnutej Hongom et al. v \cite{Hong}.
   Táto metóda sa spolieha na výpočet gradientu Sobelovým, prípadne obdobným operátorom. Postup výpočtu je nasledovný:
   \begin{itemize}
-    \item Vstupná snímka sa rozdelí na $w \times w$ bloky
+    \item Vstupná snímka sa rozdelí na $h \times w$ bloky
     \item Vypočíta sa gradient Sobelovým operátorom
     \item Odhadne sa lokálna orientácia bloku pomocou rovníc:
           \begin{equation}
-            \mathcal{V}_x(i,j) = \sum_{u=i-\frac{w}{2}}^{i+\frac{w}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} 2\partial _{x}(u,v) \partial _y(u,v),
+            \mathcal{V}_x(i,j) = \sum_{u=i-\frac{h}{2}}^{i+\frac{h}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} 2\partial _{x}(u,v) \partial _y(u,v),
           \end{equation}
           \begin{equation}
-            \mathcal{V}_y(i,j) = \sum_{u=i-\frac{w}{2}}^{i+\frac{w}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} (2\partial ^{2}_{x}(u,v) \partial ^{2}_{y}(u,v)),
+            \mathcal{V}_y(i,j) = \sum_{u=i-\frac{h}{2}}^{i+\frac{h}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} (2\partial ^{2}_{x}(u,v) \partial ^{2}_{y}(u,v)),
           \end{equation}
           \begin{equation}
             \theta{}(i,j) = \frac{1}{2}\tan{}^{-1}(\frac{\mathcal{V}_y(i,j)}{\mathcal{V}_x(i,j)}),
