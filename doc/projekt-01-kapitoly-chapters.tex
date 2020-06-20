@@ -195,11 +195,53 @@
 
   \textbf{Na druhej úrovni}, taktiež nazývanej lokálna úroveň, pozorujeme markanty. Markanty sú útvary tvorené ukončením alebo
   vetvením papilárnych línií. Tieto útvary je možné detegovať, identifikovať a klasifikovať a následne využiť pri analýze odtlačkov prstov.
-  Klasifikácia markantov je obšírnejšia, než triedenie odtlačkov prstov, pričom medzi základné markanty zaraďujeme:
-  ukončenie, jednoduchá  vidlička, dvojitá vidlička, trojitá vidlička, hák, kríženie, bočný kontakt, bod, interval,
-  jednoduchá špirála, dvojitá špirála, jednoduchý most, dvojitý most a~priesečná línia \cite{Drahansky}.
-  Kvôli veľkému množstvu rôznych typov markantov a zložitosti ich rozlíšeniu automatizovanými systémami sa počet rozlišovaných markantov v mnohých
-  situáciách redukuje, pričom sa často využívajú iba prvé dva druhy markantov.
+  Klasifikácia markantov je obšírnejšia, než triedenie odtlačkov prstov, pričom medzi základné markanty zaraďujeme napríklad
+  ukončenie, vidličku, hák, kríženie, bočný kontakt, bod, interval, slučku, most a~priesečnú líniu \cite{Drahansky}. Mnohé z vymenovaných typov majú rôzne
+  variácie tvorené reťazením ich základných tvarov ako je možné vidieť na snímkach \ref{obr:markant_vidlicka} a \ref{obr:markant_dvojita_vidlicka}.
+  Kvôli veľkému množstvu rôznych typov markantov a zložitosti ich rozlíšeniu automatizovanými systémami sa počet rozpoznávaných markantov v mnohých
+  situáciách redukuje, pričom sa často využívajú iba ukončenia a vidličky.
+
+  \begin{figure*}[h]\centering
+    \centering
+    \begin{subfigure}[b]{0.19\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/markanty/ukoncenie.png}
+      \caption{ukončenie}
+      \label{obr:markant_ukoncenie}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.19\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/markanty/vidlicka.png}
+      \caption{vidlička}
+      \label{obr:markant_vidlicka}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.19\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/markanty/dvojita_vidlicka.png}
+      \caption{dvojitá vidlička}
+      \label{obr:markant_dvojita_vidlicka}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.19\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/markanty/bod.png}
+      \caption{bod}
+      \label{obr:markant_bod}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.19\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/markanty/slucka.png}
+      \caption{slučka}
+      \label{obr:markant_slucka}
+    \end{subfigure}
+    \caption{Vybrané typy markantov. Čierne línie reprezentujú vrcholy papilárnych línií. Prevzaté z \cite{Drahansky}.}
+    \label{obr:typy_markantov}
+  \end{figure*}
+
+  Je vhodné poznamenať, že niektoré páry markantov majú svoje inverzné náprotivky. Túto inverziu je možné vidieť na pároch
+  \ref{obr:markant_ukoncenie} a \ref{obr:markant_vidlicka}, prípadne \ref{obr:markant_bod} a \ref{obr:markant_slucka}. Pri oboch pároch je možné invertovať
+  hodnoty šedej v snímke a výsledné markanty klasifikovať opačne ako pri originálnych snímkach. Takáto nejednoznačnosť môže spôsobiť problémy pri porovnávaní
+  rôznych odtlačkov prstov aj od tej istej osoby, pretože takáto inverzia môže nastať aj pri snímaní odtlačku v dôsledku rôzne aplikovaného tlaku počas
+  zaznamenávania odtlačku. Aj z tohto dôvodu sa zaznamenávajú nielen polohy daných markantov, ale aj uhol zvieraný smerom markantu a horizontálnej osi
+  snímky, ktorý zostane rovnaký aj pri inverzií z vidličky na ukončenie alebo naopak \cite{Handbook}.
 
   \textbf{Na tretej úrovni}, najlokálnejšej, sa rozoznávajú detaily kože a atribúty papilárnych línií. Na tejto úrovni je možné pozorovať
   póry, šírku papilárnych línií, jazvy a poranenia kože, kožné ochorenia, atp. Dlhú dobu sa pri automatizovanej analýze detaily na tejto úrovni
