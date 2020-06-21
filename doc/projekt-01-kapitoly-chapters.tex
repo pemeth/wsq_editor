@@ -127,6 +127,58 @@
 
   Táto sekcia čerpala z \cite{freinkel2001skin} ak nie je uvedené inak.
 
+  \section{Zaznamenávanie odtlačkov prsta}
+  Od počiatkov identifikácie na základe papilárnych línií sa vyvinulo mnoho spôsobov zaznamenávania ich odtlačkov od prenášania odtlačku na papier
+  za pomoci média ako atrament a následné skenovanie do digitálnej formy (tzv. off-line snímanie) cez optické snímanie až po termálne snímače
+  (tzv. live-scan snímanie). Samotné snímanie je možné zobecniť na niekoľko krokov: senzor sníma analógové informácie o štruktúre papilárnych línií,
+  ktoré sú následne konvertované do digitálnej podoby analógovo-digitálnym prevodníkom a následne sú nasnímané dáta prenesené cez komunikačné rozhranie
+  na ďalšie spracovanie alebo uloženie. Nie vždy je však žiaduce snímané dáta prenášať na iný systém. V takýchto prípadoch sa využívajú čipové systémy,
+  kde sa integruje snímanie a spracovanie na jednom čipe.
+  V tejto sekcii sú v krátkosti uvedené niektoré metódy snímania.
+
+  \subsection*{Optické snímače}
+  Jedná sa o relatívne jednoduchý princíp snímania svetla odrazeného papilárnymi valmi. Najstaršou variantou optických snímačov je technológia \emph{FTIR}
+  (Frustrated Total Internal Reflection), kde sa špička prsta položí na základňu optického hranola, pričom svetelný zdroj (obyčajne svetelná dióda) osvecuje
+  papilárne valy, z čoho je pomocou zrkadlenia cez optický hranol vytvorená snímka za pomoci CCD alebo CMOS optického senzoru. Fungovanie takéhoto snímača
+  je naznačené na \ref{obr:ftir_snimac}. Použité osvetlenie by malo byť ploché, rozptýlené a nie priame, čím sa zabezpečí rovnomernejšie rozloženie svetla
+  cez priložený prst. Vrcholy papilárnych línií, ktoré sú v kontakte s optickým hranolom, pohltia alebo rozptýlia značnú časť vyžarovaného svetla. Údolia,
+  ktoré naopak nie sú v kontakte s hranolom, neovplyvňujú svetelné žiarenie, čím umožňujú svetlu odrážať sa priamo smerom k obrazovému senzoru. Vďaka týmto
+  rozdielom svetelného rozptylu sa na snímači prejavia vrcholy ako tmavé a údolia ako svetlé body na snímke. Pre koncentráciu svetla na senzor sa využíva
+  optická šošovka. Existuje viacero variácií snímania založených na princípe FTIR, ktoré boli vyvinuté s účelom zmenšiť prevedenie takýchto snímačov
+  pre jednoduchšiu integráciu do systémov menších rozmerov.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{obrazky-figures/ftir_snimac.png}
+    \caption{Diagram znázorňujúci fungovanie FTIR snímača.}
+    \label{obr:ftir_snimac}
+  \end{figure}
+
+  \subsection*{Polovodičové snímače}
+  Najrozšírenejším typom polovodičových snímačov sú kapacitné snímače založené na rozdieloch v množstve elektrického náboja medzi dvoma objektami v závislosti
+  od ich vzájomnej vzdialenosti. Zloženie takýchto snímačov pozostáva z dvoch vrstiev - izolačnej a vodivej. Izolačná vrstva sa nachádza na vonkajšej strane
+  snímača, na ktorú sa položí snímaný prst. Na opačnú (vnútornú) stranu izolačnej vrstvy je naparená matica vodivých plôšok \cite{Drahansky}. Hustota týchto
+  vodivých častíc musí byť vyššia, než hustota papilárnych línií kvôli zvýšeniu vzorkovacej presnosti.
+  %LEFT-OFF-HERE dokoncit kapacitne snimace a dve dalsie podsekcie
+  
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{obrazky-figures/placeholder.pdf}
+    \caption{Kapacitný snímač a jeho hlavné komponenty.}
+    \label{obr:kapac_snimac}
+  \end{figure}
+
+  \subsection*{Ultrazvukové snímače}
+  TODO
+
+  \subsection*{Zaznamenanie na fyzické médium a skenovanie}
+  TODO
+
+  %TODO: ako posledna metoda moze byt skenovanie z papiera/fyzikalneho media do pocitaca - foreshadowing pre WSQ kapitolu
+  %       Tu sa moze vyuzit kapitola 4 z fingerprint sourcebook, kde sa rozoberá zaznamenávanie odtlackov na papier
+
+  Táto sekcia čerpala z \cite{Handbook} ak nie je uvedené inak.
+
   \section{Klasifikácia odtlačkov prsta}
   Prvú klasifikáciu vzorov tvorených papilárnymi líniami na končekoch prstov je možné nájsť v dizertácii českého profesora Jana Evangelisty Purkyně
   z roku 1823 \cite{FingerprintSrcBook}. Začiatkom 20. storočia Edward Henry vyvinul klasifikačný systém, ktorý bol neskôr použitý ako základ pre systém
