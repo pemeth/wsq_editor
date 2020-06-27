@@ -468,9 +468,10 @@
   \end{figure}
 
   \section{Spôsoby analýzy markantov}
-  Detaily druhej úrovne na odtlačkoch prstov dlhú dobu poskytovali najrobustnejšie, počítačom analyzovateľné, identifikačné informácie o osobách
-  (v súčasnosti sa vďaka zvýšeniu kvality snímok rozširuje automatizovaná analýza aj na tretiu úroveň detailu). Z tohto dôvodu bolo vyvinutých mnoho
-  metód pre ich extrakciu. Ich klasifikácia je znázornená na diagrame \ref{obr:diagram_extrakcia_markantov}.
+  Detaily druhej úrovne na odtlačkoch prstov poskytujú veľmi robustné, počítačom analyzovateľné, identifikačné informácie o osobách (v súčasnosti sa vďaka
+  zvýšeniu kvality snímok rozširuje automatizovaná analýza aj na tretiu úroveň detailu). Z tohto dôvodu je výskum rôznych metód extrakcie týchto detailov
+  obzvlášť rozšírený. Klasifikácia týchto metód je znázornená na diagrame \ref{obr:diagram_extrakcia_markantov}. V tejto sekcii sú popísané niektoré
+  z týchto prístupov.
 
   \begin{figure}[h]
     \centering
@@ -478,11 +479,10 @@
     \caption{TODO prerobit tento obrazok z \cite{bansal2011minutiae} na vektorovy (priamo v latexe cez tikz alebo inac).}
     \label{obr:diagram_extrakcia_markantov}
   \end{figure}
-  %LEFT-OFF-HERE diagram na https://arxiv.org/pdf/1201.1422.pdf
-  %  + tuto (Spôsoby analýzy markantov) subsection zmenit na section, ak este nie je
+  %LEFT-OFF-HERE rozpisat jednotlive metody extrakcie (extrahovania?) markantov
 
   \subsection{Stenčovanie línií}
-  %//TODO: Stenčovanie línií
+  %//TODO: Stenčovanie línií mozno presunut pod sekciu Spracovanie a analýza snímok odtlačkov prstov
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
   jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
   ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté singularity a markanty, ktoré nezávisia na hrúbke línií.
