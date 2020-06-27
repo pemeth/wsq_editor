@@ -405,8 +405,8 @@
   \subsubsection{Gaborova funkcia}
   Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií.
   Filter založený na Gaborovej funkcii je však využiteľný nielen pri redukcii šumu obsiahnutého v snímke, ale aj pri zvýšení kontrastu papilárnych línii.
-  Jedná sa o orientovateľný sínusoidný dvojrozmerný filter s pásmovým priepustom, ktorý je schopný tlmiť isté frekvencie, pričom zvýrazňuje iné.
-  Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusoidné v priebehu
+  Jedná sa o orientovateľný sínusový dvojrozmerný filter s pásmovým priepustom, ktorý je schopný tlmiť isté frekvencie, pričom zvýrazňuje iné.
+  Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusové v priebehu
   hodnôt pixelov naprieč líniami v ich normálnom smere a línie sú tiež orientované.
   
   Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $h \times w$, 
@@ -462,12 +462,12 @@
   
   Samotné stenčovanie však môže do kostry odtlačku zaviesť falošné markanty vďaka nerovnomernosti papilárnych línií v binarizovanej snímke,
   kvôli ktorým sa po ich stenčení vytvoria krátke \uv{chĺpkovité} výbežky z hlavnej štruktúry línií. Existuje mnoho metód navrhnutých na
-  predídenie vytvorenia takýchto falošných výbežkov úpravou binarizovanej snímky, ako napríklad vyplnenie malých dier v líniách, prípadne
+  zamedzenie vytvárania takýchto falošných výbežkov úpravou binarizovanej snímky, ako napríklad vyplnenie malých dier v líniách, prípadne
   preemptívnou normalizáciou šírky línií pomocou filtra \cite{Handbook}.  
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
-  Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odltačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
-  čo navyšovalo nároky na úložisko v dátovych centrách. Z tohto dôvodu bol vyvinutý algoritmus Wavelet Scalar Quantization (v skratke WSQ).
+  Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
+  čo navyšovalo nároky na úložisko v dátových centrách. Z tohto dôvodu bol vyvinutý algoritmus Wavelet Scalar Quantization (v skratke WSQ).
   Jedná sa o algoritmus vyvinutý na kompresiu snímok odtlačkov prstov, špecificky tých snímaných s rozlíšením 500 ppi. V súčasnosti sa v kriminalistike
   naprieč svetom využívajú snímky v odtieňoch šedej s rozlíšením 500 ppi vo formáte WSQ a 1000 ppi vo formáte JPEG2000 \cite{Libert}.
   Algoritmus WSQ je stratový, čo znamená, že pri kompresii dochádza k istej strate informácií. Pri pomere kompresie 20:1 však spĺňa požiadavky
@@ -479,7 +479,7 @@
   \section{Štruktúra súboru} \label{sec:struktura}
   % //TODO struktura WSQ (https://web.archive.org/web/20130528173051/http://oreilly.com/www/centers/gff/formats/fbi/index.htm)
   Súbory tvorené snímkami komprimovanými algoritmom WSQ majú definovanú štruktúru. Tieto súbory v sebe nesú informácie potrebné pre úspešnú
-  dekompresiu snímok, čo znamená, že obsahujú transormačnú tabuľku, kvantovaciu tabuľku a Huffmanovu tabuľku vrátane ich metadát.
+  dekompresiu snímok, čo znamená, že obsahujú transformačnú tabuľku, kvantovaciu tabuľku a Huffmanovu tabuľku vrátane ich metadát.
   Samotná štruktúra súboru vo formáte WSQ je podobná tej vo formáte JPEG. Jednotlivé časti súboru sú oddelené dvojbytovými značkami,
   zobrazenými v tabuľke~\ref{tab:znacky_WSQ_suboru}, reprezentujúce začiatky segmentov v súbore. Niektoré segmenty obsahujú dodatočné parametre,
   ktoré popisujú dĺžku, štruktúru a hodnoty daných segmentov.
@@ -515,12 +515,12 @@
     \centering
     % //TODO prekreslit toto na PDF vektorovy obrazok
     \includegraphics[width=10cm]{obrazky-figures/WSQ_encoder_decoder.png}
-    \caption{Diagram WSQ kódera a dekódera \cite{Bradley}}
+    \caption{Diagram WSQ kodéra a dekodéra \cite{Bradley}}
     \label{obr:WSQ_diagram}
   \end{figure}
   
   \subsection{Diskrétna vlnková transformácia}
-  Prvým krokom v kompresii snímok vo formáte WSQ je diskétna vlnková transfornácia, ktorá prevedie viacúrovňovú dekompozíciu vstupnej snímky na 
+  Prvým krokom v kompresii snímok vo formáte WSQ je diskrétna vlnková transformácia, ktorá prevedie viacúrovňovú dekompozíciu vstupnej snímky na 
   podpásma. Jedna úroveň transformácie je zobrazená na obrázku \ref{obr:DWT_uroven}. Vstupný signál I je rozdelený na podpásma filtrami horného
   a dolného priepustu, pričom prvý pár filtrov spracúva riadky vstupného signálu a zvyšné dva páry filtrov spracúvajú stĺpce vstupného signálu.
   Kombináciou typu filtrov a smeru filtrovania sa získavajú štyri skupiny koeficientov transformácie v rôznych smeroch: 
@@ -546,7 +546,7 @@
   \begin{figure}[]
     \centering
     \includegraphics[width=10cm]{obrazky-figures/DWT_level.pdf}
-    \caption{Diagram zobrazujúci jednu úroven rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
+    \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
     bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál.}
     \label{obr:DWT_uroven}
   \end{figure}
@@ -576,8 +576,8 @@
     \end{cases}
     \label{rov:kvantovanie_reverz}
   \end{equation}
-  kde subskript $k$ označuje $k$-te podpásmo, $a_k(m,n)$ označuje koeficient v danom podpásme, $Z_k$ je šírkou nulovej kvantovacej nádoby,
-  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob. $C$ je špecifikáciou daný ako $C = 0,44$ pre najnovší enkodér,
+  kde index $k$ označuje $k$-te podpásmo, $a_k(m,n)$ označuje koeficient v danom podpásme, $Z_k$ je šírkou nulovej kvantovacej nádoby,
+  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob. $C$ je špecifikáciou daný ako $C = 0,44$ pre najnovší kodér,
   pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem.
 
 
@@ -586,13 +586,13 @@
   hranica medzi podpásmami 51 a 52. Je to z dôvodu zabezpečenia progresívneho prenosu, čo znamená, že po sebe nasledujúce bloky pridávajú detaily
   snímky. Vďaka charakteristike dekompozície pomocou DWT prevedenej v prvom kroku kompresie je možné preniesť najvyššiu úroveň aproximácie a
   orientovaného detailu snímky, z čoho je možné rekonštruovať aproximačnú snímku nižšej úrovne. Rozdelením podpásem do blokov na týchto konkrétnych
-  indexoch zabezpečí možnosť graduálnej rekonštrukcie snímky pridávaním detailov nižsej úrovne dekompozície,
+  indexoch zabezpečí možnosť graduálnej rekonštrukcie snímky pridávaním detailov nižšej úrovne dekompozície,
   ako je zrejmé zo snímky \ref{obr:WSQ_DWT_dekompozicia}. Rozdelenie do viacerých, než troch blokov je vo WSQ tiež možné.
 
   Pre bezstratovú kompresiu kvantovaných dát sa používa Huffmanovo kódovanie, ktoré využíva početnosť jednotlivých symbolov v datasete pre 
   generovanie čo najkratších kódových slov pre najpočetnejšie symboly. V prípade WSQ sú symbolmi kvantované koeficienty a nulové reťazce
   rôznych dĺžok. WSQ definuje aj špeciálne symboly pre koeficienty a nulové reťazce, ktoré presahujú rozsah kódovacej tabuľky a tieto sú označované
-  riadiacou (escape) sekvenciou.
+  riadiacou sekvenciou (angl. escape sequence).
 
 \chapter{Návrh aplikácie} \label{kap:navrh_appky}
   \section{Požiadavky}
