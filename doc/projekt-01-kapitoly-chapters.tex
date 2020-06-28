@@ -503,7 +503,33 @@
   nemusí znamenať, že zodpovedajú ich charakteristickým markantom, pretože iné typy markantov preukazujú charakteristiky ukončenia (napr. bod má dve ukončenia)
   a vidličky (napr. slučka má dve vidličky). Z tohto dôvodu je potrebná následná validácia nájdených charakteristických behov.
 
-  
+  \subsubsection*{Extrakcia na základe počtu prechodov}
+  Metóda sa aplikuje na binarizované snímky so stenčenými papilárnymi líniami. Je to často využívaná metóda pre jej jednoduchosť výpočtovú rýchlosť.
+  Spočíva v počítaní prechodov medzi pixelmi papilárnej línie a pozadím pre každý pixel prislúchajúci papilárnym líniám. Tieto prechody je možné vypočítať
+  pomocou masky veľkosti $3\times{}3$ (\ref{obr:maska_CN}), ktorá je priložená na jednotlivé pixely papilárnych línií. Na ohľad sú brané
+  hodnoty na okrajoch masky (bunky $P_1$ až $P_8$). Zvoleným smerom sa následne prechádzajú páry pixelov prekrývaných okrajovými bunkami masky a vypočíta
+  sa kumulatívny rozdiel medzi jednotlivými pármi pomocou vzorca \ref{rov:crossing_number}. Výsledné číslo $C_N$ reprezentuje počet prechodov medzi
+  pixelmi pozadia a popredia snímky (angl. crossing number alebo condition number). Z tohto počtu je možné vyvodiť, že ak $C_N = 2$, tak sa jedná o ukončenie,
+  a ak $C_N = 6$, tak sa identifikovala vidlička. Všetky ostatné hodnoty $C_N$ sú ignorované \cite{amengual1997minutiae_extraction}.
+
+  \begin{figure}[h]
+    \centering
+      \begin{tabular}{ | l | c | r | }
+        \hline
+        $P_6$ & $P_5$ & $P_4$ \\ \hline
+        $P_7$ & $P$ & $P_3$ \\ \hline
+        $P_8$ & $P_1$ & $P_2$ \\
+        \hline
+      \end{tabular}
+    \caption{Maska veľkosti $3\times{}3$ používaná pri výpočte prechodov medzi pixelmi popredia a pozadia pri metóde CN.}
+    \label{obr:maska_CN}
+  \end{figure}
+
+  \begin{equation}
+    C_N = \sum_{i=1}^{8} | P_{i+1} - P_{i} |, \quad\text{kde } P_9 = P_1
+    \label{rov:crossing_number}
+  \end{equation}
+
   %LEFT-OFF-HERE rozpisat jednotlive metody extrakcie (extrahovania?) markantov
 
   \subsection{Stenčovanie línií}
