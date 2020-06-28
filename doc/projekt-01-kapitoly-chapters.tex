@@ -479,6 +479,31 @@
     \caption{TODO prerobit tento obrazok z \cite{bansal2011minutiae} na vektorovy (priamo v latexe cez tikz alebo inac).}
     \label{obr:diagram_extrakcia_markantov}
   \end{figure}
+
+  \subsection{Binarizované snímky}
+  Snímky odtlačkov prstov, ktoré boli prevedené zo snímok s odtieňmi šedej na snímky binárne, resp. výlučne čierno-biele, fungujú na základe skúmania
+  lokalizovaného okolia jednotlivých pixelov. Rozoznávajú najmä vzory tvorené kombináciami pixelov v tomto okolí.
+
+  \subsubsection{Run-length kódovanie}
+  Jedná sa o spôsob extrakcie markantov na binarizovaných snímkach odtlačkov prstov bez stenčovania papilárnych línií.
+  Metóda spočíva v rozpoznaní horizontálnych a vertikálnych behov čiernej v binárnych snímkach. Tieto snímky sú následne reprezentované kaskádou behov,
+  pri ktorých sa skontrolujú susediace behy a charakteristické behy. Behy reprezentujú riadky a stĺpce pixelov, ktoré patria papilárnym líniám. Pri určovaní
+  behov sa zaznamená pozícia východiskového pixelu a terminálneho pixelu pre daný beh. Následná analýza kaskády behov dokáže určiť jeden z piatich
+  prípadov v závislosti od susedných behov:
+
+  \begin{enumerate}
+    \item Ne sú prítomné žiadne behy susediace so súčasným behom.
+    \item Sú prítomné dva behy susediace so súčasným behom - jeden beh z každej strany.
+    \item Je prítomný jeden beh na jednej zo strán súčasného behu.
+    \item Sú prítomné dva behy na jednej zo strán súčasného behu.
+    \item Je prítomných viac, než dva behy na jednej zo strán súčasného behu.
+  \end{enumerate}
+  Prípady tri a štyri sú tzv. charakteristické behy, ktoré preukazujú charakteristiky behov pre ukončenia a vidličky v tomto poradí. Druhý prípad je
+  tzv. regulárny beh a reprezentuje beh, ktorý je súčasťou priebehu časti papilárnej línie bez markantu. Rozpoznanie charakteristických behov však
+  nemusí znamenať, že zodpovedajú ich charakteristickým markantom, pretože iné typy markantov preukazujú charakteristiky ukončenia (napr. bod má dve ukončenia)
+  a vidličky (napr. slučka má dve vidličky). Z tohto dôvodu je potrebná následná validácia nájdených charakteristických behov.
+
+  
   %LEFT-OFF-HERE rozpisat jednotlive metody extrakcie (extrahovania?) markantov
 
   \subsection{Stenčovanie línií}
