@@ -530,7 +530,36 @@
     \label{rov:crossing_number}
   \end{equation}
 
-  %LEFT-OFF-HERE rozpisat jednotlive metody extrakcie (extrahovania?) markantov
+  \subsection{Snímky v odtieňoch šedej}
+  Obyčajne výpočtovo náročnejšie techniky na extrakciu markantov sú techniky zamerané na extrakciu bez binarizácie vstupnej snímky. Výhodou analýzy
+  takto neupravenej snímky je, že sa do štruktúr papilárnych línií nedostanú falošné prvky. Pri binarizácii sa totiž môžu nechcene odstrániť časti
+  papilárnych vzorov alebo dokonca vytvoriť falošné vzory v dôsledku nesprávneho prahovania. Pri stenčovaní sa zas môžu vytvárať falošné vedľajšie výbežky
+  z hlavných papilárnych línií. Takáto strata informácií o skutočnom priebehu línií je nežiaduca. Z tohto dôvodu sa skúmali aj možnosti analýzy snímok bez
+  takýchto úprav.
+
+  \subsubsection*{Extrakcia markantov sledovaním papilárnych línií}
+  Princíp tejto metódy spočíva v sledovaní priebehu papilárnych línií na základe informácií o lokálnej orientácii papilárneho vzoru. Sledovanie sa začne
+  zvolením počiatočného bodu $[x_c, y_c]$ a počiatočného smeru $\theta{}_c$. Z tohto bodu sa algoritmus v každom kroku presunie na ďalší bod $[x_t, y_t]$,
+  na základe smeru $\theta{}_c$ a veľkosti kroku $\mu$, ktorý udáva počet preskočených pixelov v danom smere. V novom bode sa získajú hodnoty šedej
+  naprieč prierezovou sekciou, ktorá je vytvorená kolmo na pôvodný smer $\theta{}_c$ a je dĺžky $2\sigma + 1$. Na základe získaných hodnôt šedej sa
+  v rámci sekcie nájde lokálne maximum, pozícia ktorého sa označí ako $[x_n, y_n]$. Tento nový bod sa stáva bodom $[x_c, y_c]$,
+  vypočíta sa nový smer $\theta{}_c$ a algoritmus začína novú iteráciu. Algoritmus je znázornený na \ref{obr:sledovanie_linii}.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.65\linewidth]{obrazky-figures/ridge_following-maltoni.png}
+    \caption{Znázornenie algoritmu sledovania papilárnych línií. Prevzaté z \cite{Handbook}.}
+    \label{obr:sledovanie_linii}
+  \end{figure}
+
+  Tento algoritmus je rozširovaný o pomocnú dátovú štruktúru, ktorá zaznamenáva, ktoré časti snímky boli už algoritmom spracované. Toto slúži
+  ako prevencia voči viacnásobnému spracovaniu papilárnych línií a zároveň je využívaná pri detekcii markantov. Pomocná snímka $T$ je na začiatku
+  extrakcie inicializovaná na prázdnu. Počas sledovania papilárnych línií sa do nej začne ukladať polygonálny obraz skenovaných línií s konštantnou šírkou.
+  Na základe porovnávania pomocnej snímky so súčasným krokom sledovacieho algoritmu je možné detegovať pretínanie línií, čo môže znamenať nájdenie markantu
+  typu vidlička. Pri ukončených líniách algoritmus deteguje markanty ukončenia \cite{maio1997ridge_following}.
+
+  Existujú variácie vyššie uvedeného algoritmu, ktoré napr. dynamicky upravujú veľkosť kroku $\mu$, alebo ktoré sledujú nielen vrcholy papilárnych línií,
+  ale aj susedné údolia \cite{Handbook}.
 
   \subsection{Stenčovanie línií}
   %//TODO: Stenčovanie línií mozno presunut pod sekciu Spracovanie a analýza snímok odtlačkov prstov
