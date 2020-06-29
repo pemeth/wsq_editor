@@ -48,18 +48,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def normalizeMinMax(self):
         try:
             self.imgArray = normalizeMinMax(self.imgArray)
-            self.showImage(self.vals2Grayscale(self.imgArray))
+            self.showImage(self.imgArray)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
     def normalizeMeanVar(self):
         try:
             self.imgArray = normalizeMeanVariance(self.imgArray)
-            self.showImage(self.vals2Grayscale(self.imgArray))
+            self.showImage(self.imgArray)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
     def showImage(self, img):
+        img = self.vals2Grayscale(img)
         imgBytes = img.tobytes()
 
         # Calculate number of bytes per line in the image
@@ -84,7 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
-        self.showImage(self.vals2Grayscale(orientim))
+        self.showImage(orientim)
 
         orientim = np.rot90(np.rot90(orientim)) # Rotate the orientation image by 180 degrees, because quiver shows it upside down
 
@@ -107,7 +108,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def showRoi(self):
         """Get the region of interest of the input image and display it"""
         roi = getRoi(self.imgArray)
-        self.showImage(self.vals2Grayscale(roi))
+        self.showImage(roi)
 
     def createActions(self):
         """Create actions for the application"""
