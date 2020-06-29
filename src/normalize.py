@@ -15,11 +15,8 @@ def normalizeMinMax(imgArray):
 
 def normalizeMeanVariance(imgArray):
     """Complex image normalization based on image mean and variance values"""
-    MEAN = imgArray.sum() / imgArray.size
-
-    varSum = ((imgArray - MEAN)**2).sum()
-
-    VAR = varSum / imgArray.size
+    MEAN = np.mean(imgArray)
+    VAR = np.var(imgArray)
 
     DESIRED_VAR = 100
     DESIRED_MEAN = 100
