@@ -134,6 +134,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def vals2Grayscale(self, vals):
         """Redistribute (normalize) values in parameter `vals` to range of an 8 bit grayscale image.
+        This method implicitly converts the `vals` datatype to a float32 for the calculations and
+        returns an array of uint8.
         
         Parameters
         ----------
@@ -144,6 +146,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         -------
             An array of the same size as `vals` with its values normalized to range 0-255.
         """
+        vals = np.float32(vals)
         vMin = np.amin(vals)
         vMax = np.amax(vals)
         return np.uint8((vals - vMin) * (255 / (vMax - vMin)))
