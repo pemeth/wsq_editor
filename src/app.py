@@ -47,7 +47,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def normalizeMinMax(self):
         try:
             self.imgArray = normalizeMinMax(self.imgArray)
-            self.showImage(self.imgArray)
+            self.showImage(self.vals2Grayscale(self.imgArray))
             self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
@@ -55,7 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def normalizeMeanVar(self):
         try:
             self.imgArray = normalizeMeanVariance(self.imgArray)
-            self.showImage(self.imgArray)
+            self.showImage(self.vals2Grayscale(self.imgArray))
             self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
-        self.showImage(((np.uint8(orientim * 15))))
+        self.showImage(self.vals2Grayscale(orientim))
 
         orientim = np.rot90(np.rot90(orientim)) # Rotate the orientation image by 180 degrees, because quiver shows it upside down
 
@@ -133,6 +133,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.imgArray == None:
             return False
         return True
+
+    def vals2Grayscale(self, vals):
+        """Redistribute (normalize) values in parameter `vals` to range of an 8 bit grayscale image.
+        
+        Parameters
+        ----------
+        vals : numpy_array
+            An array of values.
+
+        Returns
+        -------
+            An array of the same size as `vals` with its values normalized to range 0-255.
+        """
+        vMin = np.amin(vals)
+        vMax = np.amax(vals)
+        return np.uint8((vals - vMin) * (255 / (vMax - vMin)))
 
 
 
