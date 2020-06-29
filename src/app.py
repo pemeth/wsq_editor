@@ -87,6 +87,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
         self.showImage(((np.uint8(orientim * 15))))
 
+        orientim = np.rot90(np.rot90(orientim)) # Rotate the orientation image by 180 degrees, because quiver shows it upside down
+
         spacing = 7
         orientim = orientim[spacing:self.imgShape[0] - spacing:spacing, spacing:self.imgShape[1] - spacing:spacing]
 

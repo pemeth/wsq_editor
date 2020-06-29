@@ -5,8 +5,16 @@ from scipy.ndimage import gaussian_filter
 BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
-def getOrientationImage(imgArray):
+def getOrientationImage(imgArray, flip=True):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size."""
+
+    if flip:
+        # This is a hack for correctly showing the orientation vector field via pyplot's quiver. If this isn't flipped,
+        #   the vector field is mirrored. After flipping the computed orientation image, the vector field breaks.
+        #   This could probably be fixed with some mathematical magic, but I have no idea how, so I'm "pre-flipping" at this stage,
+        #   which fixes the issue.
+        imgArray = np.flip(imgArray,1)
+
     # Compute gradients along the X and Y axes
     dY, dX = np.gradient(imgArray)
 
