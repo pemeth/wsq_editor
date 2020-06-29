@@ -6,6 +6,7 @@ import wsq
 
 from normalize import normalizeMinMax, normalizeMeanVariance
 import ridge_orientation as ro
+from region_of_interest import getRoi
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -103,6 +104,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ax.quiver(u, v, **quiveropts)
         plt.show()
 
+    def showRoi(self):
+        """Get the region of interest of the input image and display it"""
+        roi = getRoi(self.imgArray)
+        self.showImage(self.vals2Grayscale(roi))
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -113,6 +119,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
 
         self.ridgeOrientAction = QAction("Show ridge orientation", self, triggered=self.showOrientation)
+
+        self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -125,7 +133,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.normalizeSubmenu.addAction(self.normalizeImageActionSimple)
         self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
+
         self.imageMenu.addAction(self.ridgeOrientAction)
+        self.imageMenu.addAction(self.roiAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
