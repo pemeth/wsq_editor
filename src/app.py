@@ -48,7 +48,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             self.imgArray = normalizeMinMax(self.imgArray)
             self.showImage(self.vals2Grayscale(self.imgArray))
-            self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
@@ -56,7 +55,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             self.imgArray = normalizeMeanVariance(self.imgArray)
             self.showImage(self.vals2Grayscale(self.imgArray))
-            self.imgArray = np.reshape(self.imgArray, self.imgShape)
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
