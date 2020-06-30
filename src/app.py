@@ -8,6 +8,7 @@ from normalize import normalizeMinMax, normalizeMeanVariance
 import ridge_orientation as ro
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
+from filters import gabor_filter
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -116,6 +117,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         freq = ridgeFreq(self.imgArray, ro.getOrientationImage(self.imgArray))
         self.showImage(freq)
 
+    def showGaborFilter(self):
+        """Calculate a gabor filtered image and display it"""
+        orientim = ro.getOrientationImage(self.imgArray)
+        freq = ridgeFreq(self.imgArray, orientim)
+        mask = getRoi(self.imgArray)
+        filtim = gabor_filter(self.imgArray, orientim, freq, mask)
+        self.showImage(filtim)
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -129,6 +138,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
+        self.gaborAction = QAction("Show gabor filtered image", self, triggered=self.showGaborFilter)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -145,6 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imageMenu.addAction(self.ridgeOrientAction)
         self.imageMenu.addAction(self.roiAction)
         self.imageMenu.addAction(self.freqAction)
+        self.imageMenu.addAction(self.gaborAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
