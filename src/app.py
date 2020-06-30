@@ -7,6 +7,7 @@ import wsq
 from normalize import normalizeMinMax, normalizeMeanVariance
 import ridge_orientation as ro
 from region_of_interest import getRoi
+from ridge_frequency import ridgeFreq
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -110,6 +111,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         roi = getRoi(self.imgArray)
         self.showImage(roi)
 
+    def showFrequency(self):
+        """Get the frequency image and display it"""
+        freq = ridgeFreq(self.imgArray, ro.getOrientationImage(self.imgArray))
+        self.showImage(freq)
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -122,6 +128,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ridgeOrientAction = QAction("Show ridge orientation", self, triggered=self.showOrientation)
 
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
+        self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -137,6 +144,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.imageMenu.addAction(self.ridgeOrientAction)
         self.imageMenu.addAction(self.roiAction)
+        self.imageMenu.addAction(self.freqAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
