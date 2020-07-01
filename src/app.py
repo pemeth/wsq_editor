@@ -8,7 +8,7 @@ from normalize import normalizeMeanVariance
 from ridge_orientation import ridgeOrient
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
-from filters import gabor_filter
+from filters import gaborFilter
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mask = getRoi(norm)
         orientim = ridgeOrient(norm)
         freq = ridgeFreq(norm, orientim)
-        filtim = gabor_filter(norm, orientim, freq, mask)
+        filtim = gaborFilter(norm, orientim, freq, mask)
         self.showImage(filtim)
 
     def createActions(self):
