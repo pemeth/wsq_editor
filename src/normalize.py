@@ -1,17 +1,4 @@
 import numpy as np
-from PIL import Image
-
-def normalizeMinMax(imgArray):
-    """Simple image normalization based on value averaging"""
-    # Image normalization (as per source: Fingerprint Authentication using Gabor Filter based Matching Algorithm)
-    gMin = np.amin(imgArray)
-    gMax = np.amax(imgArray)
-    gRange = gMax - gMin
-
-    # Normalize
-    imgArray = (((np.float32(imgArray) - gMin) * 255) / gRange)
-
-    return np.uint8(imgArray)
 
 def normalizeMeanVariance(imgArray):
     """Complex image normalization based on image mean and variance values"""

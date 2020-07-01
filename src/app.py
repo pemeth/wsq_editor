@@ -4,7 +4,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import wsq
 
-from normalize import normalizeMinMax, normalizeMeanVariance
+from normalize import normalizeMeanVariance
 import ridge_orientation as ro
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
@@ -46,13 +46,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray)
-
-    def normalizeMinMax(self):
-        try:
-            self.imgArray = normalizeMinMax(self.imgArray)
-            self.showImage(self.imgArray)
-        except AttributeError:
-            print("An exception occurred! No loaded image found!")
 
     def normalizeMeanVar(self):
         try:
@@ -130,9 +123,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
-        # TODO: prerobit nejak ten triggered callback, aby sa volala jedna funkcia ale s parametrami na rozlisenie sposobu normalizacie
-        #       mozno pomoze: https://www.mfitzp.com/article/qt-transmit-extra-data-with-signals/
-        self.normalizeImageActionSimple = QAction("Normalize with min/max method", self, triggered=self.normalizeMinMax)
         self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
 
         self.ridgeOrientAction = QAction("Show ridge orientation", self, triggered=self.showOrientation)
@@ -150,7 +140,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
         #self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
 
-        self.normalizeSubmenu.addAction(self.normalizeImageActionSimple)
         self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
 
         self.imageMenu.addAction(self.ridgeOrientAction)
