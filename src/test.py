@@ -5,6 +5,7 @@ from normalize import normalizeMeanVariance
 from region_of_interest import getRoi
 from ridge_orientation import ridgeOrient
 from ridge_frequency import ridgeFreq
+from filters import gaborFilter
 import exceptions as ex
 
 class TestImageManipulationFunctions(unittest.TestCase):
@@ -47,6 +48,29 @@ class TestDatatypes(TestImageManipulationFunctions):
             # both params invalid
             with self.assertRaises(ex.InvalidDataType):
                 ridgeFreq(item, item)
+
+    def test_gabor_invalid(self):
+        orientim = ridgeOrient(self.im)
+        freq = ridgeFreq(self.im, orientim)
+        mask = getRoi(self.im)
+
+        for item in self.invalidDTypes:
+            # invalid original image
+            with self.assertRaises(ex.InvalidDataType):
+                gaborFilter(item, orientim, freq, mask)
+
+            # invalid orientation image
+            with self.assertRaises(ex.InvalidDataType):
+                gaborFilter(self.im, item, freq, mask)
+
+            # invalid frequency image
+            with self.assertRaises(ex.InvalidDataType):
+                gaborFilter(self.im, orientim, item, mask)
+                
+            # invalid mask
+            with self.assertRaises(ex.InvalidDataType):
+                gaborFilter(self.im, orientim, freq, item)
+                
 
 if __name__ == '__main__':
     unittest.main()
