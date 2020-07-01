@@ -26,10 +26,10 @@ def gabor_filter(im, orientim, freqim, mask, blocksize = 11):
 
     # precomputed tiled blocks for the `h()` gabor kernel generator,
     # so it doesn't need to generate new tiles during every function call
-    x = np.arange(-blockhalf, blockhalf + 1).reshape((11, 1))
-    x = np.tile(x, (1, 11))
-    y = np.arange(-blockhalf, blockhalf + 1)
-    y = np.tile(y, (11, 1))
+    x = np.arange(-blockhalf, blockhalf + 1)
+    x = np.tile(x, (11, 1))
+    y = np.arange(-blockhalf, blockhalf + 1).reshape((11, 1))
+    y = np.tile(y, (1, 11))
 
     rows, cols = im.shape
     for r in range(blockhalf, rows-blockhalf):
@@ -42,7 +42,6 @@ def gabor_filter(im, orientim, freqim, mask, blocksize = 11):
             filtered_im[r,c] = np.sum( h(x, y, phi, f) * im[r-blockhalf:r+blockhalf+1,c-blockhalf:c+blockhalf+1] )
 
     filtered_im = np.where(filtered_im > 0, True, False) # binarize
-    Image.fromarray(filtered_im).show()
     return filtered_im
 
 def h(x, y, phi, f):

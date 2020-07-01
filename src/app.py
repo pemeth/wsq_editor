@@ -119,10 +119,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it"""
-        orientim = ro.getOrientationImage(self.imgArray)
-        freq = ridgeFreq(self.imgArray, orientim)
-        mask = getRoi(self.imgArray)
-        filtim = gabor_filter(self.imgArray, orientim, freq, mask)
+        norm = normalizeMeanVariance(self.imgArray)
+        mask = getRoi(norm)
+        orientim = ro.getOrientationImage(norm, flip=False)
+        freq = ridgeFreq(norm, orientim)
+        filtim = gabor_filter(norm, orientim, freq, mask)
         self.showImage(filtim)
 
     def createActions(self):

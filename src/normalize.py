@@ -26,4 +26,7 @@ def normalizeMeanVariance(imgArray):
                         DESIRED_MEAN + ((DESIRED_VAR * ((imgArray - MEAN)**2)) / VAR)**(1/2.0),
                         DESIRED_MEAN - ((DESIRED_VAR * ((imgArray - MEAN)**2)) / VAR)**(1/2.0))
 
-    return np.uint8(imgArray)
+    imMin = np.amin(imgArray)
+    imMax = np.amax(imgArray)
+
+    return np.uint8((imgArray - imMin) * (255 / (imMax - imMin)))
