@@ -5,7 +5,7 @@ from scipy.ndimage import gaussian_filter
 BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
-def getOrientationImage(imgArray, flip=True):
+def getOrientationImage(imgArray, flip=False):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size."""
 
     if flip:

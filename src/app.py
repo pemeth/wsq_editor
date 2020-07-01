@@ -76,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showOrientation(self):
         # TODO: check for a loaded image
-        orientim = ro.getOrientationImage(self.imgArray)
+        orientim = ro.getOrientationImage(self.imgArray, flip=True)
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
@@ -107,14 +107,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showFrequency(self):
         """Get the frequency image and display it"""
-        freq = ridgeFreq(self.imgArray, ro.getOrientationImage(self.imgArray))
+        norm = normalizeMeanVariance(self.imgArray)
+        orientim = ro.getOrientationImage(norm)
+        freq = ridgeFreq(norm, orientim)
         self.showImage(freq)
 
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it"""
         norm = normalizeMeanVariance(self.imgArray)
         mask = getRoi(norm)
-        orientim = ro.getOrientationImage(norm, flip=False)
+        orientim = ro.getOrientationImage(norm)
         freq = ridgeFreq(norm, orientim)
         filtim = gabor_filter(norm, orientim, freq, mask)
         self.showImage(filtim)
