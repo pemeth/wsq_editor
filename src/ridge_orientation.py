@@ -5,7 +5,7 @@ from scipy.ndimage import gaussian_filter
 BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
-def getOrientationImage(imgArray, flip=False):
+def ridgeOrient(im, flip=False):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size."""
 
     if flip:
@@ -13,10 +13,10 @@ def getOrientationImage(imgArray, flip=False):
         #   the vector field is mirrored. After flipping the computed orientation image, the vector field breaks.
         #   This could probably be fixed with some mathematical magic, but I have no idea how, so I'm "pre-flipping" at this stage,
         #   which fixes the issue.
-        imgArray = np.flip(imgArray,1)
+        im = np.flip(im,1)
 
     # Compute gradients along the X and Y axes
-    dY, dX = np.gradient(imgArray)
+    dY, dX = np.gradient(im)
 
     # Pre-compute the terms of summation
     dXY = dX*dY * 2

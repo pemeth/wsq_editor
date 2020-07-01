@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import wsq
 
 from normalize import normalizeMeanVariance
-import ridge_orientation as ro
+from ridge_orientation import ridgeOrient
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
 from filters import gabor_filter
@@ -78,7 +78,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showOrientation(self):
         # TODO: check for a loaded image
-        orientim = ro.getOrientationImage(self.imgArray, flip=True)
+        orientim = ridgeOrient(self.imgArray, flip=True)
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
@@ -110,7 +110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def showFrequency(self):
         """Get the frequency image and display it"""
         norm = normalizeMeanVariance(self.imgArray)
-        orientim = ro.getOrientationImage(norm)
+        orientim = ridgeOrient(norm)
         freq = ridgeFreq(norm, orientim)
         self.showImage(freq)
 
@@ -118,7 +118,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Calculate a gabor filtered image and display it"""
         norm = normalizeMeanVariance(self.imgArray)
         mask = getRoi(norm)
-        orientim = ro.getOrientationImage(norm)
+        orientim = ridgeOrient(norm)
         freq = ridgeFreq(norm, orientim)
         filtim = gabor_filter(norm, orientim, freq, mask)
         self.showImage(filtim)
