@@ -45,7 +45,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #imgBytes = self.imgArray.tobytes() # Convert to raw grayscale bytes
 
             self.imgShape = self.imgArray.shape
-            self.showImage(self.imgArray)
+            self.showImage(self.imgArray, normalize=False)
 
     def normalizeMeanVar(self):
         try:
@@ -54,8 +54,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
-    def showImage(self, img):
-        img = self.vals2Grayscale(img)
+    def showImage(self, img, normalize=True):
+        if normalize:
+            img = self.vals2Grayscale(img)
+
         imgBytes = img.tobytes()
 
         # Calculate number of bytes per line in the image
