@@ -1,24 +1,21 @@
 import numpy as np
-from scipy.signal import convolve2d
 from numpy.lib import stride_tricks
-from sklearn.feature_extraction import image
 
-def getRoi(im, blockShape=(16,16), threshold=0.1):
+def getRoi(im, threshold=0.1):
     """Return a region of interest mask of the input fingerprint image.
     
     Simple ROI extraction based on gray value variance inside MxN blocks.
     
     Parameters
-    im:
+    ----------
+    im : numpy_array
         The input image, form which the region of interest will be extracted.
-    blockShape:
-        A 2-tuple specifying the block shape for which to compute the individual
-        variances. Default is (16,16)
-    threshold:
+    threshold : int, float
         A number between 0 and 1, which specifies the threshold variance for the
         region of interest. Anything over the threshold is part of the ROI.
 
     Returns
+    -------
         A 2D numpy array of the same size as the input image containing truth values
         of each pixel being or not being in the region of interest.
     """
