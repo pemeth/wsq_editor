@@ -18,22 +18,22 @@ class TestImageManipulationFunctions(unittest.TestCase):
         self.invalidDTypes = [1, 1.0, "str", (1,"2"), [1, "2"]]
 
 class TestDatatypes(TestImageManipulationFunctions):
-    def test_normalization_invalid(self):
+    def testNormalization_invalid(self):
         for item in self.invalidDTypes:
             with self.assertRaises(ex.InvalidDataType):
                 normalizeMeanVariance(item)
     
-    def test_roi_invalid(self):
+    def testRoi_invalid(self):
         for item in self.invalidDTypes:
             with self.assertRaises(ex.InvalidDataType):
                 getRoi(item)
     
-    def test_orientation_invalid(self):
+    def testOrientation_invalid(self):
         for item in self.invalidDTypes:
             with self.assertRaises(ex.InvalidDataType):
                 ridgeOrient(item)
 
-    def test_frequency_invalid(self):
+    def testFrequency_invalid(self):
         orientim = ridgeOrient(self.im)
 
         for item in self.invalidDTypes:
@@ -49,7 +49,7 @@ class TestDatatypes(TestImageManipulationFunctions):
             with self.assertRaises(ex.InvalidDataType):
                 ridgeFreq(item, item)
 
-    def test_gabor_invalid(self):
+    def testGabor_invalid(self):
         orientim = ridgeOrient(self.im)
         freq = ridgeFreq(self.im, orientim)
         mask = getRoi(self.im)
