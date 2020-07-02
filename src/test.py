@@ -19,7 +19,7 @@ class TestImageManipulationFunctions(unittest.TestCase):
         self.im_color = np.ones((300,256,3), dtype=np.uint8) * 128
 
         # generate list of invalid datatypes
-        self.invalidDTypes = [1, 1.0, "str", (1,"2"), [1, "2"]]
+        self.invalidDTypes = [1, 1.0, "str", (1,"2"), [1, "2"], None, True]
 
 class TestDatatypes(TestImageManipulationFunctions):
     def testNormalization_invalid(self):
