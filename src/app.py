@@ -34,8 +34,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def open(self):
         """Open and show an image"""
         options = QFileDialog.Options()
-        self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "/home", '',
-                                                  "Images (*.png *.bmp *.jpg *.jpeg *.wsq)",
+        self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "/home",
+                                                  "Images (*.png *.bmp *.jpg *.jpeg *.wsq);;Any File (*)",
                                                   options=options)
 
         if self.filename:
