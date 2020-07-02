@@ -2,6 +2,8 @@ import numpy as np
 import scipy.ndimage as ndimage
 import scipy.signal as signal
 
+import exceptions as e
+
 def ridgeFreq(im, orientim, blend_sigma=None):
     """Return ridge frequencies in image `im`.
     If no 'blend_sigma' is entered, the returned frequecy image is blocky. The 'blend_sigma' specifies a gaussian
@@ -22,6 +24,19 @@ def ridgeFreq(im, orientim, blend_sigma=None):
     Returns
     -------
         A numpy array of the same size as `im`, which contains the local papillary ridge frequencies."""
+    if not isinstance(im, np.ndarray):
+        raise e.InvalidDataType("The input image is not a numpy array.")
+    if not isinstance(orientim, np.ndarray):
+        raise e.InvalidDataType("The input orientation image is not a numpy array.")
+
+    if im.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input image is not a 2D numpy array.")
+    if orientim.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input orientation image is not a 2D numpy array.")
+
+    if not isinstance(blend_sigma, type(None)):
+        if not (isinstance(blend_sigma, int) or isinstance(blend_sigma, float)):
+            raise e.InvalidDataType("The `blend_sigma` parameter is not an int or float.")
 
     rows, cols = im.shape
     freq = np.zeros((rows, cols))

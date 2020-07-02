@@ -2,11 +2,21 @@ import numpy as np
 from scipy.signal import convolve2d
 from scipy.ndimage import gaussian_filter
 
+import exceptions as e
+
 BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
 def ridgeOrient(im, flip=False):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size."""
+    if not isinstance(im, np.ndarray):
+        raise e.InvalidDataType("The input image is not a numpy array.")
+
+    if im.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input image is not a 2D numpy array.")
+
+    if not isinstance(flip, bool):
+        raise e.InvalidDataType("The `flip` optional parameter needs to be a boolean.")
 
     if flip:
         # This is a hack for correctly showing the orientation vector field via pyplot's quiver. If this isn't flipped,

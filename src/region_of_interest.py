@@ -1,6 +1,8 @@
 import numpy as np
 from numpy.lib import stride_tricks
 
+import exceptions as e
+
 def getRoi(im, threshold=0.1):
     """Return a region of interest mask of the input fingerprint image.
     
@@ -19,6 +21,17 @@ def getRoi(im, threshold=0.1):
         A 2D numpy array of the same size as the input image containing truth values
         of each pixel being or not being in the region of interest.
     """
+    if not isinstance(im, np.ndarray):
+        raise e.InvalidDataType("The input image is not a numpy array.")
+    
+    if im.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input image is not a 2D numpy array.")
+
+    if not (isinstance(threshold, int) or isinstance(threshold, float)):
+        raise e.InvalidDataType("The `threshold` parameter is not an int or float.")
+
+
+
     patch_size = 16
     shape = (im.shape[0] - patch_size + 1, im.shape[1] - patch_size + 1, patch_size, patch_size)
     strides = 2 * im.strides

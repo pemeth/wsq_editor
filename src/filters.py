@@ -2,6 +2,8 @@ import numpy as np
 
 from PIL import Image
 
+import exceptions as e
+
 def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
     """Filter the input image `im` with a Gabor filter. The function return the filtered and binarized image, whcih is the same size as `im`.
     
@@ -21,6 +23,27 @@ def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
     Returns
     -------
         A Gabor filtered and binarized image of the original fingerprint image of the same size as `im`."""
+    if not isinstance(im, np.ndarray):
+        raise e.InvalidDataType("The input image is not a numpy array.")
+    if not isinstance(orientim, np.ndarray):
+        raise e.InvalidDataType("The input orientation image is not a numpy array.")
+    if not isinstance(freqim, np.ndarray):
+        raise e.InvalidDataType("The input frequency image is not a numpy array.")
+    if not isinstance(mask, np.ndarray):
+        raise e.InvalidDataType("The input mask is not a numpy array.")
+
+    if im.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input orientation image is not a 2D numpy array.")
+    if orientim.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input image is not a 2D numpy array.")
+    if freqim.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input frequency image is not a 2D numpy array.")
+    if mask.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input frequency image is not a 2D numpy array.")
+
+    if not isinstance(blocksize, int):
+        raise e.InvalidDataType("The `blocksize` parameter is not an int or float.")
+
     filtered_im = np.zeros(im.shape)
     blockhalf = int(blocksize / 2)
 
