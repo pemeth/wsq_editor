@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import matplotlib.pyplot as plt
 import wsq
 
@@ -39,7 +39,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                   options=options)
 
         if self.filename:
-            self.img = Image.open(self.filename)     # Open image with PIL
+            try:
+                self.img = Image.open(self.filename)     # Open image with PIL
+            except UnidentifiedImageError as e:
+                self.showPopup("The selected file is not a supported image file.", detailedMessage=str(e), icon=QMessageBox.Critical)
+                self.filename = None
+                return
+
             self.img = self.img.convert("L")    # Convert to 8bit grayscale
             self.imgArray = np.asarray(self.img)     # Convert image to numpy array
             #imgBytes = self.imgArray.tobytes() # Convert to raw grayscale bytes
