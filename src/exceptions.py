@@ -7,7 +7,10 @@ class ImageProcessingError(Exception):
             Message to be displayed."""
         self.message = message
 
-
 class InvalidDataType(ImageProcessingError):
     """Invalid data type exception raised when a function has been passed a parameter with an invalid datatype."""
+    pass
+
+class InvalidInputImageDimensions(ImageProcessingError):
+    """Exception raised when the input image array is not a 2D array."""
     pass
