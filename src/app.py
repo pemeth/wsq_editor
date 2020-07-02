@@ -175,6 +175,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         vMax = np.amax(vals)
         return np.uint8((vals - vMin) * (255 / (vMax - vMin)))
 
+    def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
+        """Shows an informative popup window with `message` as it's main text."""
+        popup = QMessageBox()
+        popup.setWindowTitle("WSQ Editor")
+        popup.setText(message)
+        popup.setInformativeText(detailedMessage)
+        popup.setIcon(icon)
+        popup.exec_()
 
 
 app = QApplication(sys.argv)
