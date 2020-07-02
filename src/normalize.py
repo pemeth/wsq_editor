@@ -1,5 +1,7 @@
 import numpy as np
 
+import exceptions as e
+
 def normalizeMeanVariance(im):
     """Image normalization based on desired image mean and variance (both 100) values.
     
@@ -11,6 +13,12 @@ def normalizeMeanVariance(im):
     Returns
     -------
         Normalised image of the same size as `im`."""
+    if not isinstance(im, np.ndarray):
+        raise e.InvalidDataType("The input image is not a numpy array.")
+
+    if im.ndim != 2:
+        raise e.InvalidInputImageDimensions("The input image is not a 2D numpy array.")
+
     MEAN = np.mean(im)
     VAR = np.var(im)
 
