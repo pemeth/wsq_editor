@@ -48,6 +48,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showImage(self.imgArray, normalize=False)
 
     def normalizeMeanVar(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
+            return
+
         try:
             self.imgArray = normalizeMeanVariance(self.imgArray)
             self.showImage(self.imgArray)
@@ -77,7 +81,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                     Qt.FastTransformation))
 
     def showOrientation(self):
-        # TODO: check for a loaded image
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
         orientim = ridgeOrient(self.imgArray, flip=True)
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
@@ -104,11 +111,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showRoi(self):
         """Get the region of interest of the input image and display it"""
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
         roi = getRoi(self.imgArray)
         self.showImage(roi)
 
     def showFrequency(self):
         """Get the frequency image and display it"""
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
         norm = normalizeMeanVariance(self.imgArray)
         orientim = ridgeOrient(norm)
         freq = ridgeFreq(norm, orientim)
@@ -116,6 +129,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it"""
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
         norm = normalizeMeanVariance(self.imgArray)
         mask = getRoi(norm)
         orientim = ridgeOrient(norm)
