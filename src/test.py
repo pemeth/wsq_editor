@@ -21,6 +21,12 @@ class TestImageManipulationFunctions(unittest.TestCase):
         # generate list of invalid datatypes
         self.invalidDTypes = [1, 1.0, "str", (1,"2"), [1, "2"], None, True]
 
+        # generate list of non-numerical datatypes
+        self.nonNum = ["1", (1,1), [1,1], np.array([1]), np.ones((1)), None] # don't add boolean - is instance of int
+
+        # generate list of non-bool datatypes
+        self.nonBool = [1, 1.0, "1", (1,1), [1,1], np.array([1]), np.ones((1)), None]
+
 class TestDatatypes(TestImageManipulationFunctions):
     def testNormalization_invalid(self):
         for item in self.invalidDTypes:
@@ -113,6 +119,38 @@ class TestDimensions(TestImageManipulationFunctions):
         
         with self.assertRaises(ex.InvalidInputImageDimensions):
             gaborFilter(self.im, orientim, freq, self.im_color)
+
+class TestOptionalParams(TestImageManipulationFunctions):
+    def testRoi_invalid(self):
+        for item in self.nonNum:
+            with self.assertRaises(ex.InvalidDataType):
+                getRoi(self.im, threshold=item)
+
+    def testOrientation_invalid(self):
+        for item in self.nonBool:
+            with self.assertRaises(ex.InvalidDataType):
+                ridgeOrient(self.im, flip=item)
+    
+    def testFrequency_invalid(self):
+        orientim = ridgeOrient(self.im)
+        
+        #non-numeric and non-None
+        invalidParams = ["1", (1,1), [1,1], np.array([1]), np.ones((1))]
+
+        for item in invalidParams:
+            with self.assertRaises(ex.InvalidDataType):
+                ridgeFreq(self.im, orientim, blend_sigma=item)
+
+    def testGabor_invalid(self):
+        orientim = ridgeOrient(self.im)
+        freq = ridgeFreq(self.im, orientim)
+        mask = getRoi(self.im)
+
+        # non-int
+        invalidParams = [1.0, "1", (1,1), [1,1], np.array([1]), np.ones((1)), None]
+        for item in invalidParams:
+            with self.assertRaises(ex.InvalidDataType):
+                gaborFilter(self.im, orientim, freq, mask, blocksize=item)
 
 if __name__ == '__main__':
     unittest.main()
