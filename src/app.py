@@ -171,14 +171,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fileMenu.addAction(self.openImageAction)
 
         self.imageMenu = self.menubar.addMenu("Image")
-        self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
-        self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
 
+        # normalization submenu
+        self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
         self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
         
+        # orientation submenu
+        self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
         self.ridgeOrientSubmenu.addAction(self.ridgeOrientImageAction)
         self.ridgeOrientSubmenu.addAction(self.ridgeOrientPlotAction)
 
+        # main image menu
         self.imageMenu.addAction(self.roiAction)
         self.imageMenu.addAction(self.freqAction)
         self.imageMenu.addAction(self.gaborAction)
