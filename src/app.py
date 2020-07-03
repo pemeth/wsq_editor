@@ -53,17 +53,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray, normalize=False)
 
-    def normalizeMeanVar(self):
-        if isinstance(self.imgArray, type(None)):
-            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
-            return
-
-        try:
-            self.imgArray = normalizeMeanVariance(self.imgArray)
-            self.showImage(self.imgArray)
-        except AttributeError:
-            print("An exception occurred! No loaded image found!")
-
     def showImage(self, img, normalize=True):
         if normalize:
             img = self.vals2Grayscale(img)
@@ -85,6 +74,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mainImage.setPixmap(QPixmap.fromImage(self.img).scaled(self.mainImage.size(),
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
+
+    def showNormalizeMeanVar(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
+            return
+
+        try:
+            self.imgArray = normalizeMeanVariance(self.imgArray)
+            self.showImage(self.imgArray)
+        except AttributeError:
+            print("An exception occurred! No loaded image found!")
 
     def showOrientationPlot(self):
         if isinstance(self.imgArray, type(None)):
@@ -156,7 +156,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
-        self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
+        self.normalizeImageActionComplex = QAction("Show normalized image with mean/variance method", self, triggered=self.showNormalizeMeanVar)
 
         self.ridgeOrientImageAction = QAction("Show ridge orientation image", self, triggered=self.showOrientationImage)
         self.ridgeOrientPlotAction = QAction("Show ridge orientation plot", self, triggered=self.showOrientationPlot)
