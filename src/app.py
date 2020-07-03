@@ -86,7 +86,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
 
-    def showOrientation(self):
+    def showOrientationPlot(self):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -95,7 +95,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
         #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
-        self.showImage(orientim)
 
         orientim = np.rot90(np.rot90(orientim)) # Rotate the orientation image by 180 degrees, because quiver shows it upside down
 
@@ -114,6 +113,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ax.set_axis_off()
         ax.quiver(u, v, **quiveropts)
         plt.show()
+    
+    def showOrientationImage(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+        
+        orientim = ridgeOrient(self.imgArray)
+        self.showImage(orientim)
 
     def showRoi(self):
         """Get the region of interest of the input image and display it"""
@@ -151,7 +158,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.normalizeImageActionComplex = QAction("Normalize with mean/variance method", self, triggered=self.normalizeMeanVar)
 
-        self.ridgeOrientAction = QAction("Show ridge orientation", self, triggered=self.showOrientation)
+        self.ridgeOrientImageAction = QAction("Show ridge orientation image", self, triggered=self.showOrientationImage)
+        self.ridgeOrientPlotAction = QAction("Show ridge orientation plot", self, triggered=self.showOrientationPlot)
 
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
@@ -164,11 +172,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.imageMenu = self.menubar.addMenu("Image")
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
-        #self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
+        self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
 
         self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
+        
+        self.ridgeOrientSubmenu.addAction(self.ridgeOrientImageAction)
+        self.ridgeOrientSubmenu.addAction(self.ridgeOrientPlotAction)
 
-        self.imageMenu.addAction(self.ridgeOrientAction)
         self.imageMenu.addAction(self.roiAction)
         self.imageMenu.addAction(self.freqAction)
         self.imageMenu.addAction(self.gaborAction)
