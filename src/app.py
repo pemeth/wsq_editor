@@ -11,6 +11,7 @@ from ridge_frequency import ridgeFreq
 from filters import gaborFilter
 from thinning import zhangSuen
 from  singularities import poincare
+from minutiae import extractMinutiae
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -37,6 +38,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.thinned = None # Cache for the thinned image
         self.cores = None   # Cache for the core singularity image
         self.deltas = None  # Cache for the delta singularity image
+        self.bifurcations = None    # Cache for the bifurcation minutiae
+        self.ridgeEndings = None    # Cache for the ridge ending minutiae
 
     def open(self):
         """Open and show an image"""
@@ -65,6 +68,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.thinned = None
             self.cores = None
             self.deltas = None
+            self.bifurcations = None
+            self.ridgeEndings = None
 
     def showImage(self, img, normalize=True):
         if normalize:
@@ -182,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif not isinstance(self.filtim, type(None)):
             # app has filtim cached - only thinning needs to be done
             self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.showImage(self.thinned)    
+            self.showImage(self.thinned)
         else:
             # nothing is cached
             norm = normalizeMeanVariance(self.imgArray)
@@ -221,6 +226,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = poincare(orient) * mask
             self.showImage(self.deltas)
 
+    def showBifurcations(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+        
+        if not isinstance(self.bifurcations, type(None)):
+            # app has bifurcations cached - show them
+            self.showImage(self.bifurcations)
+        elif not isinstance(self.thinned, type(None)):
+            # app has thinned cached - extract minutiae
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.bifurcations)
+        elif not isinstance(self.filtim, type(None)):
+            # app has filtim cached - thin and extract minutiae
+            self.thinned = zhangSuen(self.filtim.astype(np.float32))
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.bifurcations)
+        else:
+            # nothing is cached
+            norm = normalizeMeanVariance(self.imgArray)
+            mask = getRoi(norm)
+            orientim = ridgeOrient(norm)
+            freq = ridgeFreq(norm, orientim)
+            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.bifurcations)
+
+    def showRidgeEndings(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        if not isinstance(self.ridgeEndings, type(None)):
+            # app has ridgeEndings cached - show them
+            self.showImage(self.ridgeEndings)
+        elif not isinstance(self.thinned, type(None)):
+            # app has thinned cached - extract minutiae
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.ridgeEndings)
+        elif not isinstance(self.filtim, type(None)):
+            # app has filtim cached - thin and extract minutiae
+            self.thinned = zhangSuen(self.filtim.astype(np.float32))
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.ridgeEndings)
+        else:
+            # nothing is cached
+            norm = normalizeMeanVariance(self.imgArray)
+            mask = getRoi(norm)
+            orientim = ridgeOrient(norm)
+            freq = ridgeFreq(norm, orientim)
+            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.showImage(self.ridgeEndings)
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -236,6 +297,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
         self.coresAction = QAction("Show core singularities", self, triggered=self.showCores)
         self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
+        self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
+        self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -264,6 +327,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.signularitiesSubmenu = self.analysisMenu.addMenu("Singularities")
         self.signularitiesSubmenu.addAction(self.coresAction)
         self.signularitiesSubmenu.addAction(self.deltasAction)
+
+        # minutiae submenu
+        self.minutiaeSubmenu = self.analysisMenu.addMenu("Minutiae")
+        self.minutiaeSubmenu.addAction(self.bifurcationAction)
+        self.minutiaeSubmenu.addAction(self.ridgeEndingAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
