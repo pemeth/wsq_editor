@@ -9,6 +9,7 @@ from ridge_orientation import ridgeOrient
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
 from filters import gaborFilter
+from thinning import zhangSuen
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -152,6 +153,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         filtim = gaborFilter(norm, orientim, freq, mask)
         self.showImage(filtim)
 
+    def showThinnedZhangSuen(self):
+        """Thin the lines in a binary image with the Zhang-Suen method and display it"""
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+        norm = normalizeMeanVariance(self.imgArray)
+        mask = getRoi(norm)
+        orientim = ridgeOrient(norm)
+        freq = ridgeFreq(norm, orientim)
+        filtim = gaborFilter(norm, orientim, freq, mask)
+        thinned = zhangSuen(filtim.astype(np.float32))
+        self.showImage(thinned)
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -164,6 +178,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
         self.gaborAction = QAction("Show gabor filtered image", self, triggered=self.showGaborFilter)
+        self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -185,6 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imageMenu.addAction(self.roiAction)
         self.imageMenu.addAction(self.freqAction)
         self.imageMenu.addAction(self.gaborAction)
+        self.imageMenu.addAction(self.thinnedZhangSuenAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
