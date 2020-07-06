@@ -32,6 +32,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imgShape = None    # Will hold the shape of the loaded image
         self.filename = None
 
+        self.filtim = None  # Cache for the filtered image
+        self.thinned = None # Cache for the thinned image
+
     def open(self):
         """Open and show an image"""
         options = QFileDialog.Options()
@@ -53,6 +56,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray, normalize=False)
+
+            # reset the cached images
+            self.filtim = None
+            self.thinned = None
 
     def showImage(self, img, normalize=True):
         if normalize:
@@ -146,25 +153,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
-        norm = normalizeMeanVariance(self.imgArray)
-        mask = getRoi(norm)
-        orientim = ridgeOrient(norm)
-        freq = ridgeFreq(norm, orientim)
-        filtim = gaborFilter(norm, orientim, freq, mask)
-        self.showImage(filtim)
+
+        if not isinstance(self.filtim, type(None)):
+            # app has it cached
+            self.showImage(self.filtim)
+        else:
+            norm = normalizeMeanVariance(self.imgArray)
+            mask = getRoi(norm)
+            orientim = ridgeOrient(norm)
+            freq = ridgeFreq(norm, orientim)
+            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            self.showImage(self.filtim)
 
     def showThinnedZhangSuen(self):
         """Thin the lines in a binary image with the Zhang-Suen method and display it"""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
-        norm = normalizeMeanVariance(self.imgArray)
-        mask = getRoi(norm)
-        orientim = ridgeOrient(norm)
-        freq = ridgeFreq(norm, orientim)
-        filtim = gaborFilter(norm, orientim, freq, mask)
-        thinned = zhangSuen(filtim.astype(np.float32))
-        self.showImage(thinned)
+
+        if not isinstance(self.thinned, type(None)):
+            # app has thinned cached - show it
+            self.showImage(self.thinned)
+        elif not isinstance(self.filtim, type(None)):
+            # app has filtim cached - only thinning needs to be done
+            self.thinned = zhangSuen(self.filtim.astype(np.float32))
+            self.showImage(self.thinned)    
+        else:
+            # nothing is cached
+            norm = normalizeMeanVariance(self.imgArray)
+            mask = getRoi(norm)
+            orientim = ridgeOrient(norm)
+            freq = ridgeFreq(norm, orientim)
+            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            self.thinned = zhangSuen(self.filtim.astype(np.float32))
+            self.showImage(self.thinned)
 
     def createActions(self):
         """Create actions for the application"""
