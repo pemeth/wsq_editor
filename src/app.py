@@ -10,6 +10,7 @@ from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
 from filters import gaborFilter
 from thinning import zhangSuen
+from  singularities import poincare
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
@@ -34,6 +35,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.filtim = None  # Cache for the filtered image
         self.thinned = None # Cache for the thinned image
+        self.cores = None   # Cache for the core singularity image
+        self.deltas = None  # Cache for the delta singularity image
 
     def open(self):
         """Open and show an image"""
@@ -60,6 +63,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # reset the cached images
             self.filtim = None
             self.thinned = None
+            self.cores = None
+            self.deltas = None
 
     def showImage(self, img, normalize=True):
         if normalize:
@@ -188,6 +193,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.showImage(self.thinned)
 
+    def showCores(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        if not isinstance(self.cores, type(None)):
+            # cached
+            self.showImage(self.cores)
+        else:
+            mask = getRoi(self.imgArray)
+            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            self.cores, self.deltas = poincare(orient) * mask
+            self.showImage(self.cores)
+
+    def showDeltas(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        if not isinstance(self.deltas, type(None)):
+            # cached
+            self.showImage(self.deltas)
+        else:
+            mask = getRoi(self.imgArray)
+            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            self.cores, self.deltas = poincare(orient) * mask
+            self.showImage(self.deltas)
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -201,6 +234,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
         self.gaborAction = QAction("Show gabor filtered image", self, triggered=self.showGaborFilter)
         self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
+        self.coresAction = QAction("Show core singularities", self, triggered=self.showCores)
+        self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
@@ -208,6 +243,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fileMenu.addAction(self.openImageAction)
 
         self.imageMenu = self.menubar.addMenu("Image")
+        self.analysisMenu = self.menubar.addMenu("Analysis")
 
         # normalization submenu
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
@@ -223,6 +259,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imageMenu.addAction(self.freqAction)
         self.imageMenu.addAction(self.gaborAction)
         self.imageMenu.addAction(self.thinnedZhangSuenAction)
+        
+        # signularities submenu        
+        self.signularitiesSubmenu = self.analysisMenu.addMenu("Singularities")
+        self.signularitiesSubmenu.addAction(self.coresAction)
+        self.signularitiesSubmenu.addAction(self.deltasAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
