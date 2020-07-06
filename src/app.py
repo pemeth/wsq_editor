@@ -185,7 +185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             orientim = ridgeOrient(norm)
             freq = ridgeFreq(norm, orientim)
             self.filtim = gaborFilter(norm, orientim, freq, mask)
-            self.thinned = zhangSuen(self.filtim.astype(np.float32))
+            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.showImage(self.thinned)
 
     def createActions(self):
