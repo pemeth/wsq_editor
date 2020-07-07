@@ -14,7 +14,7 @@ from  singularities import poincare
 from minutiae import extractMinutiae
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea
-from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence
+from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
 from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
 
@@ -67,9 +67,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.scaleFactor = 1.0
 
-            # image is loaded, enable zooming
+            # image is loaded, enable transformations
             self.zoomInAction.setEnabled(True)
             self.zoomOutAction.setEnabled(True)
+            self.rotateAction.setEnabled(True)
 
             # reset the cached images
             self.filtim = None
@@ -107,11 +108,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
 
-        #self.mainImage.resize(self.mainImage.pixmap().size())
+        self.mainImage.resize(self.mainImage.pixmap().size())
         #self.mainImage.adjustSize()
         self.scrollArea.setVisible(True)
         self.scaleImage(1)
-        
 
     def scaleImage(self, factor):
         """Scales the image and the containing QLabel to a resized image by `factor`."""
@@ -129,6 +129,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def zoomOut(self):
         """Callback for the `zoomOutAction` QAction. Calls `scaleImage` with a constant 0.8 zoom factor."""
         self.scaleImage(0.8)
+
+    def rotateImage(self):
+        """Rotate the image counter-clockwise."""
+        #TODO rotating the image skews it, don't know why
+        if self.img.format() == QImage.Format_RGB888:
+            channels = 3
+        else:
+            channels = 1
+
+        s = self.img.bits().asstring(self.imgShape[0] * self.imgShape[1] * channels)
+        
+        if channels == 3:
+            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1], channels))
+        else:
+            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1]))
+
+        img = img.astype(np.uint8)
+
+        img = np.rot90(img)
+        self.imgShape = img.shape
+
+        self.showImage(img, normalize=False)
 
     def showNormalizeMeanVar(self):
         if isinstance(self.imgArray, type(None)):
@@ -348,19 +370,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomInAction.setEnabled(False)
         self.zoomOutAction = QAction("Zoom out 0.8x", self, shortcut="-", triggered=self.zoomOut)
         self.zoomOutAction.setEnabled(False)
+        self.rotateAction = QAction("Rotate by 90 degrees", self, shortcut="/", triggered=self.rotateImage)
+        self.rotateAction.setEnabled(False)
 
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
         self.fileMenu = self.menubar.addMenu("File")
         self.fileMenu.addAction(self.openImageAction)
 
-        self.zoomMenu = self.menubar.addMenu("Zoom")
+        self.zoomMenu = self.menubar.addMenu("Transformations")
         self.imageMenu = self.menubar.addMenu("Image")
         self.analysisMenu = self.menubar.addMenu("Analysis")
 
         # zoom menu
         self.zoomMenu.addAction(self.zoomInAction)
         self.zoomMenu.addAction(self.zoomOutAction)
+        self.zoomMenu.addAction(self.rotateAction)
 
         # normalization submenu
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
