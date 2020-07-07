@@ -13,7 +13,7 @@ from thinning import zhangSuen
 from  singularities import poincare
 from minutiae import extractMinutiae
 
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
 from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
@@ -34,6 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.img = None     # Will hold the image data
         self.imgArray = None    # Will hold the raw image data in a numpy array
         self.imgShape = None    # Will hold the shape of the loaded image
+        self.currentImage = None    # Will hold the image currently being shown
         self.filename = None
 
         self.filtim = None  # Cache for the filtered image
@@ -67,10 +68,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.scaleFactor = 1.0
 
-            # image is loaded, enable transformations
+            # image is loaded, enable some of the operations
             self.zoomInAction.setEnabled(True)
             self.zoomOutAction.setEnabled(True)
             self.rotateAction.setEnabled(True)
+            self.exportImageAction.setEnabled(True)
 
             # reset the cached images
             self.filtim = None
@@ -79,6 +81,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deltas = None
             self.bifurcations = None
             self.ridgeEndings = None
+
+    def exportImage(self):
+        """Exports the currently displayed image as a png."""
+        try:
+            img = self.vals2Grayscale(self.currentImage)
+        except RuntimeWarning:
+            self.showPopup("No image exported.", detailedMessage="Cannot export image. An exception occured.")
+            return
+
+        img = Image.fromarray(img)
+
+        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Name of the exported file:')
+
+        if ok:
+            img.save(str(text) + ".png")
+            
 
     def showImage(self, img, normalize=True):
         if normalize:
@@ -158,8 +176,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         try:
-            self.imgArray = normalizeMeanVariance(self.imgArray)
-            self.showImage(self.imgArray)
+            norm = normalizeMeanVariance(self.imgArray)
+            self.showImage(norm)
+            self.currentImage = norm
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
@@ -198,6 +217,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         orientim = ridgeOrient(self.imgArray)
         self.showImage(orientim)
+        self.currentImage = orientim
 
     def showRoi(self):
         """Get the region of interest of the input image and display it"""
@@ -206,6 +226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         roi = getRoi(self.imgArray)
         self.showImage(roi)
+        self.currentImage = roi
 
     def showFrequency(self):
         """Get the frequency image and display it"""
@@ -216,6 +237,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         orientim = ridgeOrient(norm)
         freq = ridgeFreq(norm, orientim)
         self.showImage(freq)
+        self.currentImage = freq
 
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it"""
@@ -233,6 +255,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             freq = ridgeFreq(norm, orientim)
             self.filtim = gaborFilter(norm, orientim, freq, mask)
             self.showImage(self.filtim)
+        self.currentImage = self.filtim
 
     def showThinnedZhangSuen(self):
         """Thin the lines in a binary image with the Zhang-Suen method and display it"""
@@ -256,6 +279,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.filtim = gaborFilter(norm, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.showImage(self.thinned)
+        self.currentImage = self.thinned
 
     def showCores(self):
         if isinstance(self.imgArray, type(None)):
@@ -270,6 +294,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.showImage(self.cores)
+        self.currentImage = self.cores
 
     def showDeltas(self):
         if isinstance(self.imgArray, type(None)):
@@ -284,6 +309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.showImage(self.deltas)
+        self.currentImage = self.deltas
 
     def showBifurcations(self):
         if isinstance(self.imgArray, type(None)):
@@ -315,6 +341,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         overlaid = self.overlayMinutiae(self.thinned, self.bifurcations, "red")
         self.showImage(overlaid, normalize=False)
+        self.currentImage = overlaid
 
     def showRidgeEndings(self):
         if isinstance(self.imgArray, type(None)):
@@ -346,10 +373,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         overlaid = self.overlayMinutiae(self.thinned, self.ridgeEndings, "green")
         self.showImage(overlaid, normalize=False)
+        self.currentImage = overlaid
 
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
+        self.exportImageAction = QAction("&Export as PNG", self, shortcut="Ctrl+E", triggered=self.exportImage)
+        self.exportImageAction.setEnabled(False)
 
         self.normalizeImageActionComplex = QAction("Show normalized image with mean/variance method", self, triggered=self.showNormalizeMeanVar)
 
@@ -377,6 +407,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Create menubar menus with corresponding actions"""
         self.fileMenu = self.menubar.addMenu("File")
         self.fileMenu.addAction(self.openImageAction)
+        self.fileMenu.addAction(self.exportImageAction)
 
         self.zoomMenu = self.menubar.addMenu("Transformations")
         self.imageMenu = self.menubar.addMenu("Image")
