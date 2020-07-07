@@ -80,9 +80,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Calculate number of bytes per line in the image
         bytesPerLine = (self.imgShape[1] * self.imgShape[0]) / self.imgShape[0]
 
-        # Convert raw bytes to 8bit grayscale QImage to be able to render it
-        self.img = QImage(imgBytes, self.imgShape[1], self.imgShape[0],
-                            bytesPerLine, QImage.Format_Grayscale8)
+        # check if image is grayscale or RGB
+        if len(img.shape) == 2:
+            # convert raw bytes to 8bit grayscale QImage to be able to render it
+            self.img = QImage(imgBytes, self.imgShape[1], self.imgShape[0],
+                                bytesPerLine, QImage.Format_Grayscale8)
+        else:
+            # the image is RGB, so 3 times as many bytes per line
+            bytesPerLine *= 3
+            self.img = QImage(imgBytes, self.imgShape[1], self.imgShape[0], bytesPerLine, QImage.Format_RGB888)
 
         if self.img.isNull():
             QMessageBox.information(self, "Editor", "Cannot load %s." % self.filename)
