@@ -13,9 +13,9 @@ from thinning import zhangSuen
 from  singularities import poincare
 from minutiae import extractMinutiae
 
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox
-from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea
+from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence
+from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -28,6 +28,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Create the actions and menus
         self.createActions()
         self.createMenus()
+
+        self.scaleFactor = 1.0
 
         self.img = None     # Will hold the image data
         self.imgArray = None    # Will hold the raw image data in a numpy array
@@ -63,6 +65,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray, normalize=False)
 
+            self.scaleFactor = 1.0
+
+            # image is loaded, enable zooming
+            self.zoomInAction.setEnabled(True)
+            self.zoomOutAction.setEnabled(True)
+
             # reset the cached images
             self.filtim = None
             self.thinned = None
@@ -94,10 +102,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "Editor", "Cannot load %s." % self.filename)
             return
 
-        # Scale image to the mainImage label size and show the image
-        self.mainImage.setPixmap(QPixmap.fromImage(self.img).scaled(self.mainImage.size(),
+        # Scale the mainImage label size to image and show the image
+        self.mainImage.setPixmap(QPixmap.fromImage(self.img).scaled(QSize(self.imgShape[1], self.imgShape[0]),
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
+
+        #self.mainImage.resize(self.mainImage.pixmap().size())
+        #self.mainImage.adjustSize()
+        self.scrollArea.setVisible(True)
+        self.scaleImage(1)
+        
+
+    def scaleImage(self, factor):
+        """Scales the image and the containing QLabel to a resized image by `factor`."""
+        # prevent from scaling to over half or twice the size
+        if ((factor < 1.0 and self.scaleFactor >= 0.5) or
+            (factor > 1.0 and self.scaleFactor <= 2.0)):
+            self.scaleFactor *= factor
+
+        self.mainImage.resize(self.scaleFactor * self.mainImage.pixmap().size())
+
+    def zoomIn(self):
+        """Callback for the `zoomInAction` QAction. Calls `scaleImage` with a constant 1.25 zoom factor."""
+        self.scaleImage(1.25)
+
+    def zoomOut(self):
+        """Callback for the `zoomOutAction` QAction. Calls `scaleImage` with a constant 0.8 zoom factor."""
+        self.scaleImage(0.8)
 
     def showNormalizeMeanVar(self):
         if isinstance(self.imgArray, type(None)):
@@ -312,13 +343,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
 
+        #self.fitToWindowAction = QAction()
+        self.zoomInAction = QAction("Zoom in 1.25x", self, shortcut="+", triggered=self.zoomIn)
+        self.zoomInAction.setEnabled(False)
+        self.zoomOutAction = QAction("Zoom out 0.8x", self, shortcut="-", triggered=self.zoomOut)
+        self.zoomOutAction.setEnabled(False)
+
     def createMenus(self):
         """Create menubar menus with corresponding actions"""
         self.fileMenu = self.menubar.addMenu("File")
         self.fileMenu.addAction(self.openImageAction)
 
+        self.zoomMenu = self.menubar.addMenu("Zoom")
         self.imageMenu = self.menubar.addMenu("Image")
         self.analysisMenu = self.menubar.addMenu("Analysis")
+
+        # zoom menu
+        self.zoomMenu.addAction(self.zoomInAction)
+        self.zoomMenu.addAction(self.zoomOutAction)
 
         # normalization submenu
         self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
