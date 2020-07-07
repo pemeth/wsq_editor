@@ -260,6 +260,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.bifurcations)
 
+        overlaid = self.overlayMinutiae(self.thinned, self.bifurcations, "red")
+        self.showImage(overlaid, normalize=False)
+
     def showRidgeEndings(self):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
@@ -287,6 +290,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.ridgeEndings)
+        
+        overlaid = self.overlayMinutiae(self.thinned, self.ridgeEndings, "green")
+        self.showImage(overlaid, normalize=False)
 
     def createActions(self):
         """Create actions for the application"""
@@ -343,6 +349,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.imgArray == None:
             return False
         return True
+
+    def overlayMinutiae(self, img, overlay, color):
+        """Overlays binary image `overlay` over binary image `img` with color `color`. Both `overlay` and `img` have to be binary.
+        
+        Parameters
+        ----------
+        img : numpy_array
+            A binary base image.
+        overlay : numpy_array
+            A binary overlay image. This will be overlaid over `img` with color `color`.
+            
+        Returns
+        -------
+            The overlaid image of the same size as `img`."""
+        # prevent changing the originals by reference
+        overlayCp = np.copy(overlay).astype(np.uint8)
+        img = np.copy(img).astype(np.uint8)
+
+        if color == "red":
+            overlayCp = np.dstack([overlayCp, np.zeros_like(overlayCp), np.zeros_like(overlayCp)]) * 255    # red channel
+        elif color == "green":
+            overlayCp = np.dstack([np.zeros_like(overlayCp), overlayCp, np.zeros_like(overlayCp)]) * 255    # green channel
+        elif isinstance(color, str):
+            raise ValueError("The specified color of the overlay is not recognised.")
+        else:
+            raise TypeError("The color must be specified by a string.")
+
+        img = np.dstack([img,img,img]) * 100
+
+        overlayCp = Image.fromarray(overlayCp)
+        img = Image.fromarray(img)
+
+        img.paste(overlayCp, (0,0), Image.fromarray(overlay.astype(np.uint8) * 255))
+
+        return np.asarray(img)
 
     def vals2Grayscale(self, vals):
         """Redistribute (normalize) values in parameter `vals` to range of an 8 bit grayscale image.
