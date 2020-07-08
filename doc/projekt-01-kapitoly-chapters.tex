@@ -395,13 +395,26 @@
   Kroky vedúce k vylepšenej snímke však nie sú striktne obmedzené na redukciu šumu. Zvýšenie kontrastu medzi papilárnymi líniami a údoliami medzi nimi
   je taktiež kľúčová k neskorším úpravám snímky.
 
-  \subsubsection{Zvýšenie kontrastu}
-  Pre zvýšenie kontrastu snímky je možné využiť vyrovnávanie histogramu. Táto úprava má veľký dopad na zlepšenie kontrastu pri nadmerne tmavých
+  \subsubsection{Normalizácia}
+  Jedným z prvých krokov predspracovania vstupnej snímky odtlačku prstu je normalizácia. Jedná sa o operáciu, ktorá má za cieľ znížiť variácie
+  v hodnotách odtieňov šedej, čím sa podporí kvalitnejší výstup ďalších krokov spracovania \cite{Hong}. Jedným zo spôsobov ako normalizovať
+  snímku je upraviť variáciu a strednú hodnotu snímky pomocou vzorca \ref{eq:normalizacia_Hong}.
+
+  \begin{equation}
+    G(i,j) =
+    \begin{cases}
+      M_0 + \sqrt{\frac{V_0 (I(i,j)-M)^2}{V}}  & \text{ak } I(i,j) > M \\
+      M_0 - \sqrt{\frac{V_0 (I(i,j)-M)^2}{V}} & \text{inak,}
+    \end{cases}
+    \label{eq:normalizacia_Hong}
+  \end{equation}
+  kde $I(i,j)$ je pixel originálnej snímky, $G(i,j)$ je pixel normalizovanej snímky, $M$ je stredná hodnota snímky a $V$ je variácia (rozptyl) hodnôt snímky.
+  Hodnoty $V_0$ a $M_0$ sú hodnoty požadovanej variácie a strednej hodnoty normalizovanej snímky, ktoré Hong definuje ako $V_0 = M_0 = 100$ \cite{Hong}.
+
+  Ďalšou možnosťou normalizácie je vyrovnanie histogramu. Táto úprava má dopad na zlepšenie kontrastu pri nadmerne tmavých
   alebo nadmerne bledých snímkach. Vyrovnanie intenzít jednotlivých odtieňov šedej má za účinok zvýšenie kontrastu v hmlistej zdrojovej snímke.
   Metódy ekvalizácie histogramu však môžu nežiadúco zvýrazniť šum obsiahnutý v snímke. Z tohto dôvodu sú často využívané modifikované metódy,
   ako napríklad adaptívna ekvalizácia histogramu, v spojení s filtrom.
-  
-  %//TODO: rozpisat + obrazok
   
   \subsubsection{Gaborova funkcia}
   Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií.
