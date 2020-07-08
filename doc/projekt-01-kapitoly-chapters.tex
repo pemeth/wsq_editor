@@ -467,6 +467,17 @@
     \label{obr:frekvencia-Hong}
   \end{figure}
 
+  \subsection{Stenčovanie línií}
+  %LEFT-OFF-HERE
+  Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
+  jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
+  ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté singularity a markanty, ktoré nezávisia na hrúbke línií.
+  
+  Samotné stenčovanie však môže do kostry odtlačku zaviesť falošné markanty vďaka nerovnomernosti papilárnych línií v binarizovanej snímke,
+  kvôli ktorým sa po ich stenčení vytvoria krátke \uv{chĺpkovité} výbežky z hlavnej štruktúry línií. Existuje mnoho metód navrhnutých na
+  zamedzenie vytvárania takýchto falošných výbežkov úpravou binarizovanej snímky, ako napríklad vyplnenie malých dier v líniách, prípadne
+  preemptívnou normalizáciou šírky línií pomocou filtra \cite{Handbook}.  
+
   \section{Spôsoby analýzy markantov}
   Detaily druhej úrovne na odtlačkoch prstov poskytujú veľmi robustné, počítačom analyzovateľné, identifikačné informácie o osobách (v súčasnosti sa vďaka
   zvýšeniu kvality snímok rozširuje automatizovaná analýza aj na tretiu úroveň detailu). Z tohto dôvodu je výskum rôznych metód extrakcie týchto detailov
@@ -560,18 +571,6 @@
 
   Existujú variácie vyššie uvedeného algoritmu, ktoré napr. dynamicky upravujú veľkosť kroku $\mu$, alebo ktoré sledujú nielen vrcholy papilárnych línií,
   ale aj susedné údolia \cite{Handbook}.
-
-  \subsection{Stenčovanie línií}
-  %//TODO: Stenčovanie línií mozno presunut pod sekciu Spracovanie a analýza snímok odtlačkov prstov
-  %LEFT-OFF-HERE
-  Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
-  jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
-  ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté singularity a markanty, ktoré nezávisia na hrúbke línií.
-  
-  Samotné stenčovanie však môže do kostry odtlačku zaviesť falošné markanty vďaka nerovnomernosti papilárnych línií v binarizovanej snímke,
-  kvôli ktorým sa po ich stenčení vytvoria krátke \uv{chĺpkovité} výbežky z hlavnej štruktúry línií. Existuje mnoho metód navrhnutých na
-  zamedzenie vytvárania takýchto falošných výbežkov úpravou binarizovanej snímky, ako napríklad vyplnenie malých dier v líniách, prípadne
-  preemptívnou normalizáciou šírky línií pomocou filtra \cite{Handbook}.  
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
