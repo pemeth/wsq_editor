@@ -375,6 +375,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
+    def autoAnalysis(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        norm = normalizeMeanVariance(self.imgArray)
+        mask = getRoi(norm)
+        orientim = ridgeOrient(norm)
+        freq = ridgeFreq(norm, orientim)
+
+        # check cache; if not cached run algorithm
+        if isinstance(self.filtim, type(None)):
+            self.filtim = gaborFilter(norm, orientim, freq, mask)
+        if isinstance(self.thinned, type(None)):
+            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+        if isinstance(self.bifurcations, type(None)):
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+        if isinstance(self.cores, type(None)):
+            orient = ridgeOrient(norm * mask)
+            self.cores, self.deltas = poincare(orient) * mask
+        
+        self.showPopup("Complete!", detailedMessage="Analysis outputs are cached.")
+
     def createActions(self):
         """Create actions for the application"""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -394,6 +417,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
+        self.autoAnalysisAction = QAction("Run all", self, triggered=self.autoAnalysis)
 
         #self.fitToWindowAction = QAction()
         self.zoomInAction = QAction("Zoom in 1.25x", self, shortcut="+", triggered=self.zoomIn)
@@ -442,6 +466,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.minutiaeSubmenu = self.analysisMenu.addMenu("Minutiae")
         self.minutiaeSubmenu.addAction(self.bifurcationAction)
         self.minutiaeSubmenu.addAction(self.ridgeEndingAction)
+
+        self.analysisMenu.addAction(self.autoAnalysisAction)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
