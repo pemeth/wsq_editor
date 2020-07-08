@@ -470,15 +470,29 @@
     \label{obr:frekvencia-Hong}
   \end{figure}
 
-  \subsubsection{Gaborova funkcia}
-  Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií.
-  Filter založený na Gaborovej funkcii je však využiteľný nielen pri redukcii šumu obsiahnutého v snímke, ale aj pri zvýšení kontrastu papilárnych línii.
-  Jedná sa o orientovateľný sínusový dvojrozmerný filter s pásmovým priepustom, ktorý je schopný tlmiť isté frekvencie, pričom zvýrazňuje iné.
-  Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusové v priebehu
-  hodnôt pixelov naprieč líniami v ich normálnom smere a línie sú tiež orientované.
+  \subsection{Gaborova funkcia}
+  Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií. Jedná sa o kontextuálny
+  filter, ktorý na rozdiel od iných konvolučných filtrov filtruje na základe lokálnych informácií o snímke \cite{Handbook}. Gabor filter je vhodný
+  pre filtrovanie snímkov odtlačkov, pretože zdieľa isté vlastnosti ich dvojrozmernej reprezentácie. Týmito vlastnosťami sú orientácia a frekvencia,
+  ktoré je možné extrahovať zo snímky odtlačku prsta. Vďaka týmto zdieľaným vlastnostiam je možné pre každý pixel snímky vygenerovať prispôsobený konvolučný
+  filter, čím sa redukuje, prípadne úplne zamedzuje, používaniu preddefinovaných filtrov obmedzeného počtu. V prípade využitia preddefinovaných filtrov je totiž
+  nutné využiť najlepšiu zhodu filtra s konkrétnou orientáciou a frekvenciou v danom bode snímky, čím sa zhoršujú výsledky filtrovania.
+  Na obrázku \ref{obr:gabor_kernel} je zobrazené konvolučné jadro Gabor filtra vygenerované v programe
+  MATLAB\footnote{\href{https://www.mathworks.com/products/matlab.html}{https://www.mathworks.com/products/matlab.html}}.
   
-  Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $h \times w$, 
-  pre ktoré je možné diskrétne vypočítať frekvenciu línií a ich orientáciu a teda je možné Gaborov filter vyladiť presne pre jednotlivé bloky.
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\linewidth]{obrazky-figures/gabor_kernel.png}
+    \caption{Príklad jadra (angl. kernel) Gabor filtra vytvorený v programe MATLAB s parametrami $f = 20$pixelov/cyklus a $\phi{} = 0$ radiánov.}
+    \label{obr:gabor_kernel}
+  \end{figure}
+  Matematický zápis Gabor filtra je nasledovný:
+  \begin{equation}
+    h(x,y: \phi{}, f) = \exp{\left\{ -\frac{1}{2} \left( \frac{x_\phi{}^2}{\delta{}_x^2} \right) + \left( \frac{y_\phi{}^2}{\delta{}_y^2} \right) \right\}} \cos{}\left(2\pi{}fx_\phi{}\right),
+  \end{equation}
+  kde $\phi{}$ je orientácia a $f$ je frekvencia pixelu, na ktorom sa vykonáva operácia konvolúcie. Hong definuje $\delta{}_x$ a $\delta{}_y$
+  ako konštanty s hodnotou 4 na základe pozorovaní \cite{Hong}. Samotné filtrovanie je konvolúciou každého pixelu snímky odtlačku prsta s vygenerovaným filtrom
+  pre daný pixel. Veľkosť konvolučného jadra Gabor filtra Hong definuje v oboch smeroch na $k = 11$.
 
   \subsection{Stenčovanie línií}
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
