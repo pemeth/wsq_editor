@@ -68,6 +68,9 @@
 \csdoublequotesoff
 
 \usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage[euler]{textgreek}
+\usepackage{tikz}
 
 \usepackage{url}
 
@@ -184,6 +187,7 @@ Uviedol som všetky literárne pramene, publikácie a ďalšie zdroje, z ktorýc
   % ----------------------------------------------
   \setlength{\parskip}{0pt}
 
+  \setcounter{tocdepth}{1}  % V table of contents chod max do hlbky sekcii, zvysok neukaz
   {\hypersetup{hidelinks}\tableofcontents}
   
   % Seznam obrazku a tabulek (pokud prace obsahuje velke mnozstvi obrazku, tak se to hodi)
