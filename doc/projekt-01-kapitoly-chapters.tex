@@ -416,7 +416,7 @@
   Metódy ekvalizácie histogramu však môžu nežiadúco zvýrazniť šum obsiahnutý v snímke. Z tohto dôvodu sú často využívané modifikované metódy,
   ako napríklad adaptívna ekvalizácia histogramu, v spojení s filtrom.
   
-  \subsection{Orientácia}
+  \subsection{Orientácia} \label{sec:orientacia}
   Lokálna orientácia papilárnych línií v snímku je uhol zvieraný líniami v jej lokalizovanej časti okolo daného bodu
   s horizontálnou osou snímky. Konkrétnejšie, je to uhol zvieraný líniami v ľubovoľnej oblasti okolo pixelu $[x,y]$ s
   horizontálnou osou snímky. Pri automatizovanej analýze sa často orientácia neprepočítava pre každý pixel z dôvodu zníženia času predspracovania snímky.
@@ -646,6 +646,67 @@
 
   Existujú variácie vyššie uvedeného algoritmu, ktoré napr. dynamicky upravujú veľkosť kroku $\mu$, alebo ktoré sledujú nielen vrcholy papilárnych línií,
   ale aj susedné údolia \cite{Handbook}.
+
+  \section{Analýza singularít a tried}
+  \subsection{Detekcia singularít na základe Poincaré indexu}
+  Ak máme vektorové pole $G$ a krivku $C$ vsadenú do vektorového poľa $G$, tak Poincaré index $P_{G,C}$ je definovaný ako celková rotácia vektorov $G$ pozdĺž
+  krivky $C$ \cite{Handbook}. Táto definícia je ilustrovaná na obrázku \ref{obr:poincare_index}. Metóda detekcie singularít na základe Poincaré indexu vyžaduje
+  extrakciu orientácií papilárnych línií (uvedené v sekcii \ref{sec:orientacia}).
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{obrazky-figures/poincare_index.png}
+    \caption{Ilustrácia definície Poincaré indexu. Prevzaté z \cite{Handbook}.}
+    \label{obr:poincare_index}
+  \end{figure}
+
+  Iwasokun a Akinyokun \cite{iwasokun2014singularities} navrhli metódu detekcie jadier a delt na základe Poincaré indexu, ktorý využíva extrahované orientácie
+  pomocou metódy navrhnutej v \cite{Hong}. Detekcia singularít funguje nasledovne. V snímke orientácií $O(i,j)$ pre každý pixel $(i,j)$ zvolíme
+  okno veľkosti $3\times{}3$ (znázornené na \ref{obr:okno_orientacie}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
+  obklopujúcich pixel $O(i,j)$ v smere proti behu hodinových ručičiek \ref{eq:poincare_3}. Toto okno je kruhové, čiže sa počíta aj rozdiel medzi prvým
+  a posledným pixelov v okne. Na základe rozdielov susedných buniek okna sa v rovnici \ref{eq:poincare_2} vráti špecifická hodnota. Nakoniec sa jednotlivé
+  hodnoty $\beta{}_c$ sčítajú. Ak výsledok súčtu \ref{eq:poincare_1} leží v rozsahu $<-1;-0,5>$, tak sa jedná o bod jadra a ak súčet leží v rozsahu $<0,5;1>$,
+  jedná sa o deltu.
+
+  \begin{equation}
+    PC(i,j) = \frac{1}{\pi{}} \sum_{c=1}^{8}{\beta{}_c}
+    \label{eq:poincare_1}
+  \end{equation}
+  \begin{equation}
+    \beta{}_c = 
+    \begin{cases}
+      p(c) + \pi{},  & \text{ak } p(c) \leq{} - \frac{\pi{}}{2} \\
+      p(c),          & \text{ak } p(c) >  - \frac{\pi{}}{2} \text{ a } p(c) \leq{} \frac{\pi{}}{2} \\
+      p(c) - \pi{},  & \text{inak}
+    \end{cases}
+    \label{eq:poincare_2}
+  \end{equation}
+  \begin{equation}
+    p(c) = O_{c+1} - O_c \quad \text{pričom } O_9 = O_1
+    \label{eq:poincare_3}
+  \end{equation}
+
+  \begin{figure}[h]
+    \centering
+      \begin{tabular}{ | l | c | r | }
+        \hline
+        $O_4$ & $O_5$ & $O_6$ \\ \hline
+        $O_3$ & $O(i,j)$ & $O_7$ \\ \hline
+        $O_2$ & $O_1$ & $O_8$ \\
+        \hline
+      \end{tabular}
+    \caption{Orientované okno veľkosti $3\times{}3$ okolo pixelu $O(i,j)$ v snímke orientácií.}
+    \label{obr:okno_orientacie}
+  \end{figure}
+  
+  Nesprávne detekcie singularít touto metódou je možné odstrániť dvoma spôsobmi:
+  \begin{enumerate}
+    \item Ak sú delta a jadro od seba vzdialené menej, než 8 pixelov, obe detekcie sú vymazané.
+    \item Ak bolo detegovaných viacero (obecne $N$) singularít vo vzdialenosti 8 pixelov od seba, vypočíta sa priemerná poloha singularity zo všetkých
+          detegovaných z tejto oblasti.
+  \end{enumerate}
+  Predísť falošným detekciám singularít je možné vyhladením extrahovaných orientácií lokálnym spriemerovaním ešte pred samotnou detekciu. Toto však môže
+  spôsobiť posun bodov singularít smerom k okrajom snímky \cite{Handbook}.
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
