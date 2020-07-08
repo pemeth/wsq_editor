@@ -416,17 +416,6 @@
   Metódy ekvalizácie histogramu však môžu nežiadúco zvýrazniť šum obsiahnutý v snímke. Z tohto dôvodu sú často využívané modifikované metódy,
   ako napríklad adaptívna ekvalizácia histogramu, v spojení s filtrom.
   
-  \subsubsection{Gaborova funkcia}
-  Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií.
-  Filter založený na Gaborovej funkcii je však využiteľný nielen pri redukcii šumu obsiahnutého v snímke, ale aj pri zvýšení kontrastu papilárnych línii.
-  Jedná sa o orientovateľný sínusový dvojrozmerný filter s pásmovým priepustom, ktorý je schopný tlmiť isté frekvencie, pričom zvýrazňuje iné.
-  Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusové v priebehu
-  hodnôt pixelov naprieč líniami v ich normálnom smere a línie sú tiež orientované.
-  
-  Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $h \times w$, 
-  pre ktoré je možné diskrétne vypočítať frekvenciu línií a ich orientáciu a teda je možné Gaborov filter vyladiť presne pre jednotlivé bloky.
-  
-
   \subsection{Orientácia}
   Lokálna orientácia papilárnych línií v snímku je uhol zvieraný líniami v jej lokalizovanej časti okolo daného bodu
   s horizontálnou osou snímky. Konkrétnejšie, je to uhol zvieraný líniami v ľubovoľnej oblasti okolo pixelu $[x,y]$ s
@@ -480,6 +469,16 @@
     \caption{Orientované okno naprieč papilárnymi líniami. Prevzaté z \cite{Hong}.}
     \label{obr:frekvencia-Hong}
   \end{figure}
+
+  \subsubsection{Gaborova funkcia}
+  Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií.
+  Filter založený na Gaborovej funkcii je však využiteľný nielen pri redukcii šumu obsiahnutého v snímke, ale aj pri zvýšení kontrastu papilárnych línii.
+  Jedná sa o orientovateľný sínusový dvojrozmerný filter s pásmovým priepustom, ktorý je schopný tlmiť isté frekvencie, pričom zvýrazňuje iné.
+  Tieto vlastnosti sú vysoko žiaduce pri odtlačkoch prstov z viacerých dôvodov. Čiernobiele snímky papilárnych línií sú tvarom sínusové v priebehu
+  hodnôt pixelov naprieč líniami v ich normálnom smere a línie sú tiež orientované.
+  
+  Pretože nie je možné zaručiť, že frekvencia línií je konštantná naprieč celou oblasťou záujmu snímky, snímka sa rozdelí na bloky $h \times w$, 
+  pre ktoré je možné diskrétne vypočítať frekvenciu línií a ich orientáciu a teda je možné Gaborov filter vyladiť presne pre jednotlivé bloky.
 
   \subsection{Stenčovanie línií}
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
