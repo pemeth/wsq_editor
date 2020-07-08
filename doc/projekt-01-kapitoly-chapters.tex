@@ -468,17 +468,65 @@
   \end{figure}
 
   \subsection{Stenčovanie línií}
-  %LEFT-OFF-HERE
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
   jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
-  ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté singularity a markanty, ktoré nezávisia na hrúbke línií.
+  ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté markanty, ktoré nezávisia na hrúbke línií.
+  Metódy extrakcie markantov, vrátane extrakcie z obrázkov so stenčenými líniami sú v sekcii \ref{sec:analyza_markantov}.
   
-  Samotné stenčovanie však môže do kostry odtlačku zaviesť falošné markanty vďaka nerovnomernosti papilárnych línií v binarizovanej snímke,
-  kvôli ktorým sa po ich stenčení vytvoria krátke \uv{chĺpkovité} výbežky z hlavnej štruktúry línií. Existuje mnoho metód navrhnutých na
-  zamedzenie vytvárania takýchto falošných výbežkov úpravou binarizovanej snímky, ako napríklad vyplnenie malých dier v líniách, prípadne
-  preemptívnou normalizáciou šírky línií pomocou filtra \cite{Handbook}.  
+  Extrakcia stenčenej kostry binárnej snímky zohráva významnú rolu v oblasti rozpoznávanie tvarov (angl. pattern recognition). Obzvlášť veľké využitie má stále
+  pri počítačovom videní (rozpoznávanie písma alebo rôznych tvarov), napriek tomu, že v tejto oblasti sa rýchlo rozširuje umelá inteligencia.
+  Samotné stenčovanie však môže do extrahovanej kostry snímky zaviesť falošné \uv{výrastky} z dôvodu nerovnomernosti línií v pôvodnej snímke.
+  Pri analýze odtlačkov prsta má stenčovanie vzorov papilárnych línií význam pre extrakcii markantov. Znamená to, že kvalitne stenčené línie zvyšujú kvalitu
+  extrakcie markantov. Prístupov k zvýšeniu kvality stenčených línií je viacero, ako napríklad vypĺňanie menších dier v líniách alebo normalizácia šírky
+  línií na konštantnú šírku pomocou filtrov \cite{Handbook}. Jedným z prístupov je aj využiť algoritmus stenčovania, ktorý bol navrhnutý s úmyslom zredukovať
+  falošné výbežky v kostre. Jedným z takýchto algoritmov je Zhang-Suen \cite{ZhangSuen_thinning}, ktorý mal za cieľ minimalizovať tvorbu falošných výrastkov
+  a zároveň maximalizovať rýchlosť procesu stenčovania.
+  
+  \begin{figure}[h]
+    \centering
+      \begin{tabular}{ l | c | c | c | l }
+        \multicolumn{5}{c}{sever} \\
+        \cline{2-4}
+        & \makecell{$P_9$ \\ $[i-1,j-1]$} & \makecell{$P_2$ \\ $[i-1,j]$} & \makecell{$P_3$ \\ $[i-1,j+1]$} \\ \cline{2-4}
+        západ & \makecell{$P_8$ \\ $[i,j-1]$} & \makecell{$P_1$ \\ $[i,j]$} & \makecell{$P_4$ \\ $[i,j+1]$} & východ \\ \cline{2-4}
+        & \makecell{$P_7$ \\ $[i+1,j-1]$} & \makecell{$P_6$ \\ $[i+1,j]$} & \makecell{$P_5$ \\ $[i+1,j+1]$} \\
+        \cline{2-4}
+        \multicolumn{5}{c}{juh}
+      \end{tabular}
+    \caption{Okolie pixelu $[i,j]$ (označený $P_1$) v binárnej snímke $I$. Prevzaté z \cite{ZhangSuen_thinning}.}
+    \label{obr:okolie_ZhangSuen}
+  \end{figure}
 
-  \section{Spôsoby analýzy markantov}
+  Jedná sa o paralelný algoritmus, ktorý definuje výstupný pixel $[i,j]$ binárnej snímky $I$ ako funkciu jeho okamžitého okolia. Pixely patriace kostre
+  pôvodnej snímky majú hodnotu 1, pričom pozadie má hodnotu 0. Okolie pixelu, na základe ktorého je uvedené rozhodnutie, či bude daný pixel vymazaný z kostry,
+  má veľkosť $3 \times 3$ a definuje kruhový orientovaný sled pixelov (zobrazené na \ref{obr:okolie_ZhangSuen}).
+  Každá iterácia algoritmu je rozdelená na dve poditerácie. Význam tohto rozdelenia je v zachovaní spojitého priebehu kostry pôvodnej snímky.
+  V každej z poditerácii sa skontrolujú podmienky pre odstránenie daného pixelu:
+  \begin{enumerate}
+    \item Prvá poditerácia \label{itm:thin_step_1}
+    \begin{enumerate}
+      \item $A(P_1) = 1$  \label{itm:thin_step_1a}
+      \item $2 \leq B(P_1) \leq 6$ \label{itm:thin_step_1b}
+      \item $P_2 * P_4 * P_6 = 0$ \label{itm:thin_step_1c}
+      \item $P_4 * P_6 * P_8 = 0$ \label{itm:thin_step_1d}
+    \end{enumerate}
+    \item Druhá poditerácia \label{itm:thin_step_2}
+    \begin{enumerate}
+      \item \emph{identická ako prvá podmienka prvej poditerácie} \label{itm:thin_step_2a}
+      \item \emph{identická ako druhá podmienka prvej poditerácie} \label{itm:thin_step_2b}
+      \item $P_2 * P_4 * P_8 = 0$ \label{itm:thin_step_2c}
+      \item $P_2 * P_6 * P_8 = 0$. \label{itm:thin_step_2d}
+    \end{enumerate}
+  \end{enumerate}
+
+  Prvý krok oboch poditerácii definuje funkciu $A(P_1)$, ktorá vracia počet prechodov z pixelu hodnoty 0 na pixel hodnoty 1 v kruhovom orientovanom slede
+  pixelov $P_2\dots{}P_9$ okolo pixelu $P_1$. Týmto sa predíde odstráneniu pixelu uprostred kostry línie medzi dvoma koncovými bodmi.
+  Funkcia $B(P_1)$ vracia počet nenulových pixelov (teda patriacich pôvodnej kostre) v slede pixelov $P_2\dots{}P_9$. Táto podmienka zachováva koncové body
+  kostry. Posledné dve podmienky oboch poditerácií kontrolujú, či je daný pixel hraničným pixelom medzi kostrou a pozadím.
+  Napríklad podmienky \ref{itm:thin_step_2c} a \ref{itm:thin_step_2d} kontrolujú hraničné pixely na severe a západe kostry a juho-východné rohové pixely kostry.
+  V prípade, že sú splnené všetky podmienky, pixel $[i,j]$ je vymazaný (resp. prepísaný na hodnotu 0), inak zostáva nezmenený \cite{ZhangSuen_thinning}.
+
+  \section{Spôsoby analýzy markantov} \label{sec:analyza_markantov}
   Detaily druhej úrovne na odtlačkoch prstov poskytujú veľmi robustné, počítačom analyzovateľné, identifikačné informácie o osobách (v súčasnosti sa vďaka
   zvýšeniu kvality snímok rozširuje automatizovaná analýza aj na tretiu úroveň detailu). Z tohto dôvodu je výskum rôznych metód extrakcie týchto detailov
   obzvlášť rozšírený. Klasifikácia týchto metód je znázornená na diagrame \ref{obr:diagram_extrakcia_markantov}. V tejto sekcii sú popísané niektoré
