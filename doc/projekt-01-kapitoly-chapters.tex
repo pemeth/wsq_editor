@@ -499,14 +499,14 @@
   \subsection{Frekvencia papilárnych línií}
   Dôležitým krokom, obzvlášť pred následnou úpravou vstupnej snímky frekvenčným filtrom, je výpočet frekvencie papilárnych línií.
   Frekvenciu papilárnych línií v nejakom bode $[x,y]$ je možné definovať ako počet vrcholov pozdĺž výrezu so stredom v danom bode $[x,y]$,
-  ktorý je kolmý na lokálnu orientáciu línií $\theta_{xy}$. Frekvencia sa obyčajne počíta pre každý bod snímky odtlačku prsta,
-  pretože hustota vrcholov sa môže líšiť aj v rámci jedného prsta \cite{Handbook}.
+  ktorý je kolmý na lokálnu orientáciu línií $\theta_{xy}$. Frekvencia sa obyčajne počíta pre každý bod, alebo pre malé diskrétne bloky snímky odtlačku prsta,
+  pretože hustota vrcholov papilárnych línií sa môže líšiť aj v rámci jedného prsta \cite{Handbook}.
 
   Existuje viacero prístupov k odhadnutiu frekvencie vrcholov papilárnych valov. Jednou z nich je metóda navrhnutá Hongom et al. v \cite{Hong},
   ktorá priamo analyzuje odtiene šedej a ich priebeh v originálnej snímke. Táto metóda priamo aplikuje vyššie uvedenú definíciu na snímku nasledovne:
 
   \begin{enumerate}
-    \item Okno veľkosti $l \times{} w$ sa vytvorí okolo pixelu $[x,y]$. Toto okno je natočené kolmo k smeru priebehu papilárnych línií.
+    \item Okno veľkosti $l \times{} w$ sa vytvorí okolo pixelu $[x,y]$. Toto okno je natočené kolmo na smer priebehu papilárnych línií.
     \item Vypočíta sa $x$-signatúra $X$ spriemerovaním hodnôt pixelov pozdĺž stĺpcov $l$ orientovaného okna.
     \item V prípade, že v orientovanom okne sa nenachádzajú markanty alebo singulárne body, je získaná $x$-signatúra formou sínusová. Vďaka tomu je
           možné frekvenciu medzi vrcholmi vypočítať ako inverziu priemerného počtu pixelov medzi jednotlivými vrcholmi papilárnych línií.
