@@ -373,7 +373,7 @@
 
   % //TODO: mozno nejaky obrazok o process flow pri spracovani a analyze pre ilustraciu poradia ukonov
 
-  \subsection{Vylepšenie snímok}
+  \subsection{Vylepšenie snímok} \label{sec:vylepsenie_snimok}
   % //TODO: ak budem moc vyuzivat Hong zdroj, tak napisat sem na zaciatok sekcie, ze je to zalozene na tom zdroji
   Jedným z prvých krokov spracovávania snímok odtlačkov prstov je ich vylepšenie (angl. image enhancement). Väčšina zdrojov odtlačkov je nespoľahlivých
   v zmysle, že nie je možné zaistiť aby boli zdrojové snímky bez signálového alebo iného šumu. To platí hlavne v kriminalistike,
@@ -415,6 +415,58 @@
   alebo nadmerne bledých snímkach. Vyrovnanie intenzít jednotlivých odtieňov šedej má za účinok zvýšenie kontrastu v hmlistej zdrojovej snímke.
   Metódy ekvalizácie histogramu však môžu nežiadúco zvýrazniť šum obsiahnutý v snímke. Z tohto dôvodu sú často využívané modifikované metódy,
   ako napríklad adaptívna ekvalizácia histogramu, v spojení s filtrom.
+
+  \subsection{Oblasť záujmu}
+  Ako bolo spomenuté v úvode do sekcie \ref{sec:vylepsenie_snimok}, odtlačky prsta môžu obsahovať nezotaviteľné oblasti, ktoré žiadnym významným spôsobom
+  neprispievajú k analýze samotného odtlačku. Okrem toho snímky odtlačkov prstov obsahujú aj tzv. pozadie, čo je kontexte snímok odtlačkov prstov oblasť,
+  ktorá neobsahuje odtlačok papilárnych línií prsta. Pri analýze odtlačkov prsta je tým pádom vhodné takéto časti snímky maskovať a ponechať iba takzvanú
+  oblasť záujmu (angl. region of interest). Takéto maskovanie môže mať významný dopad na rýchlosť algoritmov aplikovaných v ďalších krokoch spracovania,
+  pretože maskované oblasti je možné ignorovať.
+
+  Jedným z najzákladnejších prístupov k vytvoreniu masky oblasti záujmu je jednoduchá analýza rozptylu hodnôt pixelov v rámci blokov snímky. Je to elegantné
+  riešenie, pretože v mnohých prípadoch sú nezotaviteľné oblasti, podobne ako pozadie, oblasťami nízkeho rozptylu hodnôt - a to či už nízkych, v prípade
+  tmavých častí odtlačku v dôsledku nadmerného tlaku pri získavaní odtlačku, alebo vysokých, ktoré sú vytvárané napríklad z dôvodu ochorenia kože. 
+  Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w\times{}h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe vzorcov
+  \begin{equation}
+    V(b) = \frac{1}{wh} \sum_{i=1}^{w}\sum_{j=1}^{h}(I(i,j) - M(b))^2
+  \end{equation}
+  \begin{equation}
+    M(b) = \frac{1}{wh} \sum_{k=1}^{w}\sum_{l=1}^{h}(I(k,l)),
+  \end{equation}
+  kde $b$ je blok pixelov s rozmermi $w\times{}h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
+  a funkcia $V(b)$ rozptyl v hodnôt v bloku $b$ \cite{babatunde2012FP_enhancement}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
+  o oblasť záujmu, inak sa jedná o pozadie. Takýto algoritmus je možné aplikovať rôznymi spôsobmi, a to napríklad po pixeloch, kde je výpočet rozptylu
+  aplikovaný na oblasť okolo každého pixelu a pixely sa maskujú jednotlivo, alebo po častiach, kde sa maskuje celý blok a okno pre výpočet rozptylu sa
+  posúva o viac, než jeden pixel.
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/roi_template.png}
+      \caption{pôvodná snímka}
+      \label{obr:roi_template}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/roi_pixel-wise.png}
+      \caption{pixelová maska}
+      \label{obr:roi_pixel-wise}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/roi_block-wise.png}
+      \caption{bloková maska}
+      \label{obr:roi_block-wise}
+    \end{subfigure}
+    \caption{Zobrazenie prístupu aplikácie masky po pixeloch a po blokoch na snímke syntetického odtlačku prsta s nezotaviteľnou oblasťou.
+            Snímka z internej databázy STRaDe.}
+    \label{obr:typy_roi_masiek}
+  \end{figure}
+
+  Na obrázku \ref{obr:typy_roi_masiek} je možné vidieť rozdiel medzi dvoma uvedenými spôsobmi aplikácie masky pri rovnakej prahovej hodnote.
+  Ako je vidno, maskovanie po pixeloch produkuje presnejšiu masku v okolí pozadia a nezotaviteľnej časti snímky. Avšak produkuje aj nesprávne časti masky,
+  ako je vidno v pravej hornej časti snímky \ref{obr:roi_pixel-wise}. Úpravou prahovej hodnoty je možné predísť takýmto falošným detekciám, ale obecne z mojich
+  pozorovaní môžem uviesť, že aplikácia masky po blokoch je robustnejšia, pričom však produkuje nepresnejšiu masku.
   
   \subsection{Orientácia} \label{sec:orientacia}
   Lokálna orientácia papilárnych línií v snímku je uhol zvieraný líniami v jej lokalizovanej časti okolo daného bodu
