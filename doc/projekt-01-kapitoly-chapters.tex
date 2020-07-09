@@ -719,6 +719,37 @@
   spôsobiť posun bodov singularít smerom k okrajom snímky, avšak existujú metódy pre spätnú korekciu polôh takto posunutých bodov singularít \cite{Handbook}.
 
   \subsection{Automatizovaná klasifikácia tried odtlačku prsta} \label{sec:auto_klasif}
+  Existuje mnoho prístupov ku klasifikácii odtlačkov prsta a obecne ich je možné rozdeliť do jednej z týchto kategórií: \emph{na báze pravidiel},
+  \emph{syntaktické}, \emph{štatistické}, \emph{štrukturálne}, \emph{na báze neurónových sietí} a \emph{zložené prístupy}. V tejto sekcii sú uvedené
+  niektoré z týchto prístupov.
+
+  \subsubsection*{Na báze pravidiel} \label{sec:rule-based}
+  Často používaným prístupom daktyloskopických expertov ku klasifikácii odtlačkov prstov je aplikácia niekoľkých pravidiel o počte a vzájomnej polohe
+  jednotlivých singularít prítomných na odtlačkoch (zobrazené na \ref{obr:singularity_v_triedach}). Tento prístup je možné algoritmizovať a aplikovať
+  v automatizovaných systémoch \cite{Handbook}.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{obrazky-figures/singularity_v_triedach.png}
+    \caption{Jednotlivé singularity v rámci rôznych tried odtlačkov prstov. Symboly $\circ{}$ označujú jadrá a $\Delta{}$ označujú delty.
+    Prevzaté z \cite{Handbook}.}
+    \label{obr:singularity_v_triedach}
+  \end{figure}
+
+  Z obrázku \ref{obr:singularity_v_triedach} je možné vyčítať, že triedy odtlačkov prstov sa dajú zaradiť do jednej z troch kategórií na základe počtu
+  singularít nasledovne:
+  \begin{enumerate}
+    \item v oblúkoch sa nenachádzajú singularity,
+    \item v klenutých oblúkoch, ľavých a pravých slučkách je prítomné jedno jadro a jedna delta
+    \item a v špirálach a dvojitých slučkách dve jadrá a dve delty (na snímke je pri špirále zobrazené jedno jadro, avšak sa jedná o dve navzájom si čeliace
+    prekryté jadrá).
+  \end{enumerate}
+  V prípade, že odtlačok neobsahuje singularity, je priamo klasifikovaný ako oblúk a odtlačok nevyžaduje bližšiu analýzu. Inak je nutné ďalej analyzovať
+  vzájomné pozície nájdených singularít. V prípade, že bol odtlačok zaradený do druhej kategórie, je možné konečnú triedu odhadnúť na základe vzájomnej pozície
+  delty a jadra. V prípade, že sklon medzi deltou a jadrom neprevyšuje istú hranicu, jedná sa o klenutý oblúk. Ak sklon hranicu prevyšuje, je nutné zistiť smer
+  odstupu delty spod jadra a zaradiť odtlačok do príslušnej triedy ľavej či pravej slučky - ľavá slučka pri jadre naľavo od delty, pravá slučka v opačnom
+  prípade. Rozlíšenie medzi špirálou a dvojitou slučkou zahŕňa prepojenie dvoch jadier priamkou, odmeraním sklonu priamky a priemerný rozdiel orientácií
+  pozdĺž tejto priamky \cite{Handbook}.
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
