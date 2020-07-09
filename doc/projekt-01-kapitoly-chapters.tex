@@ -229,7 +229,7 @@
 
   Táto sekcia čerpala z \cite{Handbook} ak nie je uvedené inak.
 
-  \section{Klasifikácia odtlačkov prsta}
+  \section{Klasifikácia odtlačkov prsta} \label{sec:klasifikacia_odtl}
   Prvú klasifikáciu vzorov tvorených papilárnymi líniami na končekoch prstov je možné nájsť v dizertácii českého profesora Jana Evangelisty Purkyně
   z roku 1823 \cite{FingerprintSrcBook}. Začiatkom 20. storočia Edward Henry vyvinul klasifikačný systém, ktorý bol neskôr použitý ako základ pre systém
   automatizovanej identifikácie odtlačkov prsta (AFIS). Tento systém bol vyvinutý FBI pre extrakciu markantov odtlačkov prstov automatizovanými metódami
@@ -648,6 +648,16 @@
   ale aj susedné údolia \cite{Handbook}.
 
   \section{Analýza singularít a tried}
+  Analýza odtlačkov prstov na prvej úrovni (tzv. hrubá klasifikácia) poskytuje informácie o obecnom vzhľade, resp. priebehu línií odtlačku prsta.
+  Na základe informácií tohto priebehu je odtlačky možné klasifikovať do jednej zo šiestich tried (viď. sekcia \ref{sec:klasifikacia_odtl}). Význam
+  klasifikácie sa prejavuje najmä pri porovnávaní odtlačkov automatizovanými systémami, a to v štádiu hľadania hrubej zhody (zhoda na základe hrubej
+  klasifikácie). Tu sa vylučujú z procesu porovnávania odtlačky, ktorých trieda sa nezhoduje s triedou hľadaného odtlačku, v dôsledku čoho sa značne znižuje
+  počet porovnávaní \cite{karu1996classification, Handbook}.
+
+  Obecný prístup automatizovanej klasifikácie pozostáva z dvoch krokov. Prvým krokom je extrakcia singularít. Historicky jednou z najpoužívanejších metód
+  je využitie Poincaré indexu, avšak existujú aj iné prístupy. Druhým krokom je samotný odhad triedy odtlačku. Tu sa prístupy značne líšia a sú popísané
+  v sekcii \ref{sec:auto_klasif}.
+
   \subsection{Detekcia singularít na základe Poincaré indexu}
   Ak máme vektorové pole $G$ a krivku $C$ vsadenú do vektorového poľa $G$, tak Poincaré index $P_{G,C}$ je definovaný ako celková rotácia vektorov $G$ pozdĺž
   krivky $C$ \cite{Handbook}. Táto definícia je ilustrovaná na obrázku \ref{obr:poincare_index}. Metóda detekcie singularít na základe Poincaré indexu vyžaduje
@@ -707,6 +717,8 @@
   \end{enumerate}
   Predísť falošným detekciám singularít je možné vyhladením extrahovaných orientácií lokálnym spriemerovaním ešte pred samotnou detekciu. Toto však môže
   spôsobiť posun bodov singularít smerom k okrajom snímky, avšak existujú metódy pre spätnú korekciu polôh takto posunutých bodov singularít \cite{Handbook}.
+
+  \subsection{Automatizovaná klasifikácia tried odtlačku prsta} \label{sec:auto_klasif}
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
