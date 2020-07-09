@@ -654,9 +654,10 @@
   klasifikácie). Tu sa vylučujú z procesu porovnávania odtlačky, ktorých trieda sa nezhoduje s triedou hľadaného odtlačku, v dôsledku čoho sa značne znižuje
   počet porovnávaní \cite{karu1996classification, Handbook}.
 
-  Obecný prístup automatizovanej klasifikácie pozostáva z dvoch krokov. Prvým krokom je extrakcia singularít. Historicky jednou z najpoužívanejších metód
-  je využitie Poincaré indexu, avšak existujú aj iné prístupy. Druhým krokom je samotný odhad triedy odtlačku. Tu sa prístupy značne líšia a sú popísané
-  v sekcii \ref{sec:auto_klasif}.
+  Značné množstvo prístupov ku klasifikácii využíva prakticky výlučne orientačné pole odtlačku prsta, pretože obecne obsahuje všetky informácie potrebné
+  k rozlíšeniu medzi triedami \cite{Handbook}. Avšak prístup na báze pravidiel (viď \ref{sec:rule-based}) využíva aj informácie o singularitách.
+  Obecný prístup automatizovanej klasifikácie na báze pravidiel pozostáva z dvoch krokov. Prvým krokom je extrakcia singularít. Historicky jednou
+  z najpoužívanejších metód je využitie Poincaré indexu, avšak existujú aj iné prístupy. Druhým krokom je samotný odhad triedy odtlačku.
 
   \subsection{Detekcia singularít na základe Poincaré indexu}
   Ak máme vektorové pole $G$ a krivku $C$ vsadenú do vektorového poľa $G$, tak Poincaré index $P_{G,C}$ je definovaný ako celková rotácia vektorov $G$ pozdĺž
