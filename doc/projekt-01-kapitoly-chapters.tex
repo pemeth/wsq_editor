@@ -14,7 +14,7 @@
   Digitalizácia záznamov odtlačkov prstov v Spojených štátoch amerických predstavovala veľkú výzvu pre dátové skládky tamojších kriminalistických orgánov, pretože 
   metódy kompresie snímok neboli v tej dobe prispôsobené zachovávaniu detailov potrebných pre bezproblémovú analýzu odtlačkov prstov 
   po kompresii. Ako riešenie Americký Federálny úrad pre vyšetrovanie (FBI) implementovalo novú metódu kompresie snímok založenú na diskrétnej vlnkovej transformácii
-  vo formáte vlnkového skalárneho kvantovania (WSQ). Súborom WSQ a~spôsobu kompresie v tomto formáte sa venujem v kapitole \ref{kap:wsq}.
+  vo formáte vlnkového skalárneho kvantovania (WSQ). Súborom WSQ a~spôsobu kompresie v tomto formáte sa venujem v kapitole \ref{kap:formaty_snimok}.
 
   Vzhľadom na množstvo rôznych úkonov spojených s analýzou odtlačkov prstov je pri študovaní týchto úkonov nápomocné mať vizuálne pomôcky
   pre demonštráciu procesov s nimi spojených. Obrázky a náčrty v študijných materiáloch sú samozrejme veľkou pomôckou, avšak nemusia vždy
@@ -196,7 +196,7 @@
   na kartu v naklonenej polohe a prst sa roluje od jednej hrany nechta po druhú. Rolované odtlačky zaznamenávajú najväčšiu (ak nie celú) plochu pokožky
   s papilárnymi valmi, čím obsahujú veľké množstvo informácií o papilárnych líniách. Na obrázku \ref{obr:druhy_odtlackov} je možné vidieť rozdiel v zaznamenanej
   ploche medzi rolovaným a obyčajným pichaným odtlačkom. Koncom dvadsiateho storočia sa z dôvodu veľkého množstva fyzických záznamov odtlačkov vo forme
-  daktyloskopických kariet začali tieto záznamy digitalizovať skenovaním. Rozšírené digitálne formáty a ich vývin sú popísané v kapitole \ref{kap:wsq}.
+  daktyloskopických kariet začali tieto záznamy digitalizovať skenovaním. Rozšírené digitálne formáty a ich vývin sú popísané v kapitole \ref{kap:formaty_snimok}.
 
   \begin{figure*}[h]\centering
     \centering
@@ -804,15 +804,25 @@
   prípade. Rozlíšenie medzi špirálou a dvojitou slučkou zahŕňa prepojenie dvoch jadier priamkou, odmeraním sklonu priamky a priemerný rozdiel orientácií
   pozdĺž tejto priamky \cite{Handbook}.
 
-\chapter{Wavelet Scalar Quantization} \label{kap:wsq}
-  Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované,
-  čo navyšovalo nároky na úložisko v dátových centrách. Z tohto dôvodu bol vyvinutý algoritmus Wavelet Scalar Quantization (v skratke WSQ).
-  Jedná sa o algoritmus vyvinutý na kompresiu snímok odtlačkov prstov, špecificky tých snímaných s rozlíšením 500 ppi. V súčasnosti sa v kriminalistike
-  naprieč svetom využívajú snímky v odtieňoch šedej s rozlíšením 500 ppi vo formáte WSQ a 1000 ppi vo formáte JPEG2000 \cite{Libert}.
-  Algoritmus WSQ je stratový, čo znamená, že pri kompresii dochádza k istej strate informácií. Pri pomere kompresie 20:1 však spĺňa požiadavky
-  pre povolenú stratu informácií z originálnej snímky pre účely kriminalistiky. 
+\chapter{Formáty ukladania snímok odtlačkov prstov} \label{kap:formaty_snimok}
+  Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované.
+  Toto znamenalo stále sa zvyšujúce nároky na úložisko v dátových centrách zabezpečujúcich ukladanie týchto snímok. Digitálne snímky už boli v tejto dobe
+  rozšírené, čo znamenalo aj vývoj kompresných formátov pre ukladanie takýchto snímok. Významným formátom bol stratový JPEG (skratka výboru Joint Photographic
+  Experts Group), ktorý komprimuje snímky na báze metódy diskrétnej kosínovej transformácie pre jednotlivé bloky snímky veľkosti $8 \times{} 8$. Kompresia touto
+  metódou bola uspokojivá z hľadiska bežných užívateľov, avšak spôsob kompresie po diskrétnych blokoch, akým sa kompresia prevádzala, spôsobovalo blokovú
+  fragmentáciu. Kvôli takýmto fragmentom sa jemné detaily v snímkach odtlačkov prstov skresľovali kvôli nespojitostiam medzi jednotlivými blokmi,
+  čo činilo tento formát neuspokojivým pre ukladanie snímok odtlačkov prstov. Bezstratové kompresné formáty nespôsobovali artefakty, avšak poskytovali
+  nedostatočný pomer kompresie ($2:1$ oproti cieľovému pomeru $10,5:1$) \cite{Handbook}.
   
-  V tejto kapitole sa budem venovať základným prvkom formátu WSQ ako je jeho štruktúra a spôsob kompresie. Informácie boli čerpané zo špecifikácie
+  Z tohto dôvodu bol vyvinutý kompresný algoritmus Wavelet Scalar Quantization (v skratke WSQ, slov. vlnková skalárna transformácia).
+  Jedná sa o algoritmus špecificky vyvinutý na kompresiu snímok odtlačkov prstov, konkrétne tých snímaných s rozlíšením 500 ppi. V súčasnosti sa
+  v kriminalistike naprieč svetom využívajú snímky v odtieňoch šedej s rozlíšením 500 ppi vo formáte WSQ \cite{Libert}.
+  Algoritmus WSQ je stratový, čo znamená, že pri kompresii dochádza k istej strate informácií. Bežný pomer kompresie sa pohybuje medzi 10:1 a 15:1,
+  pri ktorých spĺňa požiadavky pre maximálnu maximálnu povolenú stratu informácií z originálnej snímky pre účely kriminalistiky \cite{Handbook}.
+  Pri zvýšení rozlíšenia snímok odtlačkov prstov na 1000 ppi však formát WSQ nebol na takéto snímky aplikovateľný, kvôli čomu sa pri takýchto rozlíšeniach
+  začal využívať formát JPEG2000 \cite{Libert}.
+
+  Táto kapitola je venovaná základným prvkom formátu WSQ ako je jeho štruktúra a spôsob kompresie. Informácie boli čerpané zo špecifikácie
   formátu WSQ \cite{WSQSpecification}, ak nie je uvedené inak.
 
   \section{Štruktúra súboru} \label{sec:struktura}
