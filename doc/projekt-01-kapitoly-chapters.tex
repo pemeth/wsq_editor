@@ -846,6 +846,20 @@
 
   \begin{figure}[h]
     \centering
+    \includegraphics[width=10cm]{obrazky-figures/DWT_level.pdf}
+    \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
+    bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál.}
+    \label{obr:DWT_uroven}
+  \end{figure}
+
+  Výsledok jednej úrovne takejto transformácie snímky odtlačku prsta je znázornený na obrázku \ref{obr:dwt_rozklad_snimky}. Aproximačná snímka predstavuje
+  cestu vstupného signálu (snímky) cez dva filtre nízkeho priepustu, čím sa zachovajú pomalé zmeny vo vstupnom signáli, čiže hrubá štruktúra odtlačku zostáva
+  viditeľná. Pre extrakciu vodorovných (a zvislých) detailov bol cez vstupnú snímku aplikovaný najprv jeden druh filtra a následne druhý. Filtre vysokého
+  priepustu zachovávajú náhle zmeny priebehu signálu (napr. hrany), čiže v závislosti od smeru, ktorým bol filter cez vstupnú snímku aplikovaný,
+  sa extrahujú vodorovné resp. zvislé detaily. Diagonálne detaily sú získané aplikáciou filtra vysokého priepustu v oboch smeroch.
+
+  \begin{figure}[h]
+    \centering
     \includegraphics[width=0.5\linewidth]{obrazky-figures/DWT_rozklad_odtlacku.png}
     \caption{Rozklad snímky odtlačku prsta na štyri skupiny koeficientov.}
     \label{obr:dwt_rozklad_snimky}
@@ -869,14 +883,6 @@
     %//TODO: prekreslit tento obrázok vo vyssej kvalite a podla L/H oznaceni, ktore som vyuzil v tejto sekcii namiesto a_xx ako je vo wsq specifikacii
     \caption{Dekompozícia podpásem vo formáte WSQ.}
     \label{obr:WSQ_DWT_dekompozicia}
-  \end{figure}
-
-  \begin{figure}[]
-    \centering
-    \includegraphics[width=10cm]{obrazky-figures/DWT_level.pdf}
-    \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
-    bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál.}
-    \label{obr:DWT_uroven}
   \end{figure}
 
   \subsection{Kvantovanie}
