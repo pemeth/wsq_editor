@@ -826,8 +826,8 @@
   formátu WSQ \cite{WSQSpecification}, ak nie je uvedené inak.
 
   \section{Kompresia}
-  Algoritmus kompresie, zobrazený na obrázku \ref{obr:WSQ_diagram}, využíva tri hlavné kroky: diskrétnu vlnkovú transformáciu (DWT) vstupnej snímky
-  a jeho kvantovanie a entropické kódovanie kvantovacích indexov.
+  Algoritmus kompresie a dekompresie využívaný vo formáte WSQ využíva tri hlavné kroky (zobrazené na obrázku \ref{obr:WSQ_diagram}):
+  diskrétnu vlnkovú transformáciu (DWT) vstupnej snímky, kvantovanie získaných koeficientov a následné entropické kódovanie kvantovacích indexov \cite{Bradley}.
 
   \begin{figure}[]
     \centering
@@ -839,8 +839,18 @@
   
   \subsection{Diskrétna vlnková transformácia}
   Prvým krokom v kompresii snímok vo formáte WSQ je diskrétna vlnková transformácia, ktorá prevedie viacúrovňovú dekompozíciu vstupnej snímky na 
-  podpásma. Jedna úroveň transformácie je zobrazená na obrázku \ref{obr:DWT_uroven}. Vstupný signál I je rozdelený na podpásma filtrami horného
-  a dolného priepustu, pričom prvý pár filtrov spracúva riadky vstupného signálu a zvyšné dva páry filtrov spracúvajú stĺpce vstupného signálu.
+  podpásma. Jedna úroveň transformácie je zobrazená na obrázku \ref{obr:DWT_uroven}. Vstupný signál $I$ je rozdelený na podpásma párom filtrov horného
+  a dolného priepustu. Tento pár filtrov sa najprv aplikuje pozdĺž riadkov vstupnej snímky (signálu), čo vyprodukuje dva výstupy - jeden výstup reprezentuje
+  vstupný signál filtrovaný vysokým priepustom a druhý reprezentuje vstupný signál filtrovaný nízkym priepustom. Tieto dva signály sa následne podvzorkujú
+  a sú na ne aplikované rovnaké páry filtrov a následné podvzorkovanie ako v prvom kroku, ale po stĺpcoch.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{obrazky-figures/DWT_rozklad_odtlacku.png}
+    \caption{Rozklad snímky odtlačku prsta na štyri skupiny koeficientov.}
+    \label{obr:dwt_rozklad_snimky}
+  \end{figure}
+
   Kombináciou typu filtrov a smeru filtrovania sa získavajú štyri skupiny koeficientov transformácie v rôznych smeroch: 
   \begin{itemize}
     \item \emph{LL} produkuje aproximáciu vstupného signálu
@@ -848,12 +858,12 @@
     \item \emph{LH} produkuje detaily v horizontálnom smere
     \item \emph{HH} produkuje detaily v diagonálnom smere.
   \end{itemize}
-  Po každom filtri sa signál podvzorkuje s faktorom 2, čo znamená, že výsledná veľkosť vektoru jednotlivých koeficientov bude štvornásobne menšia
-  z dôvodu podvzorkovania ako riadkov, tak stĺpcov vstupného signálu.
+  Podvzorkovanie faktorom 2 po každom filtrovaní znamená, že výsledná veľkosť dvojrozmerného vektoru jednotlivých koeficientov bude štvornásobne
+  menšia, než veľkosť pôvodnej snímky z dôvodu podvzorkovania ako riadkov, tak stĺpcov vstupného signálu.
+  Jednotlivé podpásma je možné naďalej kaskádovať cez takúto filtračnú banku, kým sa nedosiahne požadovaná úroveň rozkladu vstupného signálu.
+  Formát WSQ aplikuje viacúrovňovú dekompozíciu podpásem naznačenú na obrázku \ref{obr:WSQ_DWT_dekompozicia}. Celkovo sa vstupná snímka rozloží do 64 podpásem.
 
-  Jednotlivé podpásma je možné naďalej kaskádovať cez takúto transformačnú banku, kým sa nedosiahne požadovaná úroveň rozkladu vstupného signálu.
-  Formát WSQ aplikuje viacúrovňovú dekompozíciu podpásem naznačenú na obrázku \ref{obr:WSQ_DWT_dekompozicia}.
-  \begin{figure}[]
+  \begin{figure}[h]
     \centering
     \includegraphics[width=12cm]{obrazky-figures/WSQ_DWT_subband_decomposition.png}
     %//TODO: prekreslit tento obrázok vo vyssej kvalite a podla L/H oznaceni, ktore som vyuzil v tejto sekcii namiesto a_xx ako je vo wsq specifikacii
