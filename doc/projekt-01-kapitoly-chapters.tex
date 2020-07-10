@@ -892,11 +892,18 @@
 
   \subsection{Kvantovanie}
   Proces kvantovania je spôsob diskretizácie vstupného signálu. V tomto prípade sa jedná o diskretizáciu koeficientov určených diskrétnou vlnkovou
-  transformáciou v predošlom kroku. Jednotlivé koeficienty podpásem získaných transformáciou sú uniformne kvantované v rámci každého podpásma.
-  Znamená to, že každé podpásmo môže mať vlastné hodnoty kvantovacieho kroku a šírky kvantovacej \uv{nádoby} (kvantovaného rozsahu). 
-  % //TODO: "quantization bin" do slovenciny namiesto "kvantovacia nádoba"...
+  transformáciou v predošlom kroku komprimácie. Jednotlivé koeficienty podpásem získaných transformáciou sú uniformne kvantované v rámci každého podpásma,
+  čo znamená, že každé podpásmo má vlastný kvantovač. Tento krok zavádza do metódy kompresie zaužívanej vo wsq stratovosť, pretože hodnoty koeficientov
+  sú kvantované z desatinných čísel na celé čísla bez akéhokoľvek zabezpečenia reverzibility tohto procesu.
 
-  Kvantovanie a jeho reverzná operácia pre dekódovanie komprimovaných snímok sú dané vzťahmi \ref{rov:kvantovanie} a \ref{rov:kvantovanie_reverz}:
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{obrazky-figures/wsq_kvantovacia_charakteristika.png}
+    \caption{Kvantovacia charakteristika kvantovača podpásma diskrétnej vlnkovej transformácie. Prebraté z \cite{brislawn1996compression}.}
+    \label{obr:wsq_kvantovacia_charakteristika}
+  \end{figure}
+
+  Kvantovanie a jeho reverzná operácia pre dekódovanie komprimovaných snímok sú dané vzťahmi \ref{rov:kvantovanie} a \ref{rov:kvantovanie_reverz}.
   \begin{equation}
     p_k(m,n) =
     \begin{cases}
@@ -916,9 +923,14 @@
     \label{rov:kvantovanie_reverz}
   \end{equation}
   kde index $k$ označuje $k$-te podpásmo, $a_k(m,n)$ označuje koeficient v danom podpásme, $Z_k$ je šírkou nulovej kvantovacej nádoby,
-  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob. $C$ je špecifikáciou daný ako $C = 0,44$ pre najnovší kodér,
-  pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem.
+  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob pri dekódovaní a zostáva konštantou pre každé podpásmo. $C$ je špecifikáciou
+  daný ako $C = 0,44$ pre najnovší kodér, pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem. $p_k(m,n)$ označuje kvantovaný koeficient
+  zodpovedajúci pôvodnému koeficientu $a_k(m,n)$ a koeficient $\hat{a}_k(m,n)$ je spätne dekódovaný koeficient z $p_k(m,n)$. Funkcie $\lfloor$ $\rfloor$
+  a $\lceil$ $\rceil$ definujú zaokrúhlenie na celé číslo smerom nadol a smerom nahor v tomto poradí \cite{WSQSpecification}.
 
+  Všeobecná charakteristika kvantovača pre jedno podpásmo je znázornené na obrázku \ref{obr:wsq_kvantovacia_charakteristika}. Tu je možné vidieť, že šírka
+  nultej kvantovacej nádoby $Z$ a šírka zvyšných kvantovacích nádob $Q$ sa líši. Z tohto dôvodu je nutné definovať dve rôzne šírky nádob pre jeden kvantovač.
+  Šírky kvantovacích nádob sa definujú špecificky pre danú snímku pri kompresii \cite{brislawn1996compression}.
 
   \subsection{Entropické kódovanie}
   Ako predpoklad kódovania špecifikácia určuje rozdelenie snímky do minimálne troch blokov, kde prvá hranica je medzi podpásmami 18 a 19 a druhá
