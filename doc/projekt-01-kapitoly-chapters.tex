@@ -875,13 +875,18 @@
   Podvzorkovanie faktorom 2 po každom filtrovaní znamená, že výsledná veľkosť dvojrozmerného vektoru jednotlivých koeficientov bude štvornásobne
   menšia, než veľkosť pôvodnej snímky z dôvodu podvzorkovania ako riadkov, tak stĺpcov vstupného signálu.
   Jednotlivé podpásma je možné naďalej kaskádovať cez takúto filtračnú banku, kým sa nedosiahne požadovaná úroveň rozkladu vstupného signálu.
-  Formát WSQ aplikuje viacúrovňovú dekompozíciu podpásem naznačenú na obrázku \ref{obr:WSQ_DWT_dekompozicia}. Celkovo sa vstupná snímka rozloží do 64 podpásem.
+
+  Formát WSQ aplikuje viacúrovňovú dekompozíciu podpásem naznačenú na obrázku \ref{obr:WSQ_DWT_dekompozicia}, pričom celkovo sa vstupná snímka rozloží
+  do 64 podpásem. Obrázok znázorňuje nerovnomerné rozdelenie šírok pásem. Nízke a stredné frekvencie majú alokované úzke pásma, pričom koeficienty vysokých
+  frekvencií majú naopak alokované široké pásma. Takéto rozloženie pásem je jednotné pre všetky implementácie kodérov a bolo navrhnuté špecificky pre snímky
+  s rozlíšením 500 ppi \cite{brislawn1996compression}.
 
   \begin{figure}[h]
     \centering
-    \includegraphics[width=12cm]{obrazky-figures/WSQ_DWT_subband_decomposition.png}
+    \includegraphics[width=0.8\linewidth]{obrazky-figures/WSQ_DWT_subband_decomposition.png}
     %//TODO: prekreslit tento obrázok vo vyssej kvalite a podla L/H oznaceni, ktore som vyuzil v tejto sekcii namiesto a_xx ako je vo wsq specifikacii
-    \caption{Dekompozícia podpásem vo formáte WSQ.}
+    \caption{Dekompozícia podpásem vo formáte WSQ. Zobrazené sú podpásma vo frekvenčnej doméne. V tabuľke napravo je znázornený sled filtrov, ktoré boli
+    aplikované na vstupný signál - 1 je filter horného priepustu, 0 je filter dolného priepustu. Prevzaté z \cite{WSQSpecification}.}
     \label{obr:WSQ_DWT_dekompozicia}
   \end{figure}
 
