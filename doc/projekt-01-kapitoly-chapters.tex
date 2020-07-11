@@ -987,26 +987,25 @@
   zobrazenými v tabuľke~\ref{tab:znacky_WSQ_suboru}, reprezentujúce začiatky segmentov v súbore. Niektoré segmenty obsahujú dodatočné parametre,
   ktoré popisujú dĺžku, štruktúru a hodnoty daných segmentov.
 
-  \begin{table}
-    \caption{Dvojbytové značky vo WSQ súboroch}
-    \begin{center}
-      \begin{tabular}{ |l c l| }
-        \hline
-        Značka & Skratka označenia & Vysvetlivka \\
-        \hline
-        FFA0h       & SOI  & Začiatok snímky \\
-        FFA1h       & EOI  & Koniec snímky \\
-        FFA2h       & SOF  & Začiatok rámca \\
-        FFA3h       & SOB  & Začiatok bloku \\
-        FFA4h       & DTT  & Definícia transformačnej tabuľky \\
-        FFA5h       & DQT  & Definícia kvantovacej tabuľky \\
-        FFA6h       & DHT  & Definícia Huffman tabuľky (tabuliek) \\
-        FFA7h       & DRI  & Definícia reštart intervalu \\
-        FFA8h       & COM  & Komentár \\
-        FFB0h-FFB7h & RSTm & Reštartuj s modulo 8 počet m (kde m=0-7) \\
-        \hline
-      \end{tabular}
-    \end{center}
+  \begin{table}[ht]
+    \centering
+    \caption{Dvojbytové značky vo WSQ súboroch. Prevzaté z \cite{WSQSpecification}.}
+    \begin{tabular}{ |l c l| }
+      \hline
+      Značka & Skratka označenia & Vysvetlivka \\
+      \hline
+      FFA0h       & SOI  & Začiatok snímky \\
+      FFA1h       & EOI  & Koniec snímky \\
+      FFA2h       & SOF  & Začiatok rámca \\
+      FFA3h       & SOB  & Začiatok bloku \\
+      FFA4h       & DTT  & Definícia transformačnej tabuľky \\
+      FFA5h       & DQT  & Definícia kvantovacej tabuľky \\
+      FFA6h       & DHT  & Definícia Huffman tabuľky (tabuliek) \\
+      FFA7h       & DRI  & Definícia reštart intervalu \\
+      FFA8h       & COM  & Komentár \\
+      FFB0h-FFB7h & RSTm & Reštartuj s modulo 8 počet m (kde m=0-7) \\
+      \hline
+    \end{tabular}
     \label{tab:znacky_WSQ_suboru}
   \end{table}
 
