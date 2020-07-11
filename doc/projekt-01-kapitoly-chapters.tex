@@ -980,12 +980,11 @@
   \end{table}
 
   \section{Štruktúra súboru} \label{sec:struktura}
-  % //TODO struktura WSQ (https://web.archive.org/web/20130528173051/http://oreilly.com/www/centers/gff/formats/fbi/index.htm)
   Súbory tvorené snímkami komprimovanými algoritmom WSQ majú definovanú štruktúru. Tieto súbory v sebe nesú informácie potrebné pre úspešnú
   dekompresiu snímok, čo znamená, že obsahujú transformačnú tabuľku, kvantovaciu tabuľku a Huffmanovu tabuľku vrátane ich metadát.
   Samotná štruktúra súboru vo formáte WSQ je podobná tej vo formáte JPEG. Jednotlivé časti súboru sú oddelené dvojbytovými značkami,
   zobrazenými v tabuľke~\ref{tab:znacky_WSQ_suboru}, reprezentujúce začiatky segmentov v súbore. Niektoré segmenty obsahujú dodatočné parametre,
-  ktoré popisujú dĺžku, štruktúru a hodnoty daných segmentov.
+  ktoré popisujú dĺžku, vnútornú štruktúru a hodnoty daných segmentov.
 
   \begin{table}[ht]
     \centering
@@ -1008,6 +1007,26 @@
     \end{tabular}
     \label{tab:znacky_WSQ_suboru}
   \end{table}
+
+  Samotný súbor je možné rozdeliť na tri hlavné úrovne vnorenia. \\
+  \emph{Na prvej úrovni} sa nachádzajú značky \textbf{SOI} a \textbf{EOI}, ktoré definujú začiatok a koniec prenosu výmenného formátu
+  (angl. interchange format) komprimovanej snímky. Tieto značky nemajú so sebou asociované žiadne dáta a slúžia výlučne ako označenia. \\
+  \emph{Na druhej úrovni} sa nachádza tzv. rámec, ktorého začiatok sa označuje značkou \textbf{SOF}. Rámce v sebe nesú metadáta o obsahu daného rámca ako
+  napríklad dĺžku rámca, počet riadkov a stĺpcov zdrojovej snímky\footnote{Tieto hodnoty sú 16-bitové, čo znamená, že maximálna veľkosť komprimovanej snímky
+  je $65536 \times 65536$. Bežná veľkosť snímok WSQ sa však pohybuje medzi $780\times 780$ až $1625 \times 975$ pri 520 ppi v závislosti od veľkosti
+  zaznamenávaných častí skenovaných daktyloskopických kariet \cite{hopper_wsq_format}.}, umiestnenia hodnôt transformačných parametrov, identifikáciu softvéru,
+  ktorý kódoval túto snímku apod. Medzi značkami \textbf{SOI} a \textbf{EOI} sa musí nachádzať výlučne jeden rámec. \\
+  \emph{Na tretej úrovni}, v rámci rámca, sú bloky nachádzajúce sa po hlavičke rámca (nie je to pravidlo, upresnenie nižšie) a sú označované značkou
+  \textbf{SOB}. Tieto bloky obsahujú hlavičky s informáciou o dĺžke hlavičky bloku a číslo (selektor) Huffmanovej tabuľky pre dekódovanie dát v bloku.
+  Bloky obsahujú segmenty entropicky kódovaných dát kvantovaných koeficientov. Každé podpásmo má vlastný blok. Na tejto úrovni sa nachádzajú aj reštart
+  značky (\textbf{RSTm}), ak sú povolené. Ak reštart značky v súbore povolené nie sú, počet segmentov kódovaných dát v bloku nesmie byť vyšší, než 1
+  a žiadne reštart značky nesmú byť v bloku prítomné.
+
+  Segmenty s údajmi o tabuľkách (transformačné, kvantovacie a Huffmanove) a komentáre nemajú definované \emph{presné} umiestnenie, avšak je obmedzené,
+  na ktoré miesta v súbore je možné tieto segmenty vkladať. Tieto umiestnenia sú dve, a to medzi značkou \textbf{SOI} a \textbf{SOF}, prípadne pred ktorýmkoľvek
+  blokom. Definičné segmenty tabuliek obsahujú informácie o dĺžkach týchto definičných segmentov a informácie špecifické pre jednotlivé tabuľky pre správne
+  dekódovanie (Huffman tabuľka), spätné kvantovanie (kvantovacia tabuľka) a spätnú kompozíciu (transformačná tabuľka) komprimovanej
+  snímky \cite{WSQSpecification,brislawn1996compression}.
 
 \chapter{Návrh aplikácie} \label{kap:navrh_appky}
   \section{Požiadavky}
