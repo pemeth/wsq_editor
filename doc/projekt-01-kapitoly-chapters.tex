@@ -1066,6 +1066,12 @@
   predspracovania a spracovania vstupnej snímky, ako aj algoritmy analýzy snímok odtlačkov prstov spolu s popisom ich implementácie. Nakoniec sú uvedené
   problémy implementácie a diskusia o možných vylepšeniach.
 
+  \section{Využité technológie}
+  Aplikácia je napísaná v jazyku Python verzie 3.5.3. Na rozhodnutie využiť tento jazyk mal najväčší dopad jeho prenositeľnosť a vysoká podpora nástrojov,
+  obzvlášť v smere dátovej manipulácie. Primárnymi modulmi aplikácie sú PyQt5 pre grafické rozhranie a numpy a scipy pre dátovú manipuláciu. Všetky
+  požadované moduly sú uvedené v súbore \texttt{requirements.txt} v priečinku so zdrojovými súbormi. Tento súbor slúži aj ako podporný súbor pri inštalovaní
+  požadovaných modulov (spôsob inštalácie aplikácie je uvedený v sekcii \ref{sec:instalacia}).
+
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patria podpora štandardných formátov využívaných
   pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
@@ -1089,6 +1095,7 @@
   Režim automatickej analýzy sa drží zaužívaných postupov naznačených v kapitole \ref{kap:odtlacok}. Kroky predspracovania zahŕňajú 
   normalizáciu snímky, filtrovanie Gaborovým filtrom, následnú extrakciu orientácií papilárnych línií, binarizáciu a stenčenie línií.
   
+  \section{Inštalácia aplikácie} \label{sec:instalacia}
   %Predspracovanie snímky sa začne normalizáciou histogramu
 
   %\begin{figure}[]
