@@ -1028,6 +1028,39 @@
   dekódovanie (Huffman tabuľka), spätné kvantovanie (kvantovacia tabuľka) a spätnú kompozíciu (transformačná tabuľka) komprimovanej
   snímky \cite{WSQSpecification,brislawn1996compression}.
 
+  \section{Porovnanie WSQ s JPEG 2000}
+  JPEG 2000 (tiež známy ako JPEG2K) je medzinárodný ISO štandard pre kompresiu snímok. Jedná sa o tzv. decoder-only štandard, čo znamená, že nekladie obmedzenia
+  na pomer kompresie (môže sa jednať aj o bezstratovú kompresiu), ale umožňuje extrémne flexibilnú dekompresiu. Medzi vlastnosti tejto flexibility patrí
+  schopnosť dekódovania snímky do ľubovolnej úrovne kvality a rozlíšenia a dokonca podpora rôznej kvality dekódovania rôznych častí snímky. Štandard podporuje
+  snímky veľkosti niekoľkých tisícov terapixelov s hĺbkou detailu až 38 bitov na vzorku\footnote{Informácie z webovej stránky JPEG pre štandard JPEG 2000
+  \href{https://jpeg.org/jpeg2000/}{https://jpeg.org/jpeg2000/} zo dňa 11.7.2020}. Kompresná technológia tohto formátu je, podobne ako u WSQ, založená na
+  vlnkovej transformácií, čo znamená, že pri kompresii sa netvoria štvorcové fragmenty ako u jeho predchodcu, formátu JPEG. Tieto vlastnosti spravili z tohto
+  štandardu kandidáta FBI na formát pre snímky odtlačkov prstov vyššej kvality. Štandard JPEG 2000 bol zavádzaný po dvoch častiach, kde prvá časť obsahovala
+  špecifikácie, ktorých aplikácia bola požadovaná od každej implementácie tohto štandardu. Druhá časť rozvoľňovala reštriktívnu politiku prvej časti popísaním
+  voliteľných funkcionalít, ktorými je možné rozšíriť dekodér špecifikovaní v prvej časti \cite{lepley2001jpeg,Libert}.
+
+  Práca \cite{lepley2001jpeg} sa zamerala na porovnanie interoperability medzi vtedy novým štandardom JPEG 2000 a WSQ, a to špecificky, či bude možné
+  transkódovať\footnote{Transkódovanie v tomto prípade myslené ako schopnosť prevedenia komprimovaných dát z formátu WSQ do formátu JPEG 2000 bez nutnosti
+  spätnej transformácie do pôvodnej snímky a opätovnej dekompozície pre zakódovanie štandardom JPEG 2000.} súbory WSQ do JPEG 2000. Zistenia potvrdili,
+  že transkódovanie je možné vďaka druhej časti špecifikácie bez vizuálnej straty. V prípade transkódovania pomocou časti 1 boli zistené väčšie straty
+  na kvalite obrazu.
+
+  Výskum rozdielov kompresných algoritmov medzi WSQ a JPEG 2000 bol vykonaný v \cite{Libert}. Tento výskum bol zameraný na porovnanie straty detailu
+  v komprimovaných snímkach algoritmami týchto dvoch formátov. Pre analýzu rozdielov medzi týmito algoritmami bola využitá implementácia OpenJPEG,
+  čo je open-source JPEG 2000 kodek. Štúdia sa zamerala na tri primárne prípady kompresie pôvodne nekomprimovaných snímok:
+  \begin{enumerate}
+    \item Kompresia jedným kompresným cyklom pri oboch algoritmoch a vzájomné porovnanie vrcholového pomeru signálu k šumu, ako aj rozdiely spektrálneho
+          výkonu oproti pôvodnej snímke pri 500 ppi snímkach s kompresným pomerom 15:1.
+    \item Kompresia dvoma kompresnými cyklami rovnakého kodeku z dôvodu študovania progresívneho dopadu straty detailov pri opakovanej kompresii.
+    \item Kompresia dvoma kompresnými cyklami opačných kodekov z dôvodu študovania dopadu straty detailov komprimáciou jedným kodekom a opätovnou komprimáciou
+          druhým kodekom.
+  \end{enumerate}
+  Výsledky kompresie JPEG 2000 poukazujú na menšie zachovanie detailov v strednej frekvenčnej šírke snímky, v ktorej sa bežne nachádzajú detaily odtlačkov
+  prstov využívaných pre identifikáciu. Zistenia štúdie preukazujú veľmi vysokú stabilitu zachovania kvality snímky pri kodeku JPEG 2000 za dvojnásobnej
+  komprimácie. Pri dvojnásobnej kompresii opačnými kodekmi výsledky poukazujú na značné zníženie kvality snímky \cite{Libert}. V roku 2014 bola vydaná
+  príručka pre kompresiu odtlačkov prsta snímaných s rozlíšením 1000 ppi \cite{orandi2014guidance}. Príručku vydal NIST (National Institute of Standards
+  and Technology) v spolupráci s FBI.
+
 \chapter{Návrh aplikácie} \label{kap:navrh_appky}
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patria podpora štandardných formátov využívaných
