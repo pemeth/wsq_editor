@@ -14,7 +14,7 @@
   Digitalizácia záznamov odtlačkov prstov v Spojených štátoch amerických predstavovala veľkú výzvu pre dátové skládky tamojších kriminalistických orgánov, pretože 
   metódy kompresie snímok neboli v tej dobe prispôsobené zachovávaniu detailov potrebných pre bezproblémovú analýzu odtlačkov prstov 
   po kompresii. Ako riešenie Americký Federálny úrad pre vyšetrovanie (FBI) implementovalo novú metódu kompresie snímok založenú na diskrétnej vlnkovej transformácii
-  vo formáte vlnkového skalárneho kvantovania (WSQ). Súborom WSQ a~spôsobu kompresie v tomto formáte sa venujem v kapitole \ref{kap:formaty_snimok}.
+  vo formáte vlnkového skalárneho kvantovania (WSQ). Súborom WSQ a~spôsobu kompresie v tomto formáte sa venujem v kapitole \ref{kap:wsq}.
 
   Vzhľadom na množstvo rôznych úkonov spojených s analýzou odtlačkov prstov je pri študovaní týchto úkonov nápomocné mať vizuálne pomôcky
   pre demonštráciu procesov s nimi spojených. Obrázky a náčrty v študijných materiáloch sú samozrejme veľkou pomôckou, avšak nemusia vždy
@@ -196,7 +196,7 @@
   na kartu v naklonenej polohe a prst sa roluje od jednej hrany nechta po druhú. Rolované odtlačky zaznamenávajú najväčšiu (ak nie celú) plochu pokožky
   s papilárnymi valmi, čím obsahujú veľké množstvo informácií o papilárnych líniách. Na obrázku \ref{obr:druhy_odtlackov} je možné vidieť rozdiel v zaznamenanej
   ploche medzi rolovaným a obyčajným pichaným odtlačkom. Koncom dvadsiateho storočia sa z dôvodu veľkého množstva fyzických záznamov odtlačkov vo forme
-  daktyloskopických kariet začali tieto záznamy digitalizovať skenovaním. Rozšírené digitálne formáty a ich vývin sú popísané v kapitole \ref{kap:formaty_snimok}.
+  daktyloskopických kariet začali tieto záznamy digitalizovať skenovaním. Rozšírené digitálne formáty a ich vývin sú popísané v kapitole \ref{kap:wsq}.
 
   \begin{figure*}[h]\centering
     \centering
@@ -804,7 +804,7 @@
   prípade. Rozlíšenie medzi špirálou a dvojitou slučkou zahŕňa prepojenie dvoch jadier priamkou, odmeraním sklonu priamky a priemerný rozdiel orientácií
   pozdĺž tejto priamky \cite{Handbook}.
 
-\chapter{Formáty ukladania snímok odtlačkov prstov} \label{kap:formaty_snimok}
+\chapter{Wavelet Scalar Quantization} \label{kap:wsq}
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované.
   Toto znamenalo stále sa zvyšujúce nároky na úložisko v dátových centrách zabezpečujúcich ukladanie týchto snímok. Digitálne snímky už boli v tejto dobe
   rozšírené, čo znamenalo aj vývoj kompresných formátov pre ukladanie takýchto snímok. Významným formátom bol stratový JPEG (skratka výboru Joint Photographic
