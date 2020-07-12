@@ -1129,9 +1129,39 @@
 
   \section{Grafické rozhranie}
   Grafické rozhranie pozostáva z ovládacieho panelu, pomocou ktorého je možné vykonávať operácie nad snímkami a z ukážky súčasne
-  spracovávaného odtlačku prsta. Ukážka reflektuje úkony vykonávané na snímke pomocou ovládacieho panelu.
+  spracovávaného odtlačku prsta. Ukážka reflektuje úkony vykonávané na snímke pomocou ovládacieho panelu. Ovládací panel obsahuje výber jednotlivých filtrov,
+  transformácii a iných úkonov.
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\linewidth]{obrazky-figures/app.png}
+    \caption{Vzhľad aplikácie s načítanou snímkou.}
+    \label{obr:app}
+  \end{figure}
+  Základom aplikácie sú triedy \texttt{MainWindow} definujúca logiku aplikácie a \texttt{Ui\_MainWindow} definujúca vzhľad aplikácie.
 
-  Ovládací panel obsahuje výber jednotlivých filtrov, transformácii a iných úkonov. %//TODO: toto dopisat
+  \subsection{\texttt{MainWindow}}
+  Hlavná trieda grafického rozhrania, ktorá riadi beh a komunikáciu aplikácie s užívateľom pomocou definovaných metód viazaných na rôzne akcie.
+  Zabezpečuje správne prepojenie týchto akcií s algoritmami a zobrazovanie, či už originálnych alebo spracovaných, snímok.
+
+  Metóda \texttt{open} zabezpečuje načítanie vstupnej snímky a jej následné zobrazenie. Pri požiadavke užívateľa o otvorenie novej snímky zobrazí
+  dialógové okno s prehliadačom súborov s možným filtrovaním obrazových súborov. Metóda zvolený súbor skontroluje, či sa jedná o podporovaný formát.
+  V prípade, že áno, snímku načíta a zobrazí.
+
+  Metóda \texttt{showImage} sa stará o správnu interpretáciu snímky, ktorú je potrebné zobraziť. Vzhľadom na to, že snímky sa interne ukladajú ako
+  dvojrozmerné polia triedy \texttt{ndarray} knižnice \texttt{numpy}, je potrebné vykonať konverziu do triedy \texttt{QImage} knižnice PyQt. Okrem tejto
+  konverzie zabezpečuje aj interpretáciu neštandardných dátových typov ako sú binárne snímky alebo float snímky a ich konverziu do dátových typov a rozsahov
+  hodnôt, ktoré je \texttt{QImage} schopné interpretovať ako snímku.
+
+  Táto trieda implementuje aj metódy prepájajúce externé algoritmy spracovania a analýzy snímok s grafickým rozhraním, a to spôsobom, že sa jednotlivé
+  vstupné akcie vykonateľné užívateľom naviažu na tieto metódy. Väzbu zabezpečuje trieda \texttt{QAction}. Definícia akcie zahŕňa aj voliteľnú  voľbu
+  klávesovej skratky. PyQt zabezpečuje naslúchanie klávesovým skratkám a pri ich stlačení zavolá definovanú callback metódu príslušnej akcie.
+
+  \subsection{\texttt{Ui\_MainWindow}}
+  Táto trieda bola generovaná automaticky z exportovaného \texttt{.ui} súboru vytvoreného aplikáciou Qt Creator. Jedná sa o aplikáciu pre navrhovanie
+  grafických rozhraní pre využitie v súbehu s GUI toolkitom Qt. Pomocou tohto nástroja bolo navrhnuté a následne exportované GUI vytváranej aplikácie. Súbory
+  \texttt{.ui} sú vlastne XML reprezentáciou návrhu grafického rozhrania a je možné ich preložiť do PyQt zápisu. Trieda \texttt{Ui\_MainWindow} je výsledkom
+  tohto prekladu. Dedením tejto triedy triedou \texttt{MainWindow} je zabezpečené oddelenie definície vzhľadu aplikácie a jej logiky, čo prispieva k
+  prehľadnejšiemu kódu.
 
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
