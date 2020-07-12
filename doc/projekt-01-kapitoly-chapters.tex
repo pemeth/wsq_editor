@@ -395,7 +395,7 @@
   Kroky vedúce k vylepšenej snímke však nie sú striktne obmedzené na redukciu šumu. Zvýšenie kontrastu medzi papilárnymi líniami a údoliami medzi nimi
   je taktiež kľúčová k neskorším úpravám snímky.
 
-  \subsubsection{Normalizácia}
+  \subsubsection{Normalizácia} \label{sec:normalizacia}
   Jedným z prvých krokov predspracovania vstupnej snímky odtlačku prstu je normalizácia. Jedná sa o operáciu, ktorá má za cieľ znížiť variácie
   v hodnotách odtieňov šedej, čím sa podporí kvalitnejší výstup ďalších krokov spracovania \cite{Hong}. Jedným zo spôsobov ako normalizovať
   snímku je upraviť variáciu a strednú hodnotu snímky pomocou vzorca \ref{eq:normalizacia_Hong}.
@@ -1163,6 +1163,80 @@
   \texttt{.ui} sú vlastne XML reprezentáciou návrhu grafického rozhrania a je možné ich preložiť do PyQt zápisu. Trieda \texttt{Ui\_MainWindow} je výsledkom
   tohto prekladu. Dedením tejto triedy triedou \texttt{MainWindow} je zabezpečené oddelenie definície vzhľadu aplikácie a jej logiky, čo prispieva k
   prehľadnejšiemu kódu.
+
+  \section{Algoritmy}
+  V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
+  Normalizácia snímky sa vykonáva pomocou funkcie \texttt{normalizeMeanVariance}, ktorá implementuje metódu
+  popísanú v sekcii \ref{sec:normalizacia}, čo znamená, že normalizuje pomocou úpravy strednej hodnoty a rozptylu hodnôt pixelov v snímke. Tento úkon je
+  vykonávaný pred každým iným druhom spracovania.
+
+  \subsection{Orientácia papilárnych línii}
+  Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
+  Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v radiánoch.
+  Na obrázku \ref{obr:orientacie} je zobrazená snímka po filtrovaní Sobel filtrom a jej konečná podoba po interpretácii orientácií pre zobrazenie.
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/dX.png}
+      \caption{snímka detailov v smere $x$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/dY.png}
+      \caption{snímka detailov v smere $y$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/orientim.png}
+      \caption{snímka orientácií}
+    \end{subfigure}
+    \caption{Vizualizácia detailov v dvoch smeroch snímky a konečná snímka orientácií.}
+    \label{obr:orientacie}
+  \end{figure}
+
+  \subsection{Frekvencia papilárnych línií}
+  Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky, ktoré sú následne natočené podľa priemernej
+  orientácie v tomto bloku tak, aby papilárne línie boli kolmé na os $x$. V takto natočenom bloku sú následne spriemerované hodnoty po stĺpcoch
+  a extrahovaná $x$-signatúra línií. Z tejto signatúry sa vypočíta priemerná frekvencia v danom bloku a vytvorí sa nová snímka frekvencií, ktorej príklad
+  je zobrazený na obrázku \ref{obr:frekvencie}.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\linewidth]{obrazky-figures/freqim.png}
+    \caption{Snímka frekvencií.}
+    \label{obr:frekvencie}
+  \end{figure}
+
+  \subsection{Gabor filtrovanie}
+  Funkcia \texttt{gaborFilter} prijíma štyri hlavné parametre, a to pôvodnú snímku, snímku orientácií, frekvencií a masku oblasti záujmu. Pre každý pixel
+  snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gabor filtra na základe príslušných dát o frekvencii a orientácii
+  snímky v tom danom pixeli. Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
+  vstupná snímka. Po prejdení každého požadovaného pixelu sú hodnoty získané filtráciou prahované pre získanie binárnej snímky.
+
+  Na obrázku \ref{obr:gabor}
+  je možné pozorovať filtrovanú snímku pred a po binarizácii. Štvorcové fragmenty sú tvorené tým, že snímka frekvencií je diskrétna po blokoch,
+  čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Kvôli tomu je aj obtiažne stanoviť vhodnú globálnu prahovú hranicu,
+  pretože jednotlivé bloky majú navzájom iné stredné hodnoty a rozptyly hodnôt. Preto je možné na binárnej snímke vidieť vynechané papilárne línie napriek
+  tomu, že v nebinárnej variante sú línie neprerušené.
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/gabor_filtered.png}
+      \caption{nebinarizovaná}
+    \end{subfigure}
+    \hspace{0.05\linewidth}
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/gabor_filtered_binarized.png}
+      \caption{binarizovaná}
+    \end{subfigure}
+    \caption{Snímka odtlačku prsta filtrovaná Gabor filtrom a jej binarizovaná verzia.}
+    \label{obr:gabor}
+  \end{figure}
+
+  %LEFT-OFF-HERE
+
 
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
