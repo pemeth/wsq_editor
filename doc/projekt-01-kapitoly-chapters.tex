@@ -547,6 +547,12 @@
   ako konštanty s hodnotou 4 na základe pozorovaní \cite{Hong}. Samotné filtrovanie je konvolúciou každého pixelu snímky odtlačku prsta s vygenerovaným filtrom
   pre daný pixel. Veľkosť konvolučného jadra Gabor filtra Hong definuje v oboch smeroch na $k = 11$.
 
+  \subsection{Binarizácia}
+  Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlčkov prstov.
+  Metóda využíva priemer hodnôt v okne $s \times s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je predpočítaný
+  z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
+  Teda, ak má súčasný pixel o $t\%$ nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel.
+
   \subsection{Stenčovanie línií}
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
   jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
@@ -1216,8 +1222,9 @@
 
   Na obrázku \ref{obr:gabor}
   je možné pozorovať filtrovanú snímku pred a po binarizácii. Štvorcové fragmenty sú tvorené tým, že snímka frekvencií je diskrétna po blokoch,
-  čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Kvôli tomu je aj obtiažne stanoviť vhodnú globálnu prahovú hranicu,
-  pretože jednotlivé bloky majú navzájom iné stredné hodnoty a rozptyly hodnôt. Preto je možné na binárnej snímke vidieť vynechané papilárne línie napriek
+  čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Kvôli tomu je aj obtiažne prahovať takúto snímku. Prahovanie
+  je prevádzané adaptívne po blokoch. Pri globálnom prahu by boli tieto štorcové fragmenty značne výraznejšie, pretože jednotlivé bloky majú navzájom
+  rozdielne stredné hodnoty a rozptyly hodnôt. Preto je možné na binárnej snímke vidieť vynechané papilárne línie napriek
   tomu, že v nebinárnej variante sú línie neprerušené.
 
   \begin{figure}[h]
