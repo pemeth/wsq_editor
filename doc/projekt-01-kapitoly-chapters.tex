@@ -1256,6 +1256,28 @@
     \label{obr:stencene}
   \end{figure}
 
+  \subsection{Markanty}
+  Funkcia \texttt{extractMinutiae} prijíma binárnu snímku so stenčenými papilárnymi líniami. Každý pixel príslušný papilárnej línii je skontrolovaný
+  maskami a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí. Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
+  zvlášť polí, aby ich bolo možné separovať. Po extrakcii markantov funkcia vráti obe nové polia rovnakých veľkostí ako vstupná snímka. Tieto polia sú ďalej
+  spracované funkciou \texttt{overlayMinutiae}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s informáciami o pozíciách markantov -
+  v podstate maska pozícií. Následne sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje značky na
+  pozíciách extrahovaných markantov (\ref{obr:markanty}).
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/bifurcations.png}
+      \caption{vidličky}
+    \end{subfigure}
+    \hspace{0.05\linewidth}
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/ridge_endings.png}
+      \caption{ukončenia}
+    \end{subfigure}
+    \caption{Farebne vyznačené markanty na snímke odtlačku prsta.}
+    \label{obr:markanty}
+  \end{figure}
 
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
