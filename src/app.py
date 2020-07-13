@@ -10,7 +10,7 @@ from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
 from filters import gaborFilter
 from thinning import zhangSuen
-from  singularities import poincare
+from singularities import poincare, singularityCleanup
 from minutiae import extractMinutiae
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog
@@ -293,6 +293,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             mask = getRoi(self.imgArray)
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
+            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.cores)
         self.currentImage = self.cores
 
@@ -308,6 +309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             mask = getRoi(self.imgArray)
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
+            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.deltas)
         self.currentImage = self.deltas
 

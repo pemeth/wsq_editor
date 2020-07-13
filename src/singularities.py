@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.lib import stride_tricks
+from scipy.ndimage.measurements import center_of_mass
 
 # based on https://www.researchgate.net/profile/Gabriel_Iwasokun/publication/291100504_Fingerprint_Singular_Point_Detection_Based_on_Modified_Poincare_Index_Method/links/56dd701408ae46f1e99f5649/Fingerprint-Singular-Point-Detection-Based-on-Modified-Poincare-Index-Method.pdf
 def poincareIndex(window):
@@ -41,3 +42,74 @@ def poincare(img):
                 deltas[i,j] = 1
 
     return (cores, deltas)
+
+def averageSingularities(sings, regionSize=8):
+    left = right = up = down = regionSize
+    shape = sings.shape
+
+    rows, cols = np.where(sings)
+    for i, j in zip(rows,cols):
+        # if near borders, set the regions, so that they do not reach out of bounds
+        if i - left < 0:
+            left = i
+        elif i + right >= shape[0]:
+            right = shape[0] - i + 1
+            
+        if j - up < 0:
+            up = j
+        elif j + down >= shape[1]:
+            down = shape[1] - j + 1
+
+        coreRegion = sings[i-left : i+right, j-up : j+down]
+
+        coreSum = np.sum(coreRegion)
+
+        if coreSum > 1:
+            y, x = center_of_mass(coreRegion)
+            coreRegion[:,:] = 0
+            coreRegion[int(y), int(x)] = 1
+            sings[i-left : i+right, j-up : j+down] = coreRegion
+
+        left = right = up = down = regionSize
+    
+    return sings
+
+def deleteSingularities(cores, deltas, regionSize=8):
+    left = right = up = down = regionSize
+    shape = cores.shape
+
+    rows, cols = np.where(cores)
+
+    for i, j in zip(rows, cols):
+        # if near borders, set the regions, so that they do not reach out of bounds
+        if i - left < 0:
+            left = i
+        elif i + right >= shape[0]:
+            right = shape[0] - i + 1
+            
+        if j - up < 0:
+            up = j
+        elif j + down >= shape[1]:
+            down = shape[1] - j + 1
+
+        coreRegion = cores[i-left : i+right, j-up : j+down]
+        deltaRegion = deltas[i-left : i+right, j-up : j+down]
+
+        if np.sum(coreRegion) >= 1 and np.sum(deltaRegion) >= 1:
+            cores[i-left : i+right, j-up : j+down] = 0
+            deltas[i-left : i+right, j-up : j+down] = 0
+
+        left = right = up = down = regionSize
+
+    return cores, deltas
+
+def singularityCleanup(cores, deltas):
+    cores = averageSingularities(cores)
+
+    foo, bar = np.where(cores)
+    print(foo[0], bar[0])
+    deltas = averageSingularities(deltas)
+
+    cores, deltas = deleteSingularities(cores, deltas)
+
+    return cores, deltas
