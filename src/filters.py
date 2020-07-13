@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 
 import exceptions as e
+from binarization import bradleyThreshold
 
 def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
     """Filter the input image `im` with a Gabor filter. The function return the filtered and binarized image, whcih is the same size as `im`.
@@ -64,7 +65,7 @@ def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
         
             filtered_im[r,c] = np.sum( h(x, y, phi, f) * im[r-blockhalf:r+blockhalf+1,c-blockhalf:c+blockhalf+1] )
 
-    filtered_im = np.where(filtered_im > 0, True, False) # binarize
+    filtered_im = bradleyThreshold(filtered_im, mask)
     return filtered_im
 
 def h(x, y, phi, f):
