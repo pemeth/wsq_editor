@@ -1235,7 +1235,19 @@
     \label{obr:gabor}
   \end{figure}
 
-  %LEFT-OFF-HERE
+  \subsection{Stenčovanie línií}
+  Vykonávané funkciou \texttt{zhangSuen}, stenčovanie sa vykonáva paralelnou metódou Zhang-Suen. Algoritmus je riadený hlavným cyklom, v rámci ktorého sú
+  dva podcykly odstraňujúce pixely nepríslušiace kostre odtlačku prsta. Vstupom tejto funkcie je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
+  Výstup tejto funkcie je binárna snímka stenčených papilárnych línií. Avšak výstupná snímka reprezentuje papilárne línie obrátene oproti predchádzajúcim
+  krokom, a to tak, že línie sú reprezentované vyššími hodnotami, než pozadie snímky (viď obrázok \ref{obr:stencene}), teda línie sú bledé na rozdiel od
+  tmavých. Toto je má význam pri nasledujúcich krokoch analýzy.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\linewidth]{obrazky-figures/thinned.png}
+    \caption{Binárna snímka stenčených papilárnych línií.}
+    \label{obr:stencene}
+  \end{figure}
 
 
   \section{Požiadavky}
