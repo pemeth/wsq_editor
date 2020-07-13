@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageDraw, UnidentifiedImageError
 import matplotlib.pyplot as plt
 import wsq
 
@@ -339,7 +339,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.bifurcations)
 
-        overlaid = self.overlayMinutiae(self.thinned, self.bifurcations, "red")
+        overlaid = self.overlayMinutiae(self.imgArray, self.bifurcations, "square")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.ridgeEndings)
         
-        overlaid = self.overlayMinutiae(self.thinned, self.ridgeEndings, "green")
+        overlaid = self.overlayMinutiae(self.imgArray, self.ridgeEndings, "circle")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -474,38 +474,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return False
         return True
 
-    def overlayMinutiae(self, img, overlay, color):
-        """Overlays binary image `overlay` over binary image `img` with color `color`. Both `overlay` and `img` have to be binary.
+    def overlayMinutiae(self, img, overlay, marker):
+        """Overlays markers over the input image `img`. The markers' position is determined by the image `overlay` -
+        where `overlay` contains nonzero values, these positions will be used as positions for the markers.
+        The type of marker `marker` determines the shape and color of the marker.
         
         Parameters
         ----------
         img : numpy_array
-            A binary base image.
+            The base image, onto which the markers will be placed.
         overlay : numpy_array
-            A binary overlay image. This will be overlaid over `img` with color `color`.
+            An overlay image. The markers will be placed on positions where this image is nonzero.
+        marker : str
+            Specifies the marker type. May be of two values: "square", in which case the marker will be a red square
+            and "circle", in which case it will be a green circle.
             
         Returns
         -------
-            The overlaid image of the same size as `img`."""
+            The overlaid image of the same size as `img` as a numpy array."""
         # prevent changing the originals by reference
-        overlayCp = np.copy(overlay).astype(np.uint8)
+        overlay = np.copy(overlay).astype(np.uint8)
         img = np.copy(img).astype(np.uint8)
 
-        if color == "red":
-            overlayCp = np.dstack([overlayCp, np.zeros_like(overlayCp), np.zeros_like(overlayCp)]) * 255    # red channel
-        elif color == "green":
-            overlayCp = np.dstack([np.zeros_like(overlayCp), overlayCp, np.zeros_like(overlayCp)]) * 255    # green channel
-        elif isinstance(color, str):
-            raise ValueError("The specified color of the overlay is not recognised.")
-        else:
-            raise TypeError("The color must be specified by a string.")
+        img = (img - np.amin(img)) * (255 / (np.amax(img) - np.amin(img)))
 
-        img = np.dstack([img,img,img]) * 100
-
-        overlayCp = Image.fromarray(overlayCp)
+        rows,cols = np.where(overlay)
         img = Image.fromarray(img)
+        img = img.convert("RGB")
+        draw = ImageDraw.Draw(img)
+        offset = 2
 
-        img.paste(overlayCp, (0,0), Image.fromarray(overlay.astype(np.uint8) * 255))
+        if marker == "square":
+            outline = "rgb(0,255,0)"    # red channel
+            
+            for x, y in zip(cols,rows):
+                draw.rectangle([x-offset, y-offset, x+offset, y+offset], outline=outline)
+        elif marker == "circle":
+            outline = "rgb(255,0,0)"    # green channel
+
+            for x, y in zip(cols,rows):
+                draw.ellipse([x-offset, y-offset, x+offset, y+offset], outline=outline)
+        elif isinstance(marker, str):
+            raise ValueError("The specified minutiae type of the overlay is not recognised.")
+        else:
+            raise TypeError("The minutiae type must be specified by a string.")
 
         return np.asarray(img)
 
