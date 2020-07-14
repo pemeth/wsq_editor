@@ -1279,6 +1279,29 @@
     \label{obr:markanty}
   \end{figure}
 
+  \subsection{Singularity a triedy}
+  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom. Funkcia prechádza každý pixel snímky orientácií
+  a daný pixel spolu s jeho okamžitým okolím odovzdá funkcii \texttt{poincareIndex}. Tu sa okno, ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
+  proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
+  V závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
+  Výsledkom sú dve binárne snímky jadier a delt, ktoré majú vyznačené singularity v príslušných bodoch.
+  
+  Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}. Táto funkcia plní dva účely. V prvom rade nahrádza oblasti s veľkým
+  množstvom singularít rovnakého typu oblasťou s jednou singularitou umiestnenou na priemernú pozíciu detegovaných singularít v tejto oblasti.
+  V druhom rade odstraňuje singularity rôzneho typu, ak sa nachádzajú v rovnakej oblasti. Výsledná snímka s detegovanými jadrami je zobrazená na obrázku
+  \ref{obr:jadra}, kde vyznačenie singularít prebehlo podobne ako pri markantoch.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\linewidth]{obrazky-figures/cores.png}
+    \caption{Snímka odtlačku prsta s vyznačenými jadrami.}
+    \label{obr:jadra}
+  \end{figure}
+
+  Detekciu triedy odtlačku prsta vykonáva funkcia \texttt{getClass}. Táto funkcia je schopná rozlíšiť oblúk, klenutý oblúk, ľavú slučku, pravú slučku.
+  Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach. V prípade, že sa
+  v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami.
+
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
   pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
