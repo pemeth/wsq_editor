@@ -1364,6 +1364,18 @@
   Detekciu delt je možné považovať za nefunkčnú, pretože na testovacej vzorke niekoľkých desiatok snímok sa jej nepodarilo rozlíšiť ani jednu singularitu.
   Dopadom nefunkčnej detekcie singularít je nesprávna klasifikácia snímok do jednotlivých tried odtlačkov prstov.
 
+  \subsection{Rýchlosť algoritmov}
+  Knižnica \texttt{numpy} poskytuje možnosť využívania vektorizovaných operácií nad podporovanými dátovými typmi. Tieto operácie sú obecne veľmi rýchle
+  a zároveň v prevedení \texttt{numpy} poskytujú intuitívne rozhranie pre ich aplikovanie. Nie všade je však možné využiť vektorizované operácie
+  (aspoň nie intuitívne), čo často pri snímkach znamená implementáciu algoritmu pomocou cyklického prechádzania dátových polí snímky. V prípade interpretovaných
+  jazykov ako Python to znamená značné spomalenie algoritmov. Rozdiel v rýchlosti vektorizovaných operácii oproti cyklickým riešením bol zjavný pri
+  implementácií Gabor filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $400 \times 400$ trvala aplikácia filtra približne 70 sekúnd.
+  Po vektorizovaní tvorby kernelu filtra sa algoritmus zrýchlil na približne 15 sekúnd. Ďalšie značné zrýchlenie by bolo možné dosiahnuť implementáciou
+  algoritmov v kompilovanom jazyku (napr. C) alebo využitím C rozšírenia pre Python - Cython.
+
+  %TODO mozno spravit tabulku s priemernou rychlostou jednotlvych algoritmov?
+  %LEFT-OFF-HERE
+
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
   pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
