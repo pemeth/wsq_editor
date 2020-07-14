@@ -295,7 +295,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.cores)
-        self.currentImage = self.cores
+
+        overlaid = self.overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
+        self.showImage(overlaid, normalize=False)
+        self.currentImage = overlaid
 
     def showDeltas(self):
         if isinstance(self.imgArray, type(None)):
@@ -311,7 +314,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.deltas)
-        self.currentImage = self.deltas
+
+        overlaid = self.overlay(self.imgArray, self.deltas, "triangle", fill="rgb(100,0,100)", outline="rgb(100,0,100)", offset=6)
+        self.showImage(overlaid, normalize=False)
+        self.currentImage = overlaid
 
     def showBifurcations(self):
         if isinstance(self.imgArray, type(None)):
@@ -341,7 +347,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.bifurcations)
 
-        overlaid = self.overlayMinutiae(self.imgArray, self.bifurcations, "square")
+        overlaid = self.overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -373,7 +379,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.ridgeEndings)
         
-        overlaid = self.overlayMinutiae(self.imgArray, self.ridgeEndings, "circle")
+        overlaid = self.overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -476,7 +482,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return False
         return True
 
-    def overlayMinutiae(self, img, overlay, marker):
+    def overlay(self, img, overlay, marker, fill=None, outline=None, offset=3):
         """Overlays markers over the input image `img`. The markers' position is determined by the image `overlay` -
         where `overlay` contains nonzero values, these positions will be used as positions for the markers.
         The type of marker `marker` determines the shape and color of the marker.
@@ -488,12 +494,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         overlay : numpy_array
             An overlay image. The markers will be placed on positions where this image is nonzero.
         marker : str
-            Specifies the marker type. May be of two values: "square", in which case the marker will be a red square
-            and "circle", in which case it will be a green circle.
-            
+            Specifies the marker type. May be of three values: "square", "circle" or "triangle".
+        fill : str
+            Specifies the color of the inside of the marker. Accepts rgb colors specified in a string in this format "rgb(x,y,z)",
+            where the xyz values range from 0-255. If None, the fill is transparent.
+        outline : str
+            Specifies the color of the marker border. Accepts rgb colors specified in a string in this format "rgb(x,y,z)",
+            where the xyz values range from 0-255.
+        offset : int
+            Specifies the distance of each corner of the marker from it's center - adjusts the size of the marker.
+
         Returns
         -------
             The overlaid image of the same size as `img` as a numpy array."""
+        if not isinstance(marker, str):
+            raise TypeError("The marker type must be specified by a string. See docstring for accepted values.")
+
         # prevent changing the originals by reference
         overlay = np.copy(overlay).astype(np.uint8)
         img = np.copy(img).astype(np.uint8)
@@ -504,22 +520,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         img = Image.fromarray(img)
         img = img.convert("RGB")
         draw = ImageDraw.Draw(img)
-        offset = 2
 
         if marker == "square":
-            outline = "rgb(0,255,0)"    # red channel
-            
             for x, y in zip(cols,rows):
-                draw.rectangle([x-offset, y-offset, x+offset, y+offset], outline=outline)
+                draw.rectangle([x-offset, y-offset, x+offset, y+offset], fill=fill, outline=outline)
         elif marker == "circle":
-            outline = "rgb(255,0,0)"    # green channel
-
             for x, y in zip(cols,rows):
-                draw.ellipse([x-offset, y-offset, x+offset, y+offset], outline=outline)
-        elif isinstance(marker, str):
-            raise ValueError("The specified minutiae type of the overlay is not recognised.")
+                draw.ellipse([x-offset, y-offset, x+offset, y+offset], fill=fill, outline=outline)
+        elif marker == "triangle":
+            for x, y in zip(cols,rows):
+                draw.polygon([x, y-offset, x+offset, y+offset, x-offset, y+offset], fill=fill, outline=outline)
         else:
-            raise TypeError("The minutiae type must be specified by a string.")
+            raise ValueError("The specified marker type of the overlay is not recognised.")
 
         return np.asarray(img)
 
