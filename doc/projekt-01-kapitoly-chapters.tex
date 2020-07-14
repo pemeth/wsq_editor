@@ -1302,6 +1302,12 @@
   Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach. V prípade, že sa
   v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami.
 
+  \section{Vyhodnotenie}
+  Aplikácia je prevedaná ako prenositeľná grafická pomôcka pre analýzu snímok odtlačkov prstov. Prenositeľnosť bola testovaná na zariadeniach s operačnými
+  systémami Windows 10, macOS 10.15 a Debian 9.12 (stretch). Na všetkých systémoch bola aplikácia testovaná s rôznymi formátmi vstupných snímok. Medzi
+  podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
+  Windows sa mi totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
+
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
   pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
