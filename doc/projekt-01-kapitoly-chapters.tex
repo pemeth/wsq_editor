@@ -1308,6 +1308,62 @@
   podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
   Windows sa mi totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
 
+  \subsection{Snímky rôznej kvality}
+  V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
+  kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy žiaduca aj v prípade kvalitnejšej vstupnej
+  snímky. Tieto rozdiely je možné pozorovať na obrázku \ref{obr:porovnanie_kvality}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej kvality
+  (avšak oba sú dostatočne vysokej kvality) a výstupy ich filtrovania Gabor filtrom a stenčenia línií. Je možné vidieť, že dopad na kvalitu filtrovania
+  nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno v ľavom hornom rohu na \ref{obr:ecsema_orig}.
+  Toto naznačuje nedostatočné alebo nekvalitné predspracovanie.
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/warts_orig.png}
+      \caption{snímka vyššej kvality}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/warts_gabor.png}
+      \caption{filtrovaná Gabor filtrom}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/warts_thin.png}
+      \caption{so stenčenými líniami}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/ecsema_orig.png}
+      \caption{snímka nižšej kvality}
+      \label{obr:ecsema_orig}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/ecsema_gabor.png}
+      \caption{filtrovaná Gabor filtrom}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/ecsema_thin.png}
+      \caption{so stenčenými líniami}
+    \end{subfigure}
+    \caption{Rozdiely v kvalite spracovania podľa rôznych kvalít vstupných snímok. Vo vrchnom riadku je možné vidieť snímku vysokej kvality a jej spracované
+    verzie a v spodnom riadku je zobrazená snímka nižšej kvality. Snímky z internej databázy STRaDe.}
+    \label{obr:porovnanie_kvality}
+  \end{figure}
+
+  Detekcia markantov prejavuje veľké množstvo falošných pozitívnych detekcií. Je však vhodné podotknúť, že samotná detekcia pracuje správne, avšak kroky
+  predspracovania (obzvlášť Gabor filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty. Ako bolo znázornené na obrázku \ref{obr:gabor},
+  výsledok Gabor filtrovania obsahuje štvrcové fragmenty, ktoré binarizáciu činia netriviálnou. V dôsledku nedokonalej binarizácie sa vytvorí fragmentovaná
+  snímka s veľkým množstvom falošných markantov v oblastiach ochorenia kože prípadne iných oblastiach narušenia alebo meniacej sa frekvencie.
+
+  Detekcia jadier nachádza jadrá okrem správnych miest aj na okrajoch oblasti záujmu kde orientácie prudko menia smer medzi oblasťou záujmu a pozadím snímky.
+  Jedným z možných riešení je opakované vyhladzovanie orientácií, kým sa nenájde platné množstvo singularít, ale z dôvodu pomalej implementácie algoritmu
+  detekcie singularít bolo toto riešenie vypustené.
+  Detekciu delt je možné považovať za nefunkčnú, pretože na testovacej vzorke niekoľkých desiatok snímok sa jej nepodarilo rozlíšiť ani jednu singularitu.
+  Dopadom nefunkčnej detekcie singularít je nesprávna klasifikácia snímok do jednotlivých tried odtlačkov prstov.
+
   \section{Požiadavky}
   Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
   pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
