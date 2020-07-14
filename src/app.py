@@ -12,6 +12,7 @@ from filters import gaborFilter
 from thinning import zhangSuen
 from singularities import poincare, singularityCleanup
 from minutiae import extractMinutiae
+from fp_classes import getClass
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
@@ -383,6 +384,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
+    def showClass(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        if isinstance(self.deltas, type(None)):
+            # not cached
+            mask = getRoi(self.imgArray)
+            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            self.cores, self.deltas = poincare(orient) * mask
+            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
+
+        fpClass = getClass(self.cores, self.deltas)
+        self.showPopup("The fingerprint has the class: " + fpClass)
+
     def autoAnalysis(self):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
@@ -425,6 +441,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
+        self.fpClassAction = QAction("Show class of the fingerprint", self, triggered=self.showClass)
         self.autoAnalysisAction = QAction("Run all", self, triggered=self.autoAnalysis)
 
         #self.fitToWindowAction = QAction()
@@ -474,6 +491,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.minutiaeSubmenu = self.analysisMenu.addMenu("Minutiae")
         self.minutiaeSubmenu.addAction(self.bifurcationAction)
         self.minutiaeSubmenu.addAction(self.ridgeEndingAction)
+
+        self.analysisMenu.addAction(self.fpClassAction)
 
         self.analysisMenu.addAction(self.autoAnalysisAction)
 
