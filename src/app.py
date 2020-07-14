@@ -2,7 +2,11 @@ import sys
 import numpy as np
 from PIL import Image, ImageDraw, UnidentifiedImageError
 import matplotlib.pyplot as plt
-import wsq
+try:
+    import wsq
+except ImportError:
+    print("The WSQ image format is not supported. An import error occurred.")
+    print("This may happen on Windows machines.")
 
 from normalize import normalizeMeanVariance
 from ridge_orientation import ridgeOrient
