@@ -1,3 +1,10 @@
+"""NOTICE
+
+This algorithm is based on example MATLAB code posted by
+Peter Kovesi, School of Computer Science & Software Engineering,
+The University of Western Australia.
+https://www.peterkovesi.com/matlabfns/FingerPrints/Docs/index.html"""
+
 import numpy as np
 import scipy.ndimage as ndimage
 import scipy.signal as signal
