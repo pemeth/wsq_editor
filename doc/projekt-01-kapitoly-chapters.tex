@@ -1376,24 +1376,8 @@
   %TODO mozno spravit tabulku s priemernou rychlostou jednotlvych algoritmov?
   %LEFT-OFF-HERE
 
-  \section{Požiadavky}
-  Medzi základné požiadavky pre zobrazovač a editor snímok odtlačkov prstov patrí podpora štandardných formátov využívaných
-  pre ukladanie snímok odtlačkov prstov (napr. WSQ, PNG, BMP),
-  detekcia singularít, markantov a triedy odtlačku, ukážka filtrov využívaných pri predspracovávaní odtlačkov prstov.
-
-  Vzhľadom na účel aplikácie, a to demonštrácia spracovania odtlačkov prstov, je vhodné ju navrhnúť tak, aby bola prenositeľná a mala prehľadné 
-  grafické rozhranie pre jednoduché využitie študentmi a výskumníkmi nezávisle od ich preferovaného systému.
-
-  \section{Architektúra aplikácie}
-  Aplikácia je napísaná v jazyku Python 3.5.3 s využitím väzby na Qt toolkit pre programovanie grafických rozhraní pomocou PyQt.
-  % //TODO zistit, ci sa pouzije cx_freeze na freeznutie aplikacie do spustitelneho suboru
-
-  \section{Automatická analýza}
-  Režim automatickej analýzy sa drží zaužívaných postupov naznačených v kapitole \ref{kap:odtlacok}. Kroky predspracovania zahŕňajú 
-  normalizáciu snímky, filtrovanie Gaborovým filtrom, následnú extrakciu orientácií papilárnych línií, binarizáciu a stenčenie línií.
-  
   \section{Inštalácia aplikácie} \label{sec:instalacia}
-  %Predspracovanie snímky sa začne normalizáciou histogramu
+
 
   %\begin{figure}[]
   %  \centering
