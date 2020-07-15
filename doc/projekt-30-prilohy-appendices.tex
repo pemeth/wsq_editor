@@ -1,5 +1,20 @@
 % Tento soubor nahraďte vlastním souborem s přílohami (nadpisy níže jsou pouze pro příklad)
 
+\chapter{Inštalácia a spustenie aplikácie} \label{sec:instalacia}
+  Aplikácia je určená ako voľne distribuovateľná spolu so zdrojovými súbormi. Prerekvizitami aplikácie sú Python3 a príslušný správca balíčkov \texttt{pip},
+  pomocou ktorých je možné doinštalovať všetky potrebné balíčky. Tieto balíčky sú uvedené v súbore \texttt{requirements.txt}. Pred inštaláciou odporúčam
+  vytvoriť virtuálne prostredie pre Python pomocou modulu \texttt{venv}. Odporúčaný postup inštalácie je nasledovný:
+  \begin{enumerate}
+    \item Vytvorenie virtuálneho prostredia \texttt{venv} pomocou príkazu \texttt{python3 -m venv <cesta pre novy priecinok prostredia>}.
+    \item Aktivácia prostredia pomocou skriptu \texttt{cesta/k/venv/bin/activate}. Na sytémoch Windows je táto cesta \texttt{cesta/k/venv/Scripts/activate}.
+    \item Inštalácia balíčkov pomocou príkazu \texttt{python -m pip install -r requirements.txt}.
+  \end{enumerate}
+  Na systémoch \emph{Linux} a \emph{macOS} sa tieto príkazy vykonávajú v príkazovom riadku terminálu. Na systémoch \emph{Windows} v prostredí PowerShell.
+  Využitie virtuálneho prostredia je plne voliteľné a je sem zahrnuté ako možnosť pre prípad, že užívateľ nechce nainštalovať potrebné balíčky do systémovej
+  verzie Python\footnote{Po odstránení priečinku virtuálneho prostredia sa vymažú všetky v rámci neho inštalované balíčky.}.
+
+  Aplikácia sa vo virtuálnom prostredí spúšťa príkazom \texttt{python app.py}.
+
 % Umístění obsahu paměťového média do příloh je vhodné konzultovat s vedoucím
 %\chapter{Obsah přiloženého paměťového média}
 
