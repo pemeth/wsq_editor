@@ -18,7 +18,7 @@ from singularities import poincare, singularityCleanup
 from minutiae import extractMinutiae
 from fp_classes import getClass
 
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog, QLabel
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
 from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
@@ -29,6 +29,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("WSQ Editor")
+
+        self.statusbarLabel = QLabel("No image loaded")
+        self.statusbar.addWidget(self.statusbarLabel)
 
         # Create the actions and menus
         self.createActions()
@@ -86,6 +89,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deltas = None
             self.bifurcations = None
             self.ridgeEndings = None
+
+            self.statusbarLabel.setText("Image: width=" + str(self.imgShape[1]) + "; height=" + str(self.imgShape[0]))
 
     def exportImage(self):
         """Exports the currently displayed image as a png."""
