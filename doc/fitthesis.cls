@@ -797,6 +797,7 @@ Management}{\@fit@EN}%
 \fi
 
 %zadani / assignment
+\includepdf[pages=-,offset=0.6cm -1.7cm]{zadani.pdf}
 \iftoggle{zadaniTwop}{
   \cleardoublepage
   \includepdf[pages=-,offset=0.6cm -1.7cm]{zadani.pdf}
