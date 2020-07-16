@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1002, 640)
+        MainWindow.resize(400, 640)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.mainImage = QtWidgets.QLabel()
@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setVisible(False)
         MainWindow.setCentralWidget(self.scrollArea)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1002, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 400, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
