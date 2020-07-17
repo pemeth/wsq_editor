@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("WSQ Editor")
 
         self.statusbarLabel = QLabel("No image loaded")
+        self.statusbarLabel.setMinimumSize(1,1)
         self.statusbar.addWidget(self.statusbarLabel)
 
         # Create the actions and menus
@@ -90,7 +91,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations = None
             self.ridgeEndings = None
 
-            self.statusbarLabel.setText("Image: width=" + str(self.imgShape[1]) + "; height=" + str(self.imgShape[0]))
+            self.statusbarLabel.setText("Image: width=" + str(self.imgShape[1]) + ", height=" + str(self.imgShape[0]) + 
+                                        "; Filename: " + str(self.filename))
+            self.statusbarLabel.setToolTip(self.statusbarLabel.text())
 
     def exportImage(self):
         """Exports the currently displayed image as a png."""
