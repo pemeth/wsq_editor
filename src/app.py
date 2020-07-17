@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from PIL import Image, ImageDraw, UnidentifiedImageError
+from PIL import Image, UnidentifiedImageError
 import matplotlib.pyplot as plt
 try:
     import wsq
@@ -19,8 +19,8 @@ from minutiae import extractMinutiae
 from fp_classes import getClass
 from lib import vals2Grayscale, overlay
 
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog, QLabel
-from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QAction, QApplication, QMessageBox, QInputDialog, QLabel
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
 
