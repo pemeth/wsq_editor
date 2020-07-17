@@ -85,3 +85,9 @@ def getFileExtension(filename):
         return None
 
     return sections[1]
+
+def splitFilename(filename):
+    ext = getFileExtension(filename)
+
+    name = filename.rsplit('.', 1)
+    return name, ext
