@@ -17,6 +17,7 @@ from thinning import zhangSuen
 from singularities import poincare, singularityCleanup
 from minutiae import extractMinutiae
 from fp_classes import getClass
+from lib import vals2Grayscale, overlay
 
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMenu, QAction, QApplication, QMessageBox, QScrollArea, QInputDialog, QLabel
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QPalette, QKeySequence, QTransform
@@ -98,7 +99,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def exportImage(self):
         """Exports the currently displayed image as a png."""
         try:
-            img = self.vals2Grayscale(self.currentImage)
+            img = vals2Grayscale(self.currentImage)
         except RuntimeWarning:
             self.showPopup("No image exported.", detailedMessage="Cannot export image. An exception occured.")
             return
@@ -113,7 +114,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showImage(self, img, normalize=True):
         if normalize:
-            img = self.vals2Grayscale(img)
+            img = vals2Grayscale(img)
 
         imgBytes = img.tobytes()
 
@@ -311,7 +312,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.cores)
 
-        overlaid = self.overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
+        overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -330,7 +331,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas)
             self.showImage(self.deltas)
 
-        overlaid = self.overlay(self.imgArray, self.deltas, "triangle", fill="rgb(100,0,100)", outline="rgb(100,0,100)", offset=6)
+        overlaid = overlay(self.imgArray, self.deltas, "triangle", fill="rgb(100,0,100)", outline="rgb(100,0,100)", offset=6)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -363,7 +364,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.bifurcations)
 
-        overlaid = self.overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
+        overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -396,7 +397,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.ridgeEndings)
         
-        overlaid = self.overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
+        overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -516,78 +517,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.imgArray == None:
             return False
         return True
-
-    def overlay(self, img, overlay, marker, fill=None, outline=None, offset=3):
-        """Overlays markers over the input image `img`. The markers' position is determined by the image `overlay` -
-        where `overlay` contains nonzero values, these positions will be used as positions for the markers.
-        The type of marker `marker` determines the shape and color of the marker.
-        
-        Parameters
-        ----------
-        img : numpy_array
-            The base image, onto which the markers will be placed.
-        overlay : numpy_array
-            An overlay image. The markers will be placed on positions where this image is nonzero.
-        marker : str
-            Specifies the marker type. May be of three values: "square", "circle" or "triangle".
-        fill : str
-            Specifies the color of the inside of the marker. Accepts rgb colors specified in a string in this format "rgb(x,y,z)",
-            where the xyz values range from 0-255. If None, the fill is transparent.
-        outline : str
-            Specifies the color of the marker border. Accepts rgb colors specified in a string in this format "rgb(x,y,z)",
-            where the xyz values range from 0-255.
-        offset : int
-            Specifies the distance of each corner of the marker from it's center - adjusts the size of the marker.
-
-        Returns
-        -------
-            The overlaid image of the same size as `img` as a numpy array."""
-        if not isinstance(marker, str):
-            raise TypeError("The marker type must be specified by a string. See docstring for accepted values.")
-
-        # prevent changing the originals by reference
-        overlay = np.copy(overlay).astype(np.uint8)
-        img = np.copy(img).astype(np.uint8)
-
-        img = (img - np.amin(img)) * (255 / (np.amax(img) - np.amin(img)))
-
-        rows,cols = np.where(overlay)
-        img = Image.fromarray(img)
-        img = img.convert("RGB")
-        draw = ImageDraw.Draw(img)
-
-        if marker == "square":
-            for x, y in zip(cols,rows):
-                draw.rectangle([x-offset, y-offset, x+offset, y+offset], fill=fill, outline=outline)
-        elif marker == "circle":
-            for x, y in zip(cols,rows):
-                draw.ellipse([x-offset, y-offset, x+offset, y+offset], fill=fill, outline=outline)
-        elif marker == "triangle":
-            for x, y in zip(cols,rows):
-                draw.polygon([x, y-offset, x+offset, y+offset, x-offset, y+offset], fill=fill, outline=outline)
-        else:
-            raise ValueError("The specified marker type of the overlay is not recognised.")
-
-        return np.asarray(img)
-
-    def vals2Grayscale(self, vals):
-        """Redistribute (normalize) values in parameter `vals` to range of an 8 bit grayscale image.
-        This method implicitly converts the `vals` datatype to a float32 for the calculations and
-        returns an array of uint8.
-        
-        Parameters
-        ----------
-        vals : numpy_array
-            An array of values.
-
-        Returns
-        -------
-            An array of the same size as `vals` with its values normalized to range 0-255.
-        """
-        vals = np.float32(vals)
-        vMin = np.amin(vals)
-        vMax = np.amax(vals)
-        return np.uint8((vals - vMin) * (255 / (vMax - vMin)))
 
     def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
         """Shows an informative popup window with `message` as it's main text."""
