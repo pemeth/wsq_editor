@@ -12,7 +12,7 @@ from normalize import normalizeMeanVariance
 from ridge_orientation import ridgeOrient
 from region_of_interest import getRoi
 from ridge_frequency import ridgeFreq
-from filters import gaborFilter
+from filters import gaborFilter, butterworth
 from thinning import zhangSuen
 from singularities import poincare, singularityCleanup
 from minutiae import extractMinutiae
@@ -260,10 +260,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showImage(self.filtim)
         else:
             norm = normalizeMeanVariance(self.imgArray)
-            mask = getRoi(norm)
-            orientim = ridgeOrient(norm)
-            freq = ridgeFreq(norm, orientim)
-            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            butter = butterworth(norm)
+            mask = getRoi(butter)
+            orientim = ridgeOrient(butter)
+            freq = ridgeFreq(butter, orientim)
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.showImage(self.filtim)
         self.currentImage = self.filtim
 
@@ -283,10 +284,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             # nothing is cached
             norm = normalizeMeanVariance(self.imgArray)
-            mask = getRoi(norm)
-            orientim = ridgeOrient(norm)
-            freq = ridgeFreq(norm, orientim)
-            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            butter = butterworth(norm)
+            mask = getRoi(butter)
+            orientim = ridgeOrient(butter)
+            freq = ridgeFreq(butter, orientim)
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.showImage(self.thinned)
         self.currentImage = self.thinned
@@ -349,10 +351,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             # nothing is cached
             norm = normalizeMeanVariance(self.imgArray)
-            mask = getRoi(norm)
-            orientim = ridgeOrient(norm)
-            freq = ridgeFreq(norm, orientim)
-            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            butter = butterworth(norm)
+            mask = getRoi(butter)
+            orientim = ridgeOrient(butter)
+            freq = ridgeFreq(butter, orientim)
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.bifurcations)
@@ -381,10 +384,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             # nothing is cached
             norm = normalizeMeanVariance(self.imgArray)
-            mask = getRoi(norm)
-            orientim = ridgeOrient(norm)
-            freq = ridgeFreq(norm, orientim)
-            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            butter = butterworth(norm)
+            mask = getRoi(butter)
+            orientim = ridgeOrient(butter)
+            freq = ridgeFreq(butter, orientim)
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
             self.showImage(self.ridgeEndings)

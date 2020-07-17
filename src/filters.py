@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.fft import fft2, ifft2, fftshift, ifftshift
 
 from PIL import Image
 
@@ -95,3 +96,60 @@ def h(x, y, phi, f):
     kernel = np.exp(exp_arg) * np.cos(2 * np.pi * f * x_phi)
 
     return np.rot90(kernel) # it is a convolution kernel - rotate 90 degrees
+
+
+def constructButter(size=100, D0=100, n=4):
+    """Construct a 2D square butterworth filter.
+    
+    Parameters
+    ----------
+    size : int
+        The size of the filter in both directions. Defaults to 100.
+    D0 : int, float
+        The cutoff frequecy. Defaults to 100.
+    n : int
+        Defines the steepness of the filter roll-off. If n is infinite, the output is an ideal filter. Defaults to 4.
+        
+    Returns
+    -------
+        A butterworth filter of size `size` in both directions with cutoff frequency `D0` and roll-off of `n`."""
+    v = np.arange(-size//2, size//2).reshape((size, 1))
+    v = np.tile(v, (1, size))
+    u = np.arange(-size//2, size//2)
+    u = np.tile(u, (size, 1))
+
+    Duv = np.sqrt(u**2 + v**2)
+    Huv = (1 / (1 + (Duv / D0)**(2*n)))
+
+    return Huv
+
+def butterworth(img):
+    """Applies a Butterworth lowpass filter on the image `img`.
+    
+    Parameters
+    ----------
+    img : numpy_array
+        The input image to be filtered.
+        
+    Returns
+    -------
+        The filtered image as a numpy array."""
+    rows, cols = img.shape
+    crow, ccol = rows // 2, cols // 2 # center row, center column
+
+    # fast fourier transform of the image + shifting the low frequencies to the center
+    fftImg = fftshift(fft2(img))
+
+    # the filter size is bound by the lower of the width or height of the image - whichever is lower
+    fsize = rows * (rows < cols) + cols * (cols <= rows)
+
+    # construct a low pass filter of the same size as img and apply the filter
+    butter = np.zeros_like(img, dtype=np.float32)
+    butter[crow-fsize//2:crow+fsize//2, ccol-fsize//2:ccol+fsize//2] = constructButter(size=fsize)
+    fftImg *= butter
+
+    # inverse shift, inverse fft and returning only the real component
+    fftImg = ifftshift(fftImg)
+    img = np.real(ifft2(fftImg))
+
+    return img
