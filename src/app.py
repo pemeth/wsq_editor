@@ -596,9 +596,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         popup.exec_()
 
 
-app = QApplication(sys.argv)
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
 
-window = MainWindow()
-window.show()
+    window = MainWindow()
+    window.show()
 
-app.exec_()
+    app.exec_()
