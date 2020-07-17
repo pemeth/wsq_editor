@@ -11,7 +11,7 @@ import scipy.signal as signal
 
 import exceptions as e
 
-def ridgeFreq(im, orientim, blend_sigma=None):
+def ridgeFreq(im, orientim, blend_sigma=8):
     """Return ridge frequencies in image `im`.
     If no 'blend_sigma' is entered, the returned frequecy image is blocky. The 'blend_sigma' specifies a gaussian
     blur sigma value for blending the neighboring frequencies into a more continuous frequency image. If specified,
@@ -26,7 +26,7 @@ def ridgeFreq(im, orientim, blend_sigma=None):
         Orientation image of the fingerprint. Values need to be in radians.
     blend_sigma : int, float
         A scalar specifying the sigma of a gaussian blur. If given, the output image will result in a more continuous frequency estimation based on
-        neighboring values of each pixel.
+        neighboring values of each pixel. Defaults to 8.
     
     Returns
     -------
