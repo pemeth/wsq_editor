@@ -72,3 +72,16 @@ def overlay(img, overlayImg, marker, fill=None, outline=None, offset=3):
         raise ValueError("The specified marker type of the overlay is not recognised.")
 
     return np.asarray(img)
+
+def getFileExtension(filename):
+    if not isinstance(filename, str):
+        raise TypeError("Expected a string, instead got", type(filename))
+
+    sections = filename.rsplit('.', 1)
+
+    if len(sections) == 1:
+        return None
+    if len(sections[1]) == 0:
+        return None
+
+    return sections[1]
