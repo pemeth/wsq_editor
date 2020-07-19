@@ -108,6 +108,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         img = Image.fromarray(img)
 
         filename, ok = QInputDialog.getText(self, 'Input Dialog', 'Name of the exported file:')
+        head, _ = os.path.split(filename)
+
+        if head != '':
+            if not os.path.exists(head):
+                self.showPopup("The specified path does not exist.")
+                return
+
 
         if len(filename) == 0 and ok:
             self.showPopup("No filename specified.")
