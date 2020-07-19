@@ -508,7 +508,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def createActions(self):
         """Create actions for the application."""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
-        self.exportImageAction = QAction("&Export as PNG", self, shortcut="Ctrl+E", triggered=self.exportImage)
+        self.exportImageAction = QAction("&Export as...", self, shortcut="Ctrl+E", triggered=self.exportImage)
         self.exportImageAction.setEnabled(False)
 
         self.normalizeImageActionComplex = QAction("Show normalized image with mean/variance method", self, triggered=self.showNormalizeMeanVar)
