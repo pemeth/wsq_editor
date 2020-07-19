@@ -521,7 +521,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
-        self.gaborAction = QAction("Show gabor filtered image", self, triggered=self.showGaborFilter)
+        self.gaborAction = QAction("Show Gabor filtered image", self, triggered=self.showGaborFilter)
         self.butterAction = QAction("Show Butterworth filtered image", self, triggered=self.showButterFilter)
         self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
         self.coresAction = QAction("Show core singularities", self, triggered=self.showCores)
