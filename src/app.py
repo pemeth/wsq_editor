@@ -131,6 +131,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except ValueError:
                 self.showPopup("File extension not recognised.")
                 return
+            except IOError:
+                self.showPopup("An IO error occurred.", "This may happen when saving an RGB image in a non-RGB format, such as WSQ.")
+                return
             
 
     def showImage(self, img, normalize=True):
