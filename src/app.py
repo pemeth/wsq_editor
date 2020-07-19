@@ -43,16 +43,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.scaleFactor = 1.0
 
-        self.img = None     # Will hold the image data
-        self.imgArray = None    # Will hold the raw image data in a numpy array
-        self.imgShape = None    # Will hold the shape of the loaded image
+        self.img = None             # Will hold the image data
+        self.imgArray = None        # Will hold the raw image data in a numpy array
+        self.imgShape = None        # Will hold the shape of the loaded image
         self.currentImage = None    # Will hold the image currently being shown
         self.filename = None
 
-        self.filtim = None  # Cache for the filtered image
-        self.thinned = None # Cache for the thinned image
-        self.cores = None   # Cache for the core singularity image
-        self.deltas = None  # Cache for the delta singularity image
+        self.filtim = None          # Cache for the filtered image
+        self.thinned = None         # Cache for the thinned image
+        self.cores = None           # Cache for the core singularity image
+        self.deltas = None          # Cache for the delta singularity image
         self.bifurcations = None    # Cache for the bifurcation minutiae
         self.ridgeEndings = None    # Cache for the ridge ending minutiae
 
@@ -71,9 +71,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.filename = None
                 return
 
-            self.img = self.img.convert("L")    # Convert to 8bit grayscale
-            self.imgArray = np.asarray(self.img)     # Convert image to numpy array
-            #imgBytes = self.imgArray.tobytes() # Convert to raw grayscale bytes
+            self.img = self.img.convert("L")        # Convert to 8bit grayscale
+            self.imgArray = np.asarray(self.img)    # Convert image to numpy array
 
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray, normalize=False)
@@ -158,6 +157,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 "ridgeEndings" : []
             }
 
+            # save the minutiae x and y positions and their angle (not direction!) to a dictionary
             x,y,angle = 0,1,2
             for bifs,ends in zip(zip(bifIdx[1], bifIdx[0], bifOrient), zip(endIdx[1], endIdx[0], endOrient)):
                 typedict["bifurcations"].append({
@@ -171,18 +171,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     "angle" : int(ends[angle])
                 })
 
+            # dump the dictionary as a json
             json.dump(typedict, f)
 
     def showImage(self, img, normalize=True):
+        """Shows an image in the main window."""
         if normalize:
             img = vals2Grayscale(img)
 
         imgBytes = img.tobytes()
 
-        # Calculate number of bytes per line in the image
+        # calculate number of bytes per line in the image
         bytesPerLine = (self.imgShape[1] * self.imgShape[0]) / self.imgShape[0]
 
-        # check if image is grayscale or RGB
+        # check if image is grayscale or RGB and convert to QImage
         if len(img.shape) == 2:
             # convert raw bytes to 8bit grayscale QImage to be able to render it
             self.img = QImage(imgBytes, self.imgShape[1], self.imgShape[0],
@@ -196,7 +198,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "Editor", "Cannot load %s." % self.filename)
             return
 
-        # Scale the mainImage label size to image and show the image
+        # scale the mainImage label size to image and show the image
         self.mainImage.setPixmap(QPixmap.fromImage(self.img).scaled(QSize(self.imgShape[1], self.imgShape[0]),
                                                                     Qt.KeepAspectRatio,
                                                                     Qt.FastTransformation))
@@ -225,7 +227,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def rotateImage(self):
         """Rotate the image counter-clockwise."""
-        #TODO rotating the image skews it, don't know why
+        #TODO rotating some images skews them, don't know why
         if self.img.format() == QImage.Format_RGB888:
             channels = 3
         else:
@@ -246,6 +248,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(img, normalize=False)
 
     def showNormalizeMeanVar(self):
+        """Show a normalized version of the loaded input image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
             return
@@ -258,34 +261,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("An exception occurred! No loaded image found!")
 
     def showOrientationPlot(self):
+        """Plot a vectorfield of the input image orientations in a new window using matplotlib."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
         orientim = ridgeOrient(self.imgArray, flip=True)
 
-        # TODO: vymysliet ako zobrazit v mojom "image okne" normalny orientim tak ako cez quiver...
-        #       moznost je spravit quiver, ulozit na disk, loadnut a ukazat, ale to je krkolomne
-
-        orientim = np.rot90(np.rot90(orientim)) # Rotate the orientation image by 180 degrees, because quiver shows it upside down
+        orientim = np.rot90(np.rot90(orientim)) # rotate the orientation image by 180 degrees, because quiver shows it upside down
 
         spacing = 7
         orientim = orientim[spacing:self.imgShape[0] - spacing:spacing, spacing:self.imgShape[1] - spacing:spacing]
 
-        # Deconstruct the orientation image into its horizontal and vertical components
+        # deconstruct the orientation image into its horizontal and vertical components
         u = 2 * np.cos(orientim)
         v = 2 * np.sin(orientim)
 
         quiveropts = dict(color='red', headlength=0, pivot='middle', headaxislength=0,
                           linewidth=.9, units='xy', width=.05, headwidth=1)
 
-        # Create a subplot and use quiver() to visualize the data
+        # create a subplot and use quiver() to visualize the data
         fig, ax = plt.subplots()
         ax.set_axis_off()
         ax.quiver(u, v, **quiveropts)
         plt.show()
     
     def showOrientationImage(self):
+        """Show a grayscale representation of the orientations of the input image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -295,7 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = orientim
 
     def showRoi(self):
-        """Get the region of interest of the input image and display it"""
+        """Get the region of interest of the input image and display it."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -304,7 +306,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = roi
 
     def showFrequency(self):
-        """Get the frequency image and display it"""
+        """Get the frequency image and display it."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -315,6 +317,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = freq
 
     def showButterFilter(self):
+        """Filter the input image with a Butterworth filter and display it."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -326,7 +329,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = butter
 
     def showGaborFilter(self):
-        """Calculate a gabor filtered image and display it"""
+        """Calculate a gabor filtered image and display it."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -345,7 +348,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = self.filtim
 
     def showThinnedZhangSuen(self):
-        """Thin the lines in a binary image with the Zhang-Suen method and display it"""
+        """Thin the lines in a binary image with the Zhang-Suen method and display it."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -370,6 +373,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = self.thinned
 
     def showCores(self):
+        """Find the cores of the fingerprint image and display them superimposed over the original image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -389,6 +393,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = overlaid
 
     def showDeltas(self):
+        """Find the deltas of the fingerprint image and display them superimposed over the original image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -408,6 +413,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = overlaid
 
     def showBifurcations(self):
+        """Find the bifurcations of the fingerprint image and display them superimposed over the original image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -441,6 +447,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = overlaid
 
     def showRidgeEndings(self):
+        """Find the ridge endings of the fingerprint image and display them superimposed over the original image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -474,6 +481,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentImage = overlaid
 
     def showClass(self):
+        """Find out the class of the fingerprint and display it in a popup window."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -489,6 +497,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showPopup("The fingerprint has the class: " + fpClass)
 
     def autoAnalysis(self):
+        """Run all of the algorithms and cache the results of the slow algorithms, so they can be accessed again with no speed penalty."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
@@ -497,7 +506,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showPopup("Complete!", detailedMessage="Analysis outputs are cached.")
 
     def createActions(self):
-        """Create actions for the application"""
+        """Create actions for the application."""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
         self.exportImageAction = QAction("&Export as PNG", self, shortcut="Ctrl+E", triggered=self.exportImage)
         self.exportImageAction.setEnabled(False)
@@ -520,7 +529,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.autoAnalysisAction = QAction("Run all", self, triggered=self.autoAnalysis)
         self.minutiaeExport = QAction("Save minutiae info to minutiae.json", self, triggered=self.exportMinutiaeJSON)
 
-        #self.fitToWindowAction = QAction()
         self.zoomInAction = QAction("Zoom in 1.25x", self, shortcut="+", triggered=self.zoomIn)
         self.zoomInAction.setEnabled(False)
         self.zoomOutAction = QAction("Zoom out 0.8x", self, shortcut="-", triggered=self.zoomOut)
@@ -529,7 +537,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.rotateAction.setEnabled(False)
 
     def createMenus(self):
-        """Create menubar menus with corresponding actions"""
+        """Create menubar menus with corresponding actions."""
         self.fileMenu = self.menubar.addMenu("File")
         self.fileMenu.addAction(self.openImageAction)
         self.fileMenu.addAction(self.exportImageAction)
@@ -575,11 +583,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.analysisMenu.addAction(self.minutiaeExport)
 
     def __checkForLoadedImage(self):
+        """Check if an image is loaded."""
         if self.imgArray == None:
             return False
         return True
 
     def __runAll(self):
+        """Run all of the algorithms."""
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
         mask = getRoi(butter)
