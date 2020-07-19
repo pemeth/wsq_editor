@@ -8,7 +8,20 @@ BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
 def ridgeOrient(im, flip=False):
-    """Takes a normalized fingerprint image array and returns an orientation image of the same size."""
+    """Takes a normalized fingerprint image array and returns an orientation image of the same size.
+    
+    Parameters
+    ----------
+    im : numpy_array
+        The input fingerprint image.
+    flip : bool
+        A hack for plotting a vector field based on the output image. See comment in the code for further info.
+        Defaults to False.
+        
+    Returns
+    -------
+        A 2D array of the same size as `im` with fields containing values from 0 to Pi (~3.14) specifying the
+        angle of the ridges in the image."""
     if not isinstance(im, np.ndarray):
         raise e.InvalidDataType("The input image is not a numpy array.")
 
