@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import numpy as np
 from PIL import Image, UnidentifiedImageError
 import matplotlib.pyplot as plt
@@ -134,7 +135,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except IOError:
                 self.showPopup("An IO error occurred.", "This may happen when saving an RGB image in a non-RGB format, such as WSQ.")
                 return
-            
+
+    def exportMinutiaeJSON(self):
+        self.__runAll() # get minutiae
+
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        orientim = ridgeOrient(butter)
+
+        with open("minutiae.json", "w") as f:
+            bifIdx = np.nonzero(self.bifurcations)
+            endIdx = np.nonzero(self.ridgeEndings)
+
+            orientim = (orientim * 180/np.pi).astype(np.int)    # radians to degrees
+            orientim = np.where(orientim == 180, 0, orientim)   # 180 degrees = 0 degrees
+
+            bifOrient = orientim[bifIdx]
+            endOrient = orientim[endIdx]
+
+            typedict = {
+                "bifurcations" : [],
+                "ridgeEndings" : []
+            }
+
+            x,y,angle = 0,1,2
+            for bifs,ends in zip(zip(bifIdx[1], bifIdx[0], bifOrient), zip(endIdx[1], endIdx[0], endOrient)):
+                typedict["bifurcations"].append({
+                    "X" : int(bifs[x]),
+                    "Y" : int(bifs[y]),
+                    "angle" : int(bifs[angle])
+                })
+                typedict["ridgeEndings"].append({
+                    "X" : int(ends[x]),
+                    "Y" : int(ends[y]),
+                    "angle" : int(ends[angle])
+                })
+
+            json.dump(typedict, f)
 
     def showImage(self, img, normalize=True):
         if normalize:
@@ -481,6 +518,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
         self.fpClassAction = QAction("Show class of the fingerprint", self, triggered=self.showClass)
         self.autoAnalysisAction = QAction("Run all", self, triggered=self.autoAnalysis)
+        self.minutiaeExport = QAction("Save minutiae info to minutiae.json", self, triggered=self.exportMinutiaeJSON)
 
         #self.fitToWindowAction = QAction()
         self.zoomInAction = QAction("Zoom in 1.25x", self, shortcut="+", triggered=self.zoomIn)
@@ -534,6 +572,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.analysisMenu.addAction(self.fpClassAction)
 
         self.analysisMenu.addAction(self.autoAnalysisAction)
+        self.analysisMenu.addAction(self.minutiaeExport)
 
     def __checkForLoadedImage(self):
         if self.imgArray == None:
