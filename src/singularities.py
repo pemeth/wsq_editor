@@ -107,7 +107,6 @@ def singularityCleanup(cores, deltas):
     cores = averageSingularities(cores)
 
     foo, bar = np.where(cores)
-    print(foo[0], bar[0])
     deltas = averageSingularities(deltas)
 
     cores, deltas = deleteSingularities(cores, deltas)
