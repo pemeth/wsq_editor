@@ -171,8 +171,6 @@ def singularityCleanup(cores, deltas):
     -------
         The cleaned versions of `cores` and `deltas` in this order."""
     cores = averageSingularities(cores)
-
-    foo, bar = np.where(cores)
     deltas = averageSingularities(deltas)
 
     cores, deltas = deleteSingularities(cores, deltas)
