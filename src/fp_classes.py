@@ -1,6 +1,19 @@
 import numpy as np
 
 def getClass(cores, deltas):
+    """Returns the class of a fingerprint based on singularity information.
+    
+    Parameters
+    ----------
+    cores : numpy_array
+        A binary 2D array with non-zero values specifying the position of the cores in a fingerprint image.
+    deltas : numpy_array
+        A binary 2D array with non-zero values specifying the position of the deltas in a fingerprint image.
+        
+    Returns
+    -------
+        A string containing the type of the fingerprint. May return `unknown` if singularities do not match any
+        of the rules."""
     numCores = np.sum(cores)
     numDeltas = np.sum(deltas)
 
@@ -17,6 +30,19 @@ def getClass(cores, deltas):
 
 
 def specifyLoopType(cores, deltas):
+    """Returns the type of the fingerprint, which resembles a loop. Loop-like fingerprint classes are tented arch,
+    left or light loop.
+    
+    Parameters
+    ----------
+    cores : numpy_array
+        A binary 2D array with non-zero values specifying the position of the cores in a fingerprint image.
+    deltas : numpy_array
+        A binary 2D array with non-zero values specifying the position of the deltas in a fingerprint image.
+        
+    Returns
+    -------
+        A string containing the type of the loop."""
     cY, cX = np.where(cores)
     dY, dX = np.where(deltas)
 
