@@ -456,23 +456,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        norm = normalizeMeanVariance(self.imgArray)
-        butter = butterworth(norm)
-        mask = getRoi(butter)
-        orientim = ridgeOrient(butter)
-        freq = ridgeFreq(butter, orientim)
-
-        # check cache; if not cached run algorithm
-        if isinstance(self.filtim, type(None)):
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-        if isinstance(self.thinned, type(None)):
-            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-        if isinstance(self.bifurcations, type(None)):
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
-        if isinstance(self.cores, type(None)):
-            orient = ridgeOrient(butter * mask)
-            self.cores, self.deltas = poincare(orient) * mask
-        
+        self.__runAll()
         self.showPopup("Complete!", detailedMessage="Analysis outputs are cached.")
 
     def createActions(self):
@@ -555,6 +539,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.imgArray == None:
             return False
         return True
+
+    def __runAll(self):
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
+
+        # check cache; if not cached run algorithm
+        if isinstance(self.filtim, type(None)):
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
+        if isinstance(self.thinned, type(None)):
+            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+        if isinstance(self.bifurcations, type(None)):
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+        if isinstance(self.cores, type(None)):
+            orient = ridgeOrient(butter * mask)
+            self.cores, self.deltas = poincare(orient) * mask
 
     def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
         """Shows an informative popup window with `message` as it's main text."""
