@@ -443,19 +443,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         norm = normalizeMeanVariance(self.imgArray)
-        mask = getRoi(norm)
-        orientim = ridgeOrient(norm)
-        freq = ridgeFreq(norm, orientim)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
 
         # check cache; if not cached run algorithm
         if isinstance(self.filtim, type(None)):
-            self.filtim = gaborFilter(norm, orientim, freq, mask)
+            self.filtim = gaborFilter(butter, orientim, freq, mask)
         if isinstance(self.thinned, type(None)):
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         if isinstance(self.bifurcations, type(None)):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
         if isinstance(self.cores, type(None)):
-            orient = ridgeOrient(norm * mask)
+            orient = ridgeOrient(butter * mask)
             self.cores, self.deltas = poincare(orient) * mask
         
         self.showPopup("Complete!", detailedMessage="Analysis outputs are cached.")
