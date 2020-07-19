@@ -143,9 +143,14 @@ def butterworth(img):
     # the filter size is bound by the lower of the width or height of the image - whichever is lower
     fsize = rows * (rows < cols) + cols * (cols <= rows)
 
+    # this is used when inserting the Butterworth into the "zero" array a few commands below,
+    #   because if the size of the filter is odd, the integer division rounds down
+    #   and in that case this line provides a + 1 offset for slicing correction
+    oddSizeOffset = fsize % 2
+
     # construct a low pass filter of the same size as img and apply the filter
     butter = np.zeros_like(img, dtype=np.float32)
-    butter[crow-fsize//2:crow+fsize//2, ccol-fsize//2:ccol+fsize//2] = constructButter(size=fsize)
+    butter[crow-fsize//2:crow+fsize//2 + oddSizeOffset, ccol-fsize//2:ccol+fsize//2 + oddSizeOffset] = constructButter(size=fsize)
     fftImg *= butter
 
     # inverse shift, inverse fft and returning only the real component
