@@ -274,6 +274,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(freq)
         self.currentImage = freq
 
+    def showButterFilter(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
+            return
+
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+
+        self.showImage(butter)
+        self.currentImage = butter
+
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it"""
         if isinstance(self.imgArray, type(None)):
@@ -475,6 +486,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.roiAction = QAction("Show region of interest", self, triggered=self.showRoi)
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
         self.gaborAction = QAction("Show gabor filtered image", self, triggered=self.showGaborFilter)
+        self.butterAction = QAction("Show Butterworth filtered image", self, triggered=self.showButterFilter)
         self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
         self.coresAction = QAction("Show core singularities", self, triggered=self.showCores)
         self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
@@ -518,6 +530,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # main image menu
         self.imageMenu.addAction(self.roiAction)
         self.imageMenu.addAction(self.freqAction)
+        self.imageMenu.addAction(self.butterAction)
         self.imageMenu.addAction(self.gaborAction)
         self.imageMenu.addAction(self.thinnedZhangSuenAction)
         
