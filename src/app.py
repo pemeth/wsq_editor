@@ -136,6 +136,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 return
 
     def exportMinutiaeJSON(self):
+        if isinstance(self.imgArray, type(None)):
+            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
+            return
         self.__runAll() # get minutiae
 
         norm = normalizeMeanVariance(self.imgArray)
