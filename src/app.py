@@ -1,3 +1,4 @@
+import os
 import sys
 import numpy as np
 from PIL import Image, UnidentifiedImageError
@@ -106,10 +107,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         img = Image.fromarray(img)
 
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Name of the exported file:')
+        filename, ok = QInputDialog.getText(self, 'Input Dialog', 'Name of the exported file:')
+
+        if len(filename) == 0 and ok:
+            self.showPopup("No filename specified.")
+            return
+
+        filename, ext = os.path.splitext(filename)
+
+        if ext == '':
+            ext = ".png"
 
         if ok:
-            img.save(str(text) + ".png")
+            try:
+                img.save(str(filename) + ext)
+            except ValueError:
+                self.showPopup("File extension not recognised.")
+                return
             
 
     def showImage(self, img, normalize=True):
