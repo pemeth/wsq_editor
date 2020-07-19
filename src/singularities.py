@@ -4,6 +4,16 @@ from scipy.ndimage.measurements import center_of_mass
 
 # based on https://www.researchgate.net/profile/Gabriel_Iwasokun/publication/291100504_Fingerprint_Singular_Point_Detection_Based_on_Modified_Poincare_Index_Method/links/56dd701408ae46f1e99f5649/Fingerprint-Singular-Point-Detection-Based-on-Modified-Poincare-Index-Method.pdf
 def poincareIndex(window):
+    """Calculate the poincare index of the center pixel in `window`.
+
+    Parameters
+    ----------
+    window : numpy_array
+        A 3x3 window with the center pixel being the one for which to calculate the index.
+
+    Returns
+    -------
+        The Poincare index."""
     unrolled_cyclic = window[[2,2,1,0,0,0,1,2,2],[1,0,0,0,1,2,2,2,1]]  # select the "circle" around the center pixel, but the last item == first item
 
     # get all the pairs of the unrolled cyclic window
@@ -21,7 +31,17 @@ def poincareIndex(window):
     return (1 / np.pi) * np.sum(betas)  # return the poincare index of this window
 
 def poincare(img):
+    """Find cores and deltas in the fingerprint image based on the Poincare index.
 
+    Parameters
+    ----------
+    img : numpy_array
+        A 2D array representing the orientations of the ridges at every pixel.
+
+    Returns
+    -------
+        Two binary 2D arrays of the same size as `img` with non-zero values where based on the Poincare index
+        cores or deltas were found. The first returned array represents the cores and the second the deltas."""
     # TODO try to calculate the poincare indices via these patches - may be faster than a nested loop
     size = 3
     shape = (img.shape[0] - size + 1, img.shape[1] - size + 1, size, size)
@@ -44,6 +64,22 @@ def poincare(img):
     return (cores, deltas)
 
 def averageSingularities(sings, regionSize=8):
+    """Reduce the number of singularities in `sings` in region of size `regionSize`. If multiple singularities
+    are found in a region, take the average position of the singularities and replace them with this one average
+    singularity.
+
+    Parameters
+    ----------
+    sings : numpy_array
+        A 2D binary array with nonzero values in fields where singularities were found. This variable has to contain
+        only one type of singularity - either only cores or only deltas.
+    regionSize : int
+        The size of the region around each found singularity, from which the average will be computed.
+        Defaults to 8.
+
+    Returns
+    -------
+        A binary 2D array of the same size as `sings`, but with averaged positions of the singularities."""
     left = right = up = down = regionSize
     shape = sings.shape
 
@@ -75,6 +111,23 @@ def averageSingularities(sings, regionSize=8):
     return sings
 
 def deleteSingularities(cores, deltas, regionSize=8):
+    """Delete singularities of both types if within the same region of size `regionSize`.
+    The size of both `cores` and `deltas` must match.
+
+    Parameters
+    ----------
+    cores : numpy_array
+        A 2D binary array with nonzero values in fields where cores were found.
+    deltas : numpy_array
+        A 2D binary array with nonzero values in fields where deltas were found.
+    regionSize : int
+        The size of the region around each found singularity, in which the singularities will be deleted.
+        Defaults to 8.
+
+    Returns
+    -------
+        Returns `cores` and `deltas` in this order, only with non-zero values zeroed out where markers for
+        their respective singularities were found in the same region."""
     left = right = up = down = regionSize
     shape = cores.shape
 
@@ -104,6 +157,19 @@ def deleteSingularities(cores, deltas, regionSize=8):
     return cores, deltas
 
 def singularityCleanup(cores, deltas):
+    """Calls `averageSingularities` and `deleteSingularities` in this order in order to clean up
+    the singularity images.
+
+    Parameters
+    ----------
+    cores : numpy_array
+        A 2D binary array with nonzero values in fields where cores were found.
+    deltas : numpy_array
+        A 2D binary array with nonzero values in fields where deltas were found.
+
+    Returns
+    -------
+        The cleaned versions of `cores` and `deltas` in this order."""
     cores = averageSingularities(cores)
 
     foo, bar = np.where(cores)
