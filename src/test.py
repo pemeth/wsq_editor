@@ -7,7 +7,6 @@ from region_of_interest import getRoi
 from ridge_orientation import ridgeOrient
 from ridge_frequency import ridgeFreq
 from filters import gaborFilter
-from lib import splitFilename
 import exceptions as ex
 
 class TestImageManipulationFunctions(unittest.TestCase):
