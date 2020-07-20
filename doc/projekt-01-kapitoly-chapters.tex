@@ -1162,9 +1162,14 @@
 
   \section{Algoritmy}
   V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
+  Základnými úpravami, ktoré sa vykonávajú pred každým iným druhom spracovania sú normalizácia a filtrovanie Butterworth filtrom.
   Normalizácia snímky sa vykonáva pomocou funkcie \texttt{normalizeMeanVariance}, ktorá implementuje metódu
   popísanú v sekcii~{\ref{sec:normalizacia}}, čo znamená, že normalizuje pomocou úpravy strednej hodnoty a rozptylu hodnôt pixelov v snímke. Tento úkon je
-  vykonávaný pred každým iným druhom spracovania.
+  vykonávaný pred každým iným druhom spracovania.\\
+  Butterworth filtrovanie prebieha vo frekvenčnej doméne snímky. Frekvenčná reprezentácia snímky je získaná dvojrozmernou rýchlou Fourierovou transformáciou.
+  Pre danú snímku je vytvorený filter dolného priepustu, ktorý sa aplikuje vo frekvenčnej doméne na danú snímku. Nakoniec sa filtrované spektrum inverznou
+  transformáciou prevedie do pôvodnej, priestorovej, reprezentácie. Týmto sa odstránia zo snímky vysokofrekvenčné fragmenty ako napríklad textúra papiera
+  pri skenovaných snímkoch odtlačkov prstov. Toto filtrovanie sa vykonáva vo funkcii \texttt{butterworth}.
 
   \subsection{Orientácia papilárnych línii}
   Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
