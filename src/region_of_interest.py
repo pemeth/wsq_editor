@@ -1,3 +1,9 @@
+"""Basic ROI extraction based on local variance.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 from numpy.lib import stride_tricks
 

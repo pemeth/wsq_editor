@@ -1,3 +1,9 @@
+"""Ridge orientation estimation.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 from scipy.signal import convolve2d
 from scipy.ndimage import gaussian_filter

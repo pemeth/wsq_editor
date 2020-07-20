@@ -1,3 +1,9 @@
+"""Unit tests for some of the algorithms.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import unittest
 import numpy as np
 from scipy import misc

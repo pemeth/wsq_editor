@@ -1,3 +1,9 @@
+"""Singularity detection via Poincare index.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 from numpy.lib import stride_tricks
 from scipy.ndimage.measurements import center_of_mass

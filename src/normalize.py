@@ -1,3 +1,9 @@
+"""Basic mean-variance image value normalization.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 
 import exceptions as e

@@ -1,3 +1,9 @@
+"""Custom exceptions.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 class ImageProcessingError(Exception):
     """Base exception class for image processing."""
     def __init__(self, message):

@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""PyQt GUI setup class automatically generated from a Qt Creator file.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #

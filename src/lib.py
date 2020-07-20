@@ -1,3 +1,9 @@
+"""General library with useful functions.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 from PIL import Image, ImageDraw
 import os

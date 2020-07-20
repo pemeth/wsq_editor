@@ -1,3 +1,9 @@
+"""Main entrypoint to the WSQ Editor application.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import os
 import sys
 import json

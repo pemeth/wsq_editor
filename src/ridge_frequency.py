@@ -1,10 +1,16 @@
-"""NOTICE
+"""Local ridge frequency estimation.
+
+Author: Patrik Nemeth ! SEE NOTICE BELOW !
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+
+NOTICE
 
 This algorithm is based on example MATLAB code posted by
 Peter Kovesi, School of Computer Science & Software Engineering,
 The University of Western Australia.
-https://www.peterkovesi.com/matlabfns/FingerPrints/Docs/index.html"""
-
+https://www.peterkovesi.com/matlabfns/FingerPrints/Docs/index.html
+"""
 import numpy as np
 import scipy.ndimage as ndimage
 import scipy.signal as signal

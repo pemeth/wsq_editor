@@ -1,3 +1,9 @@
+"""Minutiae detection in thinned ridge images.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 
 # based on http://pdfs.semanticscholar.org/f30e/64b161c26e458be8411c5559ee7a959b284f.pdf
