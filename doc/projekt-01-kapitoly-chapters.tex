@@ -1254,6 +1254,11 @@
   v podstate maska pozícií. Následne sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje značky na
   pozíciách extrahovaných markantov~(\ref{obr:markanty}).
 
+  Extrahované markanty je možné následne exportovať do JSON súboru. Tento export sa vykonáva v metóde \texttt{exportMinutiaeJSON}, ktorá vezme pozície
+  $xy$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
+  pozostáva z dvoch objektov (\uv{bifurcations} a \uv{ridgeEndings}), ktoré obsahujú zoznam príslušných pozícií a orientácií línií. Je dôležité poznamenať,
+  že do súboru sa ukladá orientácia papilárnych línií pod nájdeným markantom a nie orientácia samotného markantu.
+
   \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.3\linewidth}
@@ -1379,7 +1384,7 @@
   Aplikácia poskytuje možnosť vizualizácie jednotlivých zaužívaných krokov predspracovania snímok. Výsledky analýzy sú tiež zobrazené pomocou farebných
   značiek vrstvených na pôvodnú snímku. Cieľom týchto vizualizácií je demoštrácia úkonov spojených so spracovaním snímok pre ich lepšie pochopenie.
   Jednotlivé kroky spracovania snímok odtlačkov je možné exportovať do formátu špecifikovaného užívateľom.
-  %TODO Užívateľ má tiež možnosť exportovať textový súbor obsahujúci popis extrahovaných markantov.
+  Užívateľ má tiež možnosť exportovať textový súbor obsahujúci popis extrahovaných markantov vo formáte JSON.
 
   Výsledná aplikácia však má priestor pre vylepšenie. Asi jej najvýraznejším nedostatkom je rýchlosť niektorých algoritmov, ktoré sa spoliehajú na
   cykly pre prácu s dátami snímok, pričom takáto implementácia v jazyku Python nie je ideálnym riešením. Prepísanie algoritmov do jazyka Cython by umožnilo
