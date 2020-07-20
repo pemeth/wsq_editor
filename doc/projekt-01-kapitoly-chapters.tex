@@ -61,7 +61,7 @@
 
   \begin{figure}[h]
     \centering
-    \includegraphics[width=0.65\linewidth]{obrazky-figures/pokozka_vrstvy.png} % TODO: mozno nahradit za obrazok z public domain?
+    \includegraphics[width=0.65\linewidth]{obrazky-figures/pokozka_vrstvy.png}
     \caption{Vrstvy pokožky. Prevzaté z \cite{FingerprintSrcBook}.}
     \label{obr:pokozka_vrstvy}
   \end{figure}
@@ -367,7 +367,6 @@
   % //TODO: mozno nejaky obrazok o process flow pri spracovani a analyze pre ilustraciu poradia ukonov
 
   \subsection{Vylepšenie snímok} \label{sec:vylepsenie_snimok}
-  % //TODO: ak budem moc vyuzivat Hong zdroj, tak napisat sem na zaciatok sekcie, ze je to zalozene na tom zdroji
   Jedným z prvých krokov spracovávania snímok odtlačkov prstov je ich vylepšenie (angl. image enhancement). Väčšina zdrojov odtlačkov je nespoľahlivých
   v zmysle, že nie je možné zaistiť aby boli zdrojové snímky bez signálového alebo iného šumu. To platí hlavne v kriminalistike,
   kde sa často pracuje s latentnými odtlačkami nízkej kvality. Z tohto dôvodu je dôležité vstupnú snímku nejakým spôsobom upraviť tak,
@@ -484,10 +483,7 @@
             \theta{}(i,j) = \frac{1}{2}\tan{}^{-1}(\frac{\mathcal{V}_y(i,j)}{\mathcal{V}_x(i,j)}),
           \end{equation}
           kde $\theta{}(i,j)$ je aproximáciou lokálnej orientácie línií metódou najmenších štvorcov pre blok so stredom na pixeli $(i,j)$.
-    % //TODO: zvysok bodov zo zdroja Hong, ak treba
   \end{itemize}
-
-  %//TODO: popisat binarizaciu bud v zvlast podsekcii alebo spolu so stenčovaním línií
 
   \subsection{Frekvencia papilárnych línií}
   Dôležitým krokom, obzvlášť pred následnou úpravou vstupnej snímky frekvenčným filtrom, je výpočet frekvencie papilárnych línií.
@@ -885,7 +881,6 @@
   \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{obrazky-figures/WSQ_DWT_subband_decomposition.png}
-    %//TODO: prekreslit tento obrázok vo vyssej kvalite a podla L/H oznaceni, ktore som vyuzil v tejto sekcii namiesto a_xx ako je vo wsq specifikacii
     \caption{Dekompozícia podpásem vo formáte WSQ. Zobrazené sú podpásma vo frekvenčnej doméne. V tabuľke napravo je znázornený sled filtrov, ktoré boli
     aplikované na vstupný signál - 1 je filter horného priepustu, 0 je filter dolného priepustu. Prevzaté z \cite{WSQSpecification}.}
     \label{obr:WSQ_DWT_dekompozicia}
