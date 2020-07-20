@@ -15,6 +15,10 @@ BLOCK_WIDTH = 16
 
 def ridgeOrient(im, flip=False):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size.
+    Based on:
+    Hong, L., Wan, Y. a Jain, A. Fingerprint image enhancement: algorithm and
+    performance evaluation. IEEE Transactions on Pattern Analysis and Machine
+    Intelligence. IEEE. 1998, roc. 20, c. 8, s. 777–789. ISSN 0162-8828.
     
     Parameters
     ----------

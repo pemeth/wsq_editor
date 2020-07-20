@@ -7,7 +7,10 @@ School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
 import numpy as np
 
 def bradleyThreshold(img, mask):
-    """Binarizes the input image adaptively. Based on the Bradley Adaptive Thresholding method.
+    """Binarizes the input image adaptively.
+    Based on:
+    Bradley, D. a Roth, G. Adaptive thresholding using the integral image. Journal of
+    graphics tools. Taylor & Francis. 2007, roc. 12, c. 2, s. 13–21.
     
     Parameters
     ----------

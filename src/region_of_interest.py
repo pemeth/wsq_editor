@@ -13,6 +13,10 @@ def getRoi(im, threshold=0.1):
     """Return a region of interest mask of the input fingerprint image.
     
     Simple ROI extraction based on gray value variance inside MxN blocks.
+    Based on:
+    Babatunde, I. G., Kayode, A. B., Charles, A. O. a Olatubosun, O. Fingerprint
+    image enhancement: Segmentation to thinning. International Journal of Advanced
+    Computer Science and Applications. Citeseer. 2012, roc. 3, c. 1.
     
     Parameters
     ----------

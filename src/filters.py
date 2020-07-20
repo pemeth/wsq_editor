@@ -14,6 +14,9 @@ from binarization import bradleyThreshold
 
 def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
     """Filter the input image `im` with a Gabor filter. The function return the filtered and binarized image, whcih is the same size as `im`.
+    Based on:
+    Hong, L., Wan, Y. a Jain, A. Fingerprint image enhancement: algorithm and performance evaluation.
+    IEEE Transactions on Pattern Analysis and Machine Intelligence. IEEE. 1998, roc. 20, c. 8, s. 777–789. ISSN 0162-8828.
     
     Parameters
     ----------
@@ -131,6 +134,9 @@ def constructButter(size=100, D0=100, n=4):
 
 def butterworth(img):
     """Applies a Butterworth lowpass filter on the image `img`.
+    Based on:
+    Drahansky, M., Orsag, F., Dolezel, M. a al. et. Biometrie. 1. vyd. Computer Press, s.r.o,
+    2011. 294 s. ISBN 978-80-254-8979-6.
     
     Parameters
     ----------

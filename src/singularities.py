@@ -8,7 +8,6 @@ import numpy as np
 from numpy.lib import stride_tricks
 from scipy.ndimage.measurements import center_of_mass
 
-# based on https://www.researchgate.net/profile/Gabriel_Iwasokun/publication/291100504_Fingerprint_Singular_Point_Detection_Based_on_Modified_Poincare_Index_Method/links/56dd701408ae46f1e99f5649/Fingerprint-Singular-Point-Detection-Based-on-Modified-Poincare-Index-Method.pdf
 def poincareIndex(window):
     """Calculate the poincare index of the center pixel in `window`.
 
@@ -38,6 +37,10 @@ def poincareIndex(window):
 
 def poincare(img):
     """Find cores and deltas in the fingerprint image based on the Poincare index.
+    Based on:
+    Iwasokun, G. a Akinyokun, O. Fingerprint Singular Point Detection Based on
+    Modified Poincare Index Method. International Journal of Signal Processing, Image
+    Processing and Pattern Recognition. Oktober 2014, roc. 7, s. 259–272.
 
     Parameters
     ----------
@@ -165,6 +168,10 @@ def deleteSingularities(cores, deltas, regionSize=8):
 def singularityCleanup(cores, deltas):
     """Calls `averageSingularities` and `deleteSingularities` in this order in order to clean up
     the singularity images.
+    Based on:
+    Iwasokun, G. a Akinyokun, O. Fingerprint Singular Point Detection Based on
+    Modified Poincare Index Method. International Journal of Signal Processing, Image
+    Processing and Pattern Recognition. Oktober 2014, roc. 7, s. 259–272.
 
     Parameters
     ----------

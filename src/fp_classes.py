@@ -8,6 +8,9 @@ import numpy as np
 
 def getClass(cores, deltas):
     """Returns the class of a fingerprint based on singularity information.
+    Based on:
+    Maltoni, D., Maio, D., Jain, A. a Prabhakar, S. Handbook of Fingerprint Recognition.
+    Springer, 2009. 512 s. ISBN 978-1-8488-2254-2.
     
     Parameters
     ----------

@@ -6,10 +6,13 @@ School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
 """
 import numpy as np
 
-# based on http://pdfs.semanticscholar.org/f30e/64b161c26e458be8411c5559ee7a959b284f.pdf
 def extractMinutiae(thinned):
     """Returns two arrays of the same size as `thinned`, which contain pixels indicating friction ridge bifurcations and
     ridge endings respectively.
+    Based on:
+    Amengual, J., Juan, A., Perez, J., Prat, F., Saez, S. et al. Real-time minutiae
+    extraction in fingerprint images. IET Conference Proceedings. Institution of
+    Engineering and Technology. Januar 1997, s. 871–875.
     
     Parameters
     ----------

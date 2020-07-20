@@ -50,6 +50,10 @@ def zeroToOnePatternCount(unrolled_window):
 
 def zhangSuen(im):
     """Binary image thinning based on the Zhang-Suen method.
+    Based on:
+    Zhang, T. Y. a Suen, C. Y. A Fast Parallel Algorithm for Thinning Digital
+    Patterns. Commun. ACM. New York, NY, USA: Association for Computing
+    Machinery. Marec 1984, roc. 27, c. 3, s. 236–239. ISSN 0001-0782.
     
     Parameters
     ----------
