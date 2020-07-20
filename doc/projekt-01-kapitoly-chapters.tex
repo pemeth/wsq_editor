@@ -1199,28 +1199,44 @@
   \subsection{Frekvencia papilárnych línií}
   Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky, ktoré sú následne natočené podľa priemernej
   orientácie v tomto bloku tak, aby papilárne línie boli kolmé na os $x$. V takto natočenom bloku sú následne spriemerované hodnoty po stĺpcoch
-  a extrahovaná $x$-signatúra línií. Z tejto signatúry sa vypočíta priemerná frekvencia v danom bloku a vytvorí sa nová snímka frekvencií, ktorej príklad
-  je zobrazený na obrázku~{\ref{obr:frekvencie}}.
+  a extrahovaná $x$-signatúra línií. Z tejto signatúry sa vypočíta priemerná frekvencia v danom bloku a vytvorí sa nová snímka frekvencií. Táto snímka
+  obsahuje lokálne frekvencie papilárnych línií po diskrétnych blokoch, pričom susedné bloky môžu mať značne odlišné hodnoty. Takéto správanie zdravé papilárne
+  línie nepreukazujú a preto je na túto snímku aplikované Gaussovské rozostrenie (priemerovanie), čím sa \uv{spomalý} prechod medzi jednotlivými blokmi.
+  Rozdiel medzi pôvodnou frekvenčnou snímkou a rozostrenou verziou je možné vidieť na obrázku~{\ref{obr:frekvencie}}. Význam tohto rozostrenia je zreteľný pri
+  kroku Gabor filtrovania, ktoré je popísané v sekcii \ref{sec:gabor_algo}.
 
   \begin{figure}[h]
     \centering
-    \includegraphics[width=0.3\linewidth]{obrazky-figures/freqim.png}
-    \caption{Snímka frekvencií.}
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/freqim.png}
+      \caption{pôvodná frekvenčná snímka}
+    \end{subfigure}
+    \hspace{0.05\linewidth}
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/freqim_blur.png}
+      \caption{rozostrená frekvenčná snímka}
+    \end{subfigure}
+    \caption{Snímky frekvencií.}
     \label{obr:frekvencie}
   \end{figure}
 
-  \subsection{Gabor filtrovanie}
+  \subsection{Gabor filtrovanie} \label{sec:gabor_algo}
   Funkcia \texttt{gaborFilter} prijíma štyri hlavné parametre, a to pôvodnú snímku, snímku orientácií, frekvencií a masku oblasti záujmu. Pre každý pixel
   snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gabor filtra na základe príslušných dát o frekvencii a orientácii
   snímky v tom danom pixeli. Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
   vstupná snímka. Po prejdení každého požadovaného pixelu sú hodnoty získané filtráciou prahované pre získanie binárnej snímky.
 
   Na obrázku~{\ref{obr:gabor}}
-  je možné pozorovať filtrovanú snímku pred a po binarizácii. Štvorcové fragmenty sú tvorené tým, že snímka frekvencií je diskrétna po blokoch,
-  čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Kvôli tomu je aj obtiažne prahovať takúto snímku. Prahovanie
-  je prevádzané adaptívne po blokoch. Pri globálnom prahu by boli tieto štorcové fragmenty značne výraznejšie, pretože jednotlivé bloky majú navzájom
-  rozdielne stredné hodnoty a rozptyly hodnôt. Preto je možné na binárnej snímke vidieť vynechané papilárne línie napriek
-  tomu, že v nebinárnej variante sú línie neprerušené.
+  je možné pozorovať filtrovanú snímku pred a po binarizácii. Štvorcové fragmenty na prvých dvoch zobrazených snímkach sú tvorené tým, že snímka frekvencií je
+  diskrétna po blokoch, čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Tretia snímka bola získaná filtrovaním na základe
+  priemerovanej frekvenčnej snímky zbavenej náhlych prechodov medzi susednými blokmi frekvencií. Vďaka tomuto priemerovaniu bolo predídené výrazným štvorcovým
+  fragmentom, čo podporilo kvalitnejšiu binarizáciu.
+
+  Kvôli blokovým fragmentom je totiž obtiažne prahovať snímku, a to nie len pomocou globálneho prahu. Snímky \ref{obr:gabor_binar} a
+  \ref{obr:gabor_binar_freq_blur} boli obe binarizované adaptívne, pričom je zjavné, že výsledok druhej z týchto snímok je značne vyššej kvality bez výrazných
+  fragmentov. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých sa vypočíta optimálny prah. Na základe tohto prahu sa v každom bloku prahujú hodnoty,
+  čím sa získa binárna snímka. Výhodou takejto binarizácie oproti prevedeniu s globálnym prahom je, že berie na ohľad kontext okolných pixelov práve
+  binarizovaného pixelu, vďaka čomu sa získa kvalitnejšie binarizovaná snímka.
 
   \begin{figure}[h]
     \centering
@@ -1228,12 +1244,20 @@
       \includegraphics[width=\linewidth]{obrazky-figures/gabor_filtered.png}
       \caption{nebinarizovaná}
     \end{subfigure}
-    \hspace{0.05\linewidth}
+    \hfill
     \begin{subfigure}[b]{0.3\linewidth}
       \includegraphics[width=\linewidth]{obrazky-figures/gabor_filtered_binarized.png}
       \caption{binarizovaná}
+      \label{obr:gabor_binar}
     \end{subfigure}
-    \caption{Snímka odtlačku prsta filtrovaná Gabor filtrom a jej binarizovaná verzia.}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/gabor_filtered_binarized_freq_blur.png}
+      \caption{po rozostrení frekvencií}
+      \label{obr:gabor_binar_freq_blur}
+    \end{subfigure}
+    \caption{Snímka odtlačku prsta filtrovaná Gabor filtrom (a), jej binarizovaná verzia (b) a binarizovaná verzia po filtrovaní na základe rozostrenej
+            frekvenčnej snímky (c).}
     \label{obr:gabor}
   \end{figure}
 
