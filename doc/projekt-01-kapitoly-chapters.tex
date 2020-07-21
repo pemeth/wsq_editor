@@ -832,9 +832,9 @@
 
   \section{Kompresia}
   Algoritmus kompresie a dekompresie využívaný vo formáte WSQ využíva tri hlavné kroky (zobrazené na obrázku~{\ref{obr:WSQ_diagram}}):
-  diskrétnu vlnkovú transformáciu (DWT) vstupnej snímky, kvantovanie získaných koeficientov a následné entropické kódovanie kvantovacích indexov \cite{Bradley}.
+  diskrétnu vlnkovú transformáciu (DWT) vstupnej snímky, kvantovanie získaných koeficientov a následné entropické kódovanie kvantovacích indexov~{\cite{Bradley}}.
 
-  \begin{figure}[]
+  \begin{figure}[h]
     \centering
     % //TODO prekreslit toto na PDF vektorovy obrazok
     \includegraphics[width=0.8\linewidth]{obrazky-figures/WSQ_encoder_decoder.png}
@@ -847,13 +847,14 @@
   podpásma. Jedna úroveň transformácie je zobrazená na obrázku~{\ref{obr:DWT_uroven}}. Vstupný signál $I$ je rozdelený na podpásma párom filtrov horného
   a dolného priepustu. Tento pár filtrov sa najprv aplikuje pozdĺž riadkov vstupnej snímky (signálu), čo vyprodukuje dva výstupy - jeden výstup reprezentuje
   vstupný signál filtrovaný vysokým priepustom a druhý reprezentuje vstupný signál filtrovaný nízkym priepustom. Tieto dva signály sa následne podvzorkujú
-  a sú na ne aplikované rovnaké páry filtrov a následné podvzorkovanie ako v prvom kroku, ale po stĺpcoch.
+  a sú na ne aplikované rovnaké páry filtrov a následné podvzorkovanie ako v prvom kroku, ale tentoraz po stĺpcoch.
 
   \begin{figure}[h]
     \centering
     \includegraphics[width=10cm]{obrazky-figures/DWT_level.pdf}
     \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
-    bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál.}
+    bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál. Kombinácie HH, HL, LH a LL reprezentujú
+    výstupné signály filtrované vo vyznačenom poradí.}
     \label{obr:DWT_uroven}
   \end{figure}
 
@@ -866,7 +867,8 @@
   \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\linewidth]{obrazky-figures/DWT_rozklad_odtlacku.png}
-    \caption{Rozklad snímky odtlačku prsta na štyri skupiny koeficientov aplikáciou jednej úrovne DVT. Snímka z internej databázy STRaDe.}
+    \caption{Rozklad snímky odtlačku prsta na štyri skupiny koeficientov aplikáciou jednej úrovne diskrétnej vlnkovej transformácie. Vstupná snímka
+    z~internej databázy STRaDe.}
     \label{obr:dwt_rozklad_snimky}
   \end{figure}
 
@@ -895,7 +897,7 @@
   \end{figure}
 
   \subsection{Kvantovanie}
-  Proces kvantovania je spôsob diskretizácie vstupného signálu. V tomto prípade sa jedná o diskretizáciu koeficientov určených diskrétnou vlnkovou
+  Proces kvantovania je spôsob diskretizácie vstupného signálu. V tomto prípade sa jedná o~diskretizáciu koeficientov určených diskrétnou vlnkovou
   transformáciou v predošlom kroku komprimácie. Jednotlivé koeficienty podpásem získaných transformáciou sú uniformne kvantované v rámci každého podpásma,
   čo znamená, že každé podpásmo má vlastný kvantovač. Tento krok zavádza do metódy kompresie zaužívanej vo WSQ stratovosť, pretože hodnoty koeficientov
   sú kvantované z desatinných čísel na celé čísla bez akéhokoľvek zabezpečenia reverzibility tohto procesu.
@@ -904,7 +906,7 @@
     \centering
     \includegraphics[width=0.6\linewidth]{obrazky-figures/wsq_kvantovacia_charakteristika.png}
     \caption{Kvantovacia charakteristika kvantovača podpásem diskrétnej vlnkovej transformácie. Šírka krokov znázorňuje šírku kvantovacej nádoby.
-    Os $a$ reprezentuje kvantovanie a os $\hat{a}$ reprezentuje reverzné kvantovanie (pri dekompresii). Prevzaté z \cite{brislawn1996compression}.}
+    Os $a$ reprezentuje kvantovanie a~os $\hat{a}$ reprezentuje reverzné kvantovanie (pri dekompresii). Prevzaté z \cite{brislawn1996compression}.}
     \label{obr:wsq_kvantovacia_charakteristika}
   \end{figure}
 
@@ -928,9 +930,9 @@
     \label{rov:kvantovanie_reverz}
   \end{equation}
   kde index $k$ označuje $k$-te podpásmo, $a_k(m,n)$ označuje koeficient v danom podpásme, $Z_k$ je šírkou nulovej kvantovacej nádoby,
-  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob pri dekódovaní a zostáva konštantou pre každé podpásmo. $C$ je špecifikáciou
+  $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob pri dekódovaní a zostáva konštantou pre každé podpásmo. {$C$}~je špecifikáciou
   daný ako $C = 0,44$ pre najnovší kodér, pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem. $p_k(m,n)$ označuje kvantovaný koeficient
-  zodpovedajúci pôvodnému koeficientu $a_k(m,n)$ a koeficient $\hat{a}_k(m,n)$ je spätne dekódovaný koeficient z $p_k(m,n)$. Funkcie $\lfloor$ $\rfloor$
+  zodpovedajúci pôvodnému koeficientu $a_k(m,n)$ a koeficient $\hat{a}_k(m,n)$ je spätne dekódovaný koeficient z~{$p_k(m,n)$}. Funkcie $\lfloor$ $\rfloor$
   a $\lceil$ $\rceil$ definujú zaokrúhlenie na celé číslo smerom nadol a smerom nahor v tomto poradí \cite{WSQSpecification}.
 
   Všeobecná charakteristika kvantovača pre jedno podpásmo je znázornené na obrázku~{\ref{obr:wsq_kvantovacia_charakteristika}}. Tu je možné vidieť, že šírka
@@ -951,7 +953,7 @@
   a následne sú zakódované pomocou Huffmanovho kódovania. Takéto kódovanie je založené na priradení špeciálnych symbolov pre znaky v reťazcoch na základe
   ich početnosti. Pri WSQ kódovaní koeficientov sa najprv zakódujú nuly na základe dĺžky behu nulových segmentov v zoradenom reťazci kvantovaných koeficientov.
   Tieto kódy sú následne mapované na konečnú množinu symbolov podľa kódovacieho modelu (uvedený v tabuľke~{\ref{tab:kodovaci_model}}). Hodnoty koeficientov,
-  ktoré prevyšujú očakávaný kvantovaný rozsah hodnôt $-73$ až $74$ sú označené riadiacim symbolom označujúcim typ (kladná/záporná) a rozsah (8/16-bit)
+  ktoré prevyšujú očakávaný kvantovaný rozsah hodnôt $-73$ až $74$ sú označené riadiacim symbolom označujúcim typ (kladná/záporná hodnota) a rozsah (8/16-bit)
   kódovanej hodnoty koeficientu. Týmto nie je nutné stanoviť hraničné hodnoty počas kvantovania, lebo hodnoty nad rozsah sú označené pri
   kódovaní \cite{brislawn1996compression}. Huffmanovo kódovanie zabezpečuje bezstratovú kompresiu koeficientov.
 
