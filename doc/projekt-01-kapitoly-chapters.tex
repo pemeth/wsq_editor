@@ -815,19 +815,19 @@
   rozšírené, čo znamenalo aj vývoj kompresných formátov pre ukladanie takýchto snímok. Významným formátom bol stratový JPEG (skratka výboru Joint Photographic
   Experts Group), ktorý komprimuje snímky na báze metódy diskrétnej kosínovej transformácie pre jednotlivé bloky snímky veľkosti $8 \times{} 8$. Kompresia touto
   metódou bola uspokojivá z hľadiska bežných užívateľov, avšak spôsob kompresie po diskrétnych blokoch, akým sa kompresia prevádzala, spôsobovalo blokovú
-  fragmentáciu. Kvôli takýmto fragmentom sa jemné detaily v snímkach odtlačkov prstov skresľovali kvôli nespojitostiam medzi jednotlivými blokmi,
+  fragmentáciu. Kvôli takýmto fragmentom sa jemné detaily v snímkach odtlačkov prstov skresľovali vďaka nespojitostiam medzi jednotlivými blokmi,
   čo činilo tento formát neuspokojivým pre ukladanie snímok odtlačkov prstov. Bezstratové kompresné formáty nespôsobovali artefakty, avšak poskytovali
-  nedostatočný pomer kompresie ($2:1$ oproti cieľovému pomeru $10,5:1$) \cite{Handbook}.
+  nedostatočný pomer kompresie ($2:1$ oproti cieľovému pomeru $10,5:1$)~{\cite{Handbook}}.
   
-  Z tohto dôvodu bol vyvinutý kompresný algoritmus Wavelet Scalar Quantization (v skratke WSQ, slov. vlnková skalárna transformácia).
-  Jedná sa o algoritmus špecificky vyvinutý na kompresiu snímok odtlačkov prstov, konkrétne tých snímaných s rozlíšením 500 ppi. V súčasnosti sa
+  Z tohto dôvodu bol vyvinutý kompresný algoritmus Wavelet Scalar Quantization (skratkou WSQ, slov.~vlnková skalárna transformácia).
+  Jedná sa o algoritmus špecificky vyvinutý na kompresiu snímok odtlačkov prstov, konkrétne tých snímaných s rozlíšením 500 ppi. V~súčasnosti sa
   v kriminalistike naprieč svetom využívajú snímky v odtieňoch šedej s rozlíšením 500 ppi vo formáte WSQ \cite{Libert}.
   Algoritmus WSQ je stratový, čo znamená, že pri kompresii dochádza k istej strate informácií. Bežný pomer kompresie sa pohybuje medzi 10:1 a 15:1,
   pri ktorých spĺňa požiadavky pre maximálnu maximálnu povolenú stratu informácií z originálnej snímky pre účely kriminalistiky \cite{Handbook}.
   Pri zvýšení rozlíšenia snímok odtlačkov prstov na 1000 ppi však formát WSQ nebol na takéto snímky aplikovateľný, kvôli čomu sa pri takýchto rozlíšeniach
   začal využívať formát JPEG 2000 \cite{Libert}.
 
-  Táto kapitola je venovaná základným prvkom formátu WSQ ako je jeho štruktúra a spôsob kompresie. Jedna sekcia je venovaná aj porovnaní formátov
+  Táto kapitola je venovaná základným prvkom formátu WSQ ako je jeho štruktúra a~spôsob kompresie. Jedna sekcia je venovaná aj porovnaní formátov
   WSQ a JPEG 2000.
 
   \section{Kompresia}
