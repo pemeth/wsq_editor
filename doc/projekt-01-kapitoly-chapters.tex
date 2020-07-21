@@ -1120,14 +1120,14 @@
 
   \section{Využité technológie}
   Aplikácia je napísaná v jazyku Python verzie 3.5.3. Na rozhodnutie využiť tento jazyk mal najväčší dopad jeho prenositeľnosť a vysoká podpora nástrojov,
-  obzvlášť v smere dátovej manipulácie. Primárnymi modulmi aplikácie sú PyQt5 pre grafické rozhranie a numpy a scipy pre dátovú manipuláciu. Všetky
-  požadované moduly sú uvedené v súbore \texttt{requirements.txt} v priečinku so zdrojovými súbormi. Tento súbor slúži aj ako podporný súbor pri inštalovaní
-  požadovaných modulov (spôsob inštalácie aplikácie je uvedený v prílohe~{\ref{sec:instalacia}}).
+  obzvlášť v smere dátovej manipulácie. Primárnymi modulmi aplikácie sú PyQt5 pre grafické rozhranie a~{\texttt{numpy}} a \texttt{scipy} pre dátovú manipuláciu.
+  Všetky požadované moduly sú uvedené v exportovanom súbore \texttt{requirements.txt} v priečinku so zdrojovými súbormi. Tento súbor slúži aj ako
+  podporný súbor pri inštalovaní požadovaných modulov (spôsob inštalácie aplikácie je uvedený v prílohe~{\ref{sec:instalacia}}).
 
   \begin{itemize}
     \item Grafické rozhranie je postavené na aplikačnom rámci PyQt5. Tento rámec je jedným z dvoch rozšírených Python väzieb\footnote{Týmito rozšírenými
           väzbami sú PyQt a PySide.}
-          na multiplatformný, voľne dostupný GUI toolkit Qt.
+          na multiplatformový, voľne dostupný GUI toolkit Qt.
     \item Pre importovanie a exportovanie snímok sa využila knižnica Pillow (fork knižnice PIL). Jedná sa o knižnicu pre spracovanie obrázkov,
           ktorá poskytuje mnoho funkcionalít, avšak v rámci tejto aplikácie sa primárne využíva iba pre načítanie snímok odtlačkov prstov a ukladanie
           ich spracovaných variánt.
