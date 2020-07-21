@@ -1036,23 +1036,24 @@
   snímky \cite{WSQSpecification,brislawn1996compression}.
 
   \section{Porovnanie WSQ s JPEG 2000}
-  JPEG 2000 (tiež známy ako JPEG2K) je medzinárodný ISO štandard pre kompresiu snímok. Jedná sa o tzv. decoder-only štandard, čo znamená, že nekladie obmedzenia
+  Formát JPEG 2000 (tiež známy ako JPEG2K) je medzinárodný ISO (názov medzinárodnej organizácie pre normalizáciu) štandard pre kompresiu snímok.
+  Jedná sa o tzv. decoder-only štandard, čo znamená, že nekladie obmedzenia
   na pomer kompresie (môže sa jednať aj o bezstratovú kompresiu), ale umožňuje extrémne flexibilnú dekompresiu. Medzi vlastnosti tejto flexibility patrí
-  schopnosť dekódovania snímky do ľubovolnej úrovne kvality a rozlíšenia a dokonca podpora rôznej kvality dekódovania rôznych častí snímky. Štandard podporuje
-  snímky veľkosti niekoľkých tisícov terapixelov s hĺbkou detailu až 38 bitov na vzorku\footnote{Informácie z webovej stránky JPEG pre štandard JPEG 2000
+  schopnosť dekódovania snímky do ľubovolnej úrovne kvality a~rozlíšenia a dokonca podpora rôznej kvality dekódovania rôznych častí snímky. Štandard podporuje
+  snímky veľkosti niekoľkých tisícov terapixelov s~hĺbkou detailu až 38 bitov na vzorku\footnote{Informácie z webovej stránky JPEG pre štandard JPEG 2000
   \url{https://jpeg.org/jpeg2000/} zo dňa 11.7.2020}. Kompresná technológia tohto formátu je, podobne ako u WSQ, založená na
   vlnkovej transformácií, čo znamená, že pri kompresii sa netvoria štvorcové fragmenty ako u jeho predchodcu, formátu JPEG. Tieto vlastnosti spravili z tohto
   štandardu kandidáta FBI na formát pre snímky odtlačkov prstov vyššej kvality. Štandard JPEG 2000 bol zavádzaný po dvoch častiach, kde prvá časť obsahovala
   špecifikácie, ktorých aplikácia bola požadovaná od každej implementácie tohto štandardu. Druhá časť rozvoľňovala reštriktívnu politiku prvej časti popísaním
-  voliteľných funkcionalít, ktorými je možné rozšíriť dekodér špecifikovaní v prvej časti \cite{lepley2001jpeg,Libert}.
+  voliteľných funkcionalít, ktorými je možné rozšíriť dekodér špecifikovaní v~prvej časti \cite{lepley2001jpeg,Libert}.
 
   Práca \cite{lepley2001jpeg} sa zamerala na porovnanie interoperability medzi vtedy novým štandardom JPEG 2000 a WSQ, a to špecificky, či bude možné
   transkódovať\footnote{Transkódovanie v tomto prípade myslené ako schopnosť prevedenia komprimovaných dát z formátu WSQ do formátu JPEG 2000 bez nutnosti
-  spätnej transformácie do pôvodnej snímky a opätovnej dekompozície pre zakódovanie štandardom JPEG 2000.} súbory WSQ do JPEG 2000. Zistenia potvrdili,
+  spätnej transformácie do pôvodnej snímky a opätovnej dekompozície pre zakódovanie štandardom JPEG 2000.} súbory WSQ do JPEG~2000. Zistenia potvrdili,
   že transkódovanie je možné vďaka druhej časti špecifikácie bez vizuálnej straty. V prípade transkódovania pomocou časti 1 boli zistené väčšie straty
   na kvalite obrazu.
 
-  Výskum rozdielov kompresných algoritmov medzi WSQ a JPEG 2000 bol vykonaný v \cite{Libert}. Tento výskum bol zameraný na porovnanie straty detailu
+  Výskum rozdielov kompresných algoritmov medzi WSQ a JPEG 2000 bol vykonaný v~práci \cite{Libert}. Tento výskum bol zameraný na porovnanie straty detailu
   v komprimovaných snímkach algoritmami týchto dvoch formátov. Pre analýzu rozdielov medzi týmito algoritmami bola využitá implementácia OpenJPEG,
   čo je open-source JPEG 2000 kodek. Štúdia sa zamerala na tri primárne prípady kompresie pôvodne nekomprimovaných snímok:
   \begin{enumerate}
