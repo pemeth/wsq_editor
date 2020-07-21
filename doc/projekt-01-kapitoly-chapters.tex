@@ -704,10 +704,10 @@
   ale aj susedné údolia \cite{Handbook}.
 
   \section{Analýza singularít a tried}
-  Analýza odtlačkov prstov na prvej úrovni (tzv. hrubá klasifikácia) poskytuje informácie o obecnom vzhľade, resp. priebehu línií odtlačku prsta.
+  Analýza odtlačkov prstov na prvej úrovni (tzv. hrubá klasifikácia) poskytuje informácie o~vonkajšom vzhľade, resp. priebehu línií odtlačku prsta.
   Na základe informácií tohto priebehu je odtlačky možné klasifikovať do jednej zo šiestich tried (viď. sekcia~{\ref{sec:klasifikacia_odtl}}). Význam
-  klasifikácie sa prejavuje najmä pri porovnávaní odtlačkov automatizovanými systémami, a to v štádiu hľadania hrubej zhody (zhoda na základe hrubej
-  klasifikácie). Tu sa vylučujú z procesu porovnávania odtlačky, ktorých trieda sa nezhoduje s triedou hľadaného odtlačku, v dôsledku čoho sa značne znižuje
+  klasifikácie sa prejavuje najmä pri porovnávaní odtlačkov automatizovanými systémami, a~to v~štádiu hľadania hrubej zhody (zhoda na základe hrubej
+  klasifikácie). Tu sa vylučujú z~procesu porovnávania odtlačky, ktorých trieda sa nezhoduje s triedou hľadaného odtlačku, v dôsledku čoho sa značne znižuje
   počet porovnávaní \cite{karu1996classification, Handbook}.
 
   Značné množstvo prístupov ku klasifikácii využíva prakticky výlučne orientačné pole odtlačku prsta, pretože obecne obsahuje všetky informácie potrebné
@@ -728,12 +728,13 @@
   \end{figure}
 
   Iwasokun a Akinyokun \cite{iwasokun2014singularities} navrhli metódu detekcie jadier a delt na základe Poincaré indexu, ktorý využíva extrahované orientácie
-  pomocou metódy navrhnutej v \cite{Hong}. Detekcia singularít funguje nasledovne. V snímke orientácií $O(i,j)$ pre každý pixel $(i,j)$ zvolíme
+  pomocou metódy navrhnutej v \cite{Hong}. Detekcia singularít funguje nasledovne. V snímke orientácií $O(i,j)$ pre každý pixel $(i,j)$ sa zvolí
   okno veľkosti $3\times{}3$ (znázornené na~{\ref{obr:okno_orientacie}}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
   obklopujúcich pixel $O(i,j)$ v smere proti behu hodinových ručičiek~{\ref{eq:poincare_3}}. Toto okno je kruhové, čiže sa počíta aj rozdiel medzi prvým
-  a posledným pixelov v okne. Na základe rozdielov susedných buniek okna sa v rovnici~{\ref{eq:poincare_2}} vráti špecifická hodnota. Nakoniec sa jednotlivé
-  hodnoty $\beta{}_c$ sčítajú. Ak výsledok súčtu~{\ref{eq:poincare_1}} leží v rozsahu $<-1;-0,5>$, tak sa jedná o bod jadra a ak súčet leží v rozsahu $<0,5;1>$,
-  jedná sa o deltu.
+  a posledným pixelov v okne. Na~základe rozdielov susedných buniek okna sa podľa rovnice~{\ref{eq:poincare_2}} vráti špecifická hodnota $\beta{}_c$.
+  Nakoniec sa jednotlivé
+  hodnoty $\beta{}_c$ sčítajú. Ak výsledok rovnice~{\ref{eq:poincare_1}} leží v rozsahu \mbox{$<-1;-0,5>$}, tak sa jedná o bod jadra a ak súčet leží
+  v rozsahu \mbox{$<0,5;1>$}, jedná sa o~deltu.
 
   \begin{equation}
     PC(i,j) = \frac{1}{\pi{}} \sum_{c=1}^{8}{\beta{}_c}
@@ -793,7 +794,7 @@
     \label{obr:singularity_v_triedach}
   \end{figure}
 
-  Z obrázku~{\ref{obr:singularity_v_triedach}} je možné vyčítať, že triedy odtlačkov prstov sa dajú zaradiť do jednej z troch kategórií na základe počtu
+  Z obrázku~{\ref{obr:singularity_v_triedach}} je možné vyčítať, že triedy odtlačkov prstov sa dajú zaradiť do jednej z~troch kategórií na základe počtu
   singularít nasledovne:
   \begin{enumerate}
     \item v oblúkoch sa nenachádzajú singularity,
@@ -803,9 +804,9 @@
   \end{enumerate}
   V prípade, že odtlačok neobsahuje singularity, je priamo klasifikovaný ako oblúk a odtlačok nevyžaduje bližšiu analýzu. Inak je nutné ďalej analyzovať
   vzájomné pozície nájdených singularít. V prípade, že bol odtlačok zaradený do druhej kategórie, je možné konečnú triedu odhadnúť na základe vzájomnej pozície
-  delty a jadra. V prípade, že sklon medzi deltou a jadrom neprevyšuje istú hranicu, jedná sa o klenutý oblúk. Ak sklon hranicu prevyšuje, je nutné zistiť smer
+  delty a jadra. V prípade, že sklon medzi deltou a~jadrom neprevyšuje istú hranicu, jedná sa o klenutý oblúk. Ak sklon hranicu prevyšuje, je nutné zistiť smer
   odstupu delty spod jadra a zaradiť odtlačok do príslušnej triedy ľavej či pravej slučky - ľavá slučka pri jadre naľavo od delty, pravá slučka v opačnom
-  prípade. Rozlíšenie medzi špirálou a dvojitou slučkou zahŕňa prepojenie dvoch jadier priamkou, odmeraním sklonu priamky a priemerný rozdiel orientácií
+  prípade. Rozlíšenie medzi špirálou a dvojitou slučkou zahŕňa prepojenie dvoch jadier priamkou, odmeraním sklonu priamky a priemerného rozdielu orientácií
   pozdĺž tejto priamky \cite{Handbook}.
 
 \chapter{Wavelet Scalar Quantization} \label{kap:wsq}
