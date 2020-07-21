@@ -413,14 +413,14 @@
 
   \subsection{Oblasť záujmu}
   Ako bolo spomenuté v úvode do sekcie~{\ref{sec:vylepsenie_snimok}}, odtlačky prsta môžu obsahovať nezotaviteľné oblasti, ktoré žiadnym významným spôsobom
-  neprispievajú k analýze samotného odtlačku. Okrem toho snímky odtlačkov prstov obsahujú aj tzv. pozadie, čo je kontexte snímok odtlačkov prstov oblasť,
+  neprispievajú k analýze samotného odtlačku. Okrem toho snímky odtlačkov prstov obsahujú aj tzv. pozadie, čo je v kontexte snímok odtlačkov prstov oblasť,
   ktorá neobsahuje odtlačok papilárnych línií prsta. Pri analýze odtlačkov prsta je tým pádom vhodné takéto časti snímky maskovať a ponechať iba takzvanú
   oblasť záujmu (angl. region of interest). Takéto maskovanie môže mať významný dopad na rýchlosť algoritmov aplikovaných v ďalších krokoch spracovania,
   pretože maskované oblasti je možné ignorovať.
 
   Jedným z najzákladnejších prístupov k vytvoreniu masky oblasti záujmu je jednoduchá analýza rozptylu hodnôt pixelov v rámci blokov snímky. Je to elegantné
-  riešenie, pretože v mnohých prípadoch sú nezotaviteľné oblasti, podobne ako pozadie, oblasťami nízkeho rozptylu hodnôt - a to či už nízkych, v prípade
-  tmavých častí odtlačku v dôsledku nadmerného tlaku pri získavaní odtlačku, alebo vysokých, ktoré sú vytvárané napríklad z dôvodu ochorenia kože. 
+  riešenie, pretože v mnohých prípadoch sú nezotaviteľné oblasti, podobne ako pozadie, oblasťami nízkeho rozptylu hodnôt - a to či už nízkych hodnôt, v prípade
+  tmavých častí odtlačku v dôsledku nadmerného tlaku pri získavaní odtlačku, alebo vysokých hodnôt, ktoré sú vytvárané napríklad z dôvodu ochorenia kože.
   Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w\times{}h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe vzorcov
   \begin{equation}
     V(b) = \frac{1}{wh} \sum_{i=1}^{w}\sum_{j=1}^{h}(I(i,j) - M(b))^2
@@ -429,7 +429,7 @@
     M(b) = \frac{1}{wh} \sum_{k=1}^{w}\sum_{l=1}^{h}(I(k,l)),
   \end{equation}
   kde $b$ je blok pixelov s rozmermi $w\times{}h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
-  a funkcia $V(b)$ rozptyl v hodnôt v bloku $b$ \cite{babatunde2012FP_enhancement}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
+  a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}~{\cite{babatunde2012FP_enhancement}}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
   o oblasť záujmu, inak sa jedná o pozadie. Takýto algoritmus je možné aplikovať rôznymi spôsobmi, a to napríklad po pixeloch, kde je výpočet rozptylu
   aplikovaný na oblasť okolo každého pixelu a pixely sa maskujú jednotlivo, alebo po častiach, kde sa maskuje celý blok a okno pre výpočet rozptylu sa
   posúva o viac, než jeden pixel.
@@ -480,18 +480,20 @@
             \mathcal{V}_x(i,j) = \sum_{u=i-\frac{h}{2}}^{i+\frac{h}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} 2\partial _{x}(u,v) \partial _y(u,v),
           \end{equation}
           \begin{equation}
-            \mathcal{V}_y(i,j) = \sum_{u=i-\frac{h}{2}}^{i+\frac{h}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} (2\partial ^{2}_{x}(u,v) \partial ^{2}_{y}(u,v)),
+            \mathcal{V}_y(i,j) = \sum_{u=i-\frac{h}{2}}^{i+\frac{h}{2}}\sum_{v=j-\frac{w}{2}}^{j+\frac{w}{2}} (2\partial ^{2}_{x}(u,v) - \partial ^{2}_{y}(u,v)),
           \end{equation}
           \begin{equation}
             \theta{}(i,j) = \frac{1}{2}\tan{}^{-1}(\frac{\mathcal{V}_y(i,j)}{\mathcal{V}_x(i,j)}),
           \end{equation}
-          kde $\theta{}(i,j)$ je aproximáciou lokálnej orientácie línií metódou najmenších štvorcov pre blok so stredom na pixeli $(i,j)$.
+          kde $\theta{}(i,j)$ je aproximáciou lokálnej orientácie línií metódou najmenších štvorcov pre blok so stredom na pixeli $(i,j)$. Premenné
+          $\partial _{x}$ a $\partial _{y}$ sú dvojrozmerné polia obsahujúce vypočítaný gradient v príslušných smeroch, $u$ a $v$ reprezentujú indexy v rámci
+          výpočtového bloku $h \times w$.
   \end{itemize}
 
   \subsection{Frekvencia papilárnych línií}
-  Dôležitým krokom, obzvlášť pred následnou úpravou vstupnej snímky frekvenčným filtrom, je výpočet frekvencie papilárnych línií.
-  Frekvenciu papilárnych línií v nejakom bode $[x,y]$ je možné definovať ako počet vrcholov pozdĺž výrezu so stredom v danom bode $[x,y]$,
-  ktorý je kolmý na lokálnu orientáciu línií $\theta_{xy}$. Frekvencia sa obyčajne počíta pre každý bod, alebo pre malé diskrétne bloky snímky odtlačku prsta,
+  Dôležitým krokom, obzvlášť pred následnou úpravou vstupnej snímky filtrom závislým na frekvencii papilárnych línií, je výpočet ich lokálnej frekvencie.
+  Frekvenciu papilárnych línií v~nejakom bode $[i,j]$ je možné definovať ako počet vrcholov pozdĺž výrezu so stredom v danom bode $[i,j]$,
+  ktorý je kolmý na lokálnu orientáciu línií $\theta_{ij}$. Frekvencia sa obyčajne počíta pre každý bod, alebo pre malé diskrétne bloky snímky odtlačku prsta,
   pretože hustota vrcholov papilárnych línií sa môže líšiť aj v rámci jedného prsta \cite{Handbook}.
 
   Existuje viacero prístupov k odhadnutiu frekvencie vrcholov papilárnych valov. Jednou z nich je metóda navrhnutá Hongom et al. v \cite{Hong} (zobrazená na
@@ -499,19 +501,19 @@
   ktorá priamo analyzuje odtiene šedej a ich priebeh v originálnej snímke. Táto metóda priamo aplikuje vyššie uvedenú definíciu na snímku nasledovne:
 
   \begin{enumerate}
-    \item Okno veľkosti $l \times{} w$ sa vytvorí okolo pixelu $[x,y]$. Toto okno je natočené kolmo na smer priebehu papilárnych línií.
+    \item Okno veľkosti $l \times{} w$ sa vytvorí okolo pixelu $[i,j]$. Toto okno je natočené kolmo na smer priebehu papilárnych línií.
     \item Vypočíta sa $x$-signatúra $X$ spriemerovaním hodnôt pixelov pozdĺž stĺpcov $l$ orientovaného okna.
     \item V prípade, že v orientovanom okne sa nenachádzajú markanty alebo singulárne body, je získaná $x$-signatúra formou sínusová. Vďaka tomu je
           možné frekvenciu medzi vrcholmi vypočítať ako inverziu priemerného počtu pixelov medzi jednotlivými vrcholmi papilárnych línií.
   \end{enumerate}
   Papilárne línie však nemajú uniformný priebeh naprieč celým odtlačkom. V takýchto prípadoch, keď sa v orientovanom okne nachádzajú oblasti, ktoré narúšajú
   hladký sínusový priebeh línií, Hong aplikuje interpoláciu frekvencií z okolitých blokov snímky, čím aproximuje frekvenciu pre danú oblasť. Hong taktiež uvádza
-  priemernú frekvenciu línií medzi $1/3$ a $1/25$, na základe ktorej prahuje vypočítané frekvencie na platné a neplatné.
+  priemernú frekvenciu línií medzi hodnotami $1/3$ a $1/25$, na základe ktorých prahuje vypočítané frekvencie na platné a neplatné.
 
   \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\linewidth]{obrazky-figures/frekvencia-Hong.png} %TODO <- zmenit oznacenia na take ako su v texte tejto subsection
-    \caption{Orientované okno naprieč papilárnymi líniami. Prevzaté z \cite{Hong}.}
+    \includegraphics[width=0.7\linewidth]{obrazky-figures/frekvencia-Hong.png}
+    \caption{Orientované okno naprieč papilárnymi líniami a ich $x$-signatúra. Prevzaté z \cite{Hong}.}
     \label{obr:frekvencia-Hong}
   \end{figure}
 
@@ -523,7 +525,7 @@
   filter, čím sa redukuje, prípadne úplne zamedzuje, používaniu preddefinovaných filtrov obmedzeného počtu. V prípade využitia preddefinovaných filtrov je totiž
   nutné využiť najlepšiu zhodu filtra s konkrétnou orientáciou a frekvenciou v danom bode snímky, čím sa zhoršujú výsledky filtrovania.
   Na obrázku~{\ref{obr:gabor_kernel}} je zobrazené konvolučné jadro Gabor filtra vygenerované v programe
-  MATLAB\footnote{\url{https://www.mathworks.com/products/matlab.html}}.
+  \mbox{MATLAB}\footnote{\url{https://www.mathworks.com/products/matlab.html}}.
   
   \begin{figure}[h]
     \centering
@@ -537,13 +539,15 @@
   \end{equation}
   kde $\phi{}$ je orientácia a $f$ je frekvencia pixelu, na ktorom sa vykonáva operácia konvolúcie. Hong definuje $\delta{}_x$ a $\delta{}_y$
   ako konštanty s hodnotou 4 na základe pozorovaní \cite{Hong}. Samotné filtrovanie je konvolúciou každého pixelu snímky odtlačku prsta s vygenerovaným filtrom
-  pre daný pixel. Veľkosť konvolučného jadra Gabor filtra Hong definuje v oboch smeroch na $k = 11$.
+  pre daný pixel. Veľkosť konvolučného jadra Gabor filtra Hong definuje v oboch smeroch na $k = 11$ pixelov.
 
   \subsection{Binarizácia}
-  Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlčkov prstov.
-  Metóda využíva priemer hodnôt v okne $s \times s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je predpočítaný
+  Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlačkov prstov.
+  Metóda využíva priemer hodnôt v okne $s \times s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
   z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
-  Teda, ak má súčasný pixel o $t\%$ nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel.
+  Teda, ak má súčasný pixel o $t\%$ nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel. Výhodou takéhoto prahovania hodnôt oproti
+  globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v okolí
+  súčasne spracovávaného pixelu.
 
   \subsection{Stenčovanie línií}
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
@@ -556,7 +560,7 @@
   Samotné stenčovanie však môže do extrahovanej kostry snímky zaviesť falošné \uv{výrastky} z dôvodu nerovnomernosti línií v pôvodnej snímke.
   Pri analýze odtlačkov prsta má stenčovanie vzorov papilárnych línií význam pre extrakcii markantov. Znamená to, že kvalitne stenčené línie zvyšujú kvalitu
   extrakcie markantov. Prístupov k zvýšeniu kvality stenčených línií je viacero, ako napríklad vypĺňanie menších dier v líniách alebo normalizácia šírky
-  línií na konštantnú šírku pomocou filtrov \cite{Handbook}. Jedným z prístupov je aj využiť algoritmus stenčovania, ktorý bol navrhnutý s úmyslom zredukovať
+  línií na konštantnú šírku pomocou filtrov \cite{Handbook}. Jedným z~prístupov je aj využiť algoritmus stenčovania, ktorý bol navrhnutý s úmyslom zredukovať
   falošné výbežky v kostre. Jedným z takýchto algoritmov je Zhang-Suen \cite{ZhangSuen_thinning}, ktorý mal za cieľ minimalizovať tvorbu falošných výrastkov
   a zároveň maximalizovať rýchlosť procesu stenčovania.
   
@@ -576,10 +580,10 @@
   \end{figure}
 
   Jedná sa o paralelný algoritmus, ktorý definuje výstupný pixel $[i,j]$ binárnej snímky $I$ ako funkciu jeho okamžitého okolia. Pixely patriace kostre
-  pôvodnej snímky majú hodnotu 1, pričom pozadie má hodnotu 0. Okolie pixelu, na základe ktorého je uvedené rozhodnutie, či bude daný pixel vymazaný z kostry,
+  pôvodnej snímky majú hodnotu~1, pričom pozadie má hodnotu~0. Okolie pixelu, na základe ktorého je uvedené rozhodnutie, či bude daný pixel vymazaný z kostry,
   má veľkosť $3 \times 3$ a definuje kruhový orientovaný sled pixelov (zobrazené na~{\ref{obr:okolie_ZhangSuen}}).
   Každá iterácia algoritmu je rozdelená na dve poditerácie. Význam tohto rozdelenia je v zachovaní spojitého priebehu kostry pôvodnej snímky.
-  V každej z poditerácii sa skontrolujú podmienky pre odstránenie daného pixelu:
+  V~každej z poditerácii sa skontrolujú podmienky pre odstránenie daného pixelu:
   \begin{enumerate}
     \item Prvá poditerácia \label{itm:thin_step_1}
     \begin{enumerate}
@@ -597,9 +601,9 @@
     \end{enumerate}
   \end{enumerate}
 
-  Prvý krok oboch poditerácii definuje funkciu $A(P_1)$, ktorá vracia počet prechodov z pixelu hodnoty 0 na pixel hodnoty 1 v kruhovom orientovanom slede
+  Prvý krok oboch poditerácii definuje funkciu $A(P_1)$, ktorá vracia počet prechodov z~pixelu hodnoty 0 na pixel hodnoty 1 v kruhovom orientovanom slede
   pixelov $P_2\dots{}P_9$ okolo pixelu $P_1$. Týmto sa predíde odstráneniu pixelu uprostred kostry línie medzi dvoma koncovými bodmi.
-  Funkcia $B(P_1)$ vracia počet nenulových pixelov (teda patriacich pôvodnej kostre) v slede pixelov $P_2\dots{}P_9$. Táto podmienka zachováva koncové body
+  Funkcia $B(P_1)$ vracia počet nenulových pixelov v slede pixelov $P_2\dots{}P_9$. Táto podmienka zachováva koncové body
   kostry. Posledné dve podmienky oboch poditerácií kontrolujú, či je daný pixel hraničným pixelom medzi kostrou a pozadím.
   Napríklad podmienky~{\ref{itm:thin_step_2c}} a~{\ref{itm:thin_step_2d}} kontrolujú hraničné pixely na severe a západe kostry a juho-východné rohové pixely
   kostry. V prípade, že sú splnené všetky podmienky, pixel $[i,j]$ je vymazaný (resp. prepísaný na hodnotu 0), inak zostáva nezmenený \cite{ZhangSuen_thinning}.
