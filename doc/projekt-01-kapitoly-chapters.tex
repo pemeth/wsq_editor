@@ -1330,15 +1330,16 @@
   Aplikácia je prevedená ako prenositeľná grafická pomôcka pre analýzu snímok odtlačkov prstov. Prenositeľnosť bola testovaná na zariadeniach s operačnými
   systémami Windows 10, macOS 10.15 a Debian 9.12 (stretch). Na všetkých systémoch bola aplikácia testovaná s rôznymi formátmi vstupných snímok. Medzi
   podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
-  Windows sa mi totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
+  Windows sa totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
 
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
   kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy žiaduca aj v prípade kvalitnejšej vstupnej
   snímky. Tieto rozdiely je možné pozorovať na obrázku~{\ref{obr:porovnanie_kvality}}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej kvality
   (avšak oba sú dostatočne vysokej kvality) a výstupy ich filtrovania Gabor filtrom a stenčenia línií. Je možné vidieť, že dopad na kvalitu filtrovania
-  nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno na ľavej strane filtrovanej
-  snímky~{\ref{obr:ecsema_gabor}}. Toto naznačuje nedostatočné alebo nekvalitné predspracovanie.
+  nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno na ľavej strane spodnej časti filtrovanej
+  snímky~{\ref{obr:ecsema_gabor}}. Toto naznačuje nedostatočné alebo nekvalitné predspracovanie. Na týchto snímkach je tiež možné vidieť dopad prísneho
+  prahovania pri vytváraní masky oblasti záujmu, čo sa prejavuje vo forme štvorcových fragmentov uprostred odtlačkov prstov.
 
   \begin{figure}[h]
     \centering
@@ -1378,9 +1379,9 @@
   \end{figure}
 
   Detekcia markantov prejavuje veľké množstvo falošných pozitívnych detekcií. Je však vhodné podotknúť, že samotná detekcia pracuje správne, avšak kroky
-  predspracovania (obzvlášť Gabor filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty. Ako bolo znázornené na obrázku~{\ref{obr:gabor}},
-  výsledok Gabor filtrovania obsahuje štvrcové fragmenty, ktoré binarizáciu činia netriviálnou. V dôsledku nedokonalej binarizácie sa vytvorí fragmentovaná
-  snímka s veľkým množstvom falošných markantov v oblastiach ochorenia kože prípadne iných oblastiach narušenia alebo meniacej sa frekvencie.
+  predspracovania (obzvlášť Gabor filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty. V dôsledku nedokonalého filtrovania a binarizácie
+  sa vytvorí fragmentovaná snímka s veľkým množstvom falošných markantov v oblastiach ochorenia kože a prípadne iných oblastiach narušenia alebo meniacej
+  sa frekvencie. Krok stenčovania línií produkuje kvalitné výsledky, na základe ktorých je možné spoľahlivo extrahovať markanty.
 
   Detekcia jadier nachádza jadrá okrem správnych miest aj na okrajoch oblasti záujmu kde orientácie prudko menia smer medzi oblasťou záujmu a pozadím snímky.
   Jedným z možných riešení je opakované vyhladzovanie orientácií, kým sa nenájde platné množstvo singularít, ale z dôvodu pomalej implementácie algoritmu
