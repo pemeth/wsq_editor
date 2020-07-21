@@ -1175,12 +1175,13 @@
   V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
   Základnými úpravami, ktoré sa vykonávajú pred každým iným druhom spracovania sú normalizácia a filtrovanie Butterworth filtrom.
   Normalizácia snímky sa vykonáva pomocou funkcie \texttt{normalizeMeanVariance}, ktorá implementuje metódu
-  popísanú v sekcii~{\ref{sec:normalizacia}}, čo znamená, že normalizuje pomocou úpravy strednej hodnoty a rozptylu hodnôt pixelov v snímke. Tento úkon je
+  popísanú v sekcii~{\ref{sec:normalizacia}}, čo znamená, že normalizuje pomocou úpravy strednej hodnoty a rozptylu hodnôt pixelov v~snímke. Tento úkon je
   vykonávaný pred každým iným druhom spracovania.\\
   Butterworth filtrovanie prebieha vo frekvenčnej doméne snímky. Frekvenčná reprezentácia snímky je získaná dvojrozmernou rýchlou Fourierovou transformáciou.
   Pre danú snímku je vytvorený filter dolného priepustu, ktorý sa aplikuje vo frekvenčnej doméne na danú snímku. Nakoniec sa filtrované spektrum inverznou
   transformáciou prevedie do pôvodnej, priestorovej, reprezentácie. Týmto sa odstránia zo snímky vysokofrekvenčné fragmenty ako napríklad textúra papiera
-  pri skenovaných snímkoch odtlačkov prstov. Toto filtrovanie sa vykonáva vo funkcii \texttt{butterworth}.
+  pri skenovaných snímkoch odtlačkov prstov. Toto filtrovanie sa vykonáva vo funkcii \texttt{butterworth}. Originály zobrazovaných snímok odtlačkov prstov
+  pochádzajú z internej databázy STRaDe.
 
   \subsection{Orientácia papilárnych línii}
   Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
@@ -1233,7 +1234,7 @@
 
   \subsection{Gabor filtrovanie} \label{sec:gabor_algo}
   Funkcia \texttt{gaborFilter} prijíma štyri hlavné parametre, a to pôvodnú snímku, snímku orientácií, frekvencií a masku oblasti záujmu. Pre každý pixel
-  snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gabor filtra na základe príslušných dát o frekvencii a orientácii
+  snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gabor filtra na základe príslušných dát o~frekvencii a orientácii
   snímky v tom danom pixeli. Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
   vstupná snímka. Po prejdení každého požadovaného pixelu sú hodnoty získané filtráciou prahované pre získanie binárnej snímky.
 
@@ -1267,7 +1268,7 @@
       \caption{po rozostrení frekvencií}
       \label{obr:gabor_binar_freq_blur}
     \end{subfigure}
-    \caption{Snímka odtlačku prsta filtrovaná Gabor filtrom (a), jej binarizovaná verzia (b) a binarizovaná verzia po filtrovaní na základe rozostrenej
+    \caption{Snímka odtlačku prsta filtrovaná Gabor filtrom (a), jej binarizovaná verzia (b) a~binarizovaná verzia po filtrovaní na základe rozostrenej
             frekvenčnej snímky (c).}
     \label{obr:gabor}
   \end{figure}
@@ -1290,13 +1291,13 @@
   Funkcia \texttt{extractMinutiae} prijíma binárnu snímku so stenčenými papilárnymi líniami. Každý pixel príslušný papilárnej línii je skontrolovaný
   maskami a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí. Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
   zvlášť polí, aby ich bolo možné separovať. Po extrakcii markantov funkcia vráti obe nové polia rovnakých veľkostí ako vstupná snímka. Tieto polia sú ďalej
-  spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s informáciami o pozíciách markantov -
+  spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s extrahovanými pozíciami markantov -
   v podstate maska pozícií. Následne sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje značky na
   pozíciách extrahovaných markantov~(\ref{obr:markanty}).
 
   Extrahované markanty je možné následne exportovať do JSON súboru. Tento export sa vykonáva v metóde \texttt{exportMinutiaeJSON}, ktorá vezme pozície
   $xy$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
-  pozostáva z dvoch objektov (\uv{bifurcations} a \uv{ridgeEndings}), ktoré obsahujú zoznam príslušných pozícií a orientácií línií. Je dôležité poznamenať,
+  pozostáva z dvoch objektov (\uv{bifurcations} a~{\uv{ridgeEndings}}), ktoré obsahujú zoznam príslušných pozícií a orientácií línií. Je dôležité poznamenať,
   že do súboru sa ukladá orientácia papilárnych línií pod nájdeným markantom a nie orientácia samotného markantu.
 
   \begin{figure}[h]
@@ -1318,7 +1319,7 @@
   Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom. Funkcia prechádza každý pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím odovzdá funkcii \texttt{poincareIndex}. Tu sa okno, ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
   proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
-  V závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
+  V~závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
   Výsledkom sú dve binárne snímky jadier a delt, ktoré majú vyznačené singularity v príslušných bodoch.
   
   Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}. Táto funkcia plní dva účely. V prvom rade nahrádza oblasti s veľkým
