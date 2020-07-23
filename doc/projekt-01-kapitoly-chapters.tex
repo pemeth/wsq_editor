@@ -1342,6 +1342,42 @@
   podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
   Windows sa totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
 
+  \subsection{Snímky z rôznych senzorov}
+  Pri testovaní boli využité snímky z troch rôznych druhov senzorov, menovite z kapacitného, optického a termálneho. V závislosti od senzoru sa prejavili
+  rozdiely v kvalite výstupov jednotlivých krokov spracovania. V tejto podsekcii je uvedené slovné vyhodnotenie na základe senzoru.
+  Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi sernzormi.
+
+  \subsubsection{Termálny snímač Bergdata FCAT 100}
+  Snímky získané týmto senzorom preukazujú vysoký kontrast a ostré hrany medzi pozadím a papilárnymi líniami. Toto podporuje extrakciu gradientov Sobelovým
+  filtrom, čo má za dôsledok výpočet spoľahlivejšieho poľa orientácií v rámci oblasti záujmu. Získané frekvencie boli vo väčšine testovaných prípadov
+  prahované vhodne. Validné frekvencie sa totiž rozoznávali hlavne v oblasti záujmu, pričom mimo nej boli často vyfiltrované. Toto je vďaka miernemu gradientu
+  hodnôt šedej v smere osi~{$y$} v oblasti, kde nebol priložený prst, čím sa tvorí veľmi nízka frekvencia v tomto smere.
+  Malý rozptyl hodnôt pozadia a veľký rozptyl hodnôt v oblasti záujmu značne zlepšuje kvalitu generovanej masky oblasti záujmu.
+
+  \subsubsection{Optický snímač SAGEM MorphoSmart MSO300}
+  Podobne ako u termálnom snímači sa jedná o snímky s vysokým kontrastom. Kvalita poľa orientácií v rámci oblasti záujmu je vysoká a uniformná. Mimo oblasti
+  záujmu je však z veľkej časti zdanlivo náhodná. Dôvodom takéhoto správania je výrazne jednoliate pozadie, kde neprítomnosť uniformného gradientu spôsobuje
+  roztrieštené pole orientácií. Z rovnakého dôvodu sa nespoľahlivejšie prahujú frekvencie mimo papilárnych línií, kde sa často rozoznávajú validné frekvencie.
+  aj mimo oblasti záujmu. Generovanie masky oblasti záujmu je kvalitné vďaka veľmi nízkemu rozptylu hodnôt v oblasti pozadia a veľmi vysokému rozptylu hodnôt
+  v oblasti záujmu.
+
+  Snímky zaznamenané týmto snímačom obsahovali veľké množstvo pórov. V niektorých prípadoch, ak boli papilárne línie dostatočne hrubé a póry v rámci nich
+  dostatočne veľké, tieto papilárne línie sa po Gaborovom filtrovaní a následnej binarizácii rozdelili na dve.
+
+  \subsubsection{Kapacitný snímač Veridicom 5th Sense PRL}
+  Tieto snímky boli všeobecne najnižšej kvality s veľkým množstvom vynechaných línií, prípadne zlievajúcimi sa líniami, pravdepodobne v dôsledku nadmerného
+  tlaku prstom na snímač. Kvalita získaného poľa orientácií v rámci oblasti záujmu bola pri niektorých snímkach o niečo nižšia, než pri iných snímačoch, ale
+  nie o toľko nižšia, že by bolo nepoužiteľné napríklad pri Gaborovom filtrovaní. Extrahovanie lokálnych frekvencií malo výsledky podobnej kvality ako pri
+  optickom snímači. Maska oblasti záujmu bola správne generovaná okolo oblasti záujmu. Pri niektorých snímkach, kde sa papilárne línie zlievali do jedného
+  tvaru sa maskovali aj tieto oblasti.
+
+  Na niektorých snímkach tohto snímača sa objavovali oblasti poškodené šumom. Pozícia a tvar tohto šumu bol naprieč viacerými snímkami rovnaký, čo môže
+  naznačovať zašpinenie alebo chybu snímača. Tento šum mal podobný dopad na Gaborove filtrovanie ako póry pri optickom snímači, čo znamená, že sa falošne
+  vytváral priestor uprostred papilárnych línií.
+
+  \subsubsection{Porovnanie výstupov spracovania}
+  Gaborove filtrovanie je schopné vyplniť menšie narušené časti papilárnych línií. Výrazné póry pri optickom snímači niekde spôsobujú falošné línie
+
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
   kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy žiaduca aj v prípade kvalitnejšej vstupnej
