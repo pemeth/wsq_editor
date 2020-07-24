@@ -59,7 +59,7 @@ def overlay(img, overlayImg, marker, fill=None, outline=None, offset=3):
     overlayImg = np.copy(overlayImg).astype(np.uint8)
     img = np.copy(img).astype(np.uint8)
 
-    img = (img - np.amin(img)) * (255 / (np.amax(img) - np.amin(img)))
+    img = (img - np.amin(img)) * (255 / (np.amax(img) - np.amin(img))).astype(np.uint8)
 
     rows,cols = np.where(overlayImg)
     img = Image.fromarray(img)
