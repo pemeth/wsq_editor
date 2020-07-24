@@ -615,6 +615,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.cores, type(None)):
             orient = ridgeOrient(butter * mask, blendSigma=self.blendSigmaForSingularities)
             self.cores, self.deltas = poincare(orient) * mask
+            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
     def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
         """Shows an informative popup window with `message` as it's main text."""
