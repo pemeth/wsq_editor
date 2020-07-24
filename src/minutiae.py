@@ -5,8 +5,9 @@ Xlogin: xnemet04
 School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
 """
 import numpy as np
+from singularities import deleteNearMask
 
-def extractMinutiae(thinned):
+def extractMinutiae(thinned, mask):
     """Returns two arrays of the same size as `thinned`, which contain pixels indicating friction ridge bifurcations and
     ridge endings respectively.
     Based on:
@@ -33,6 +34,9 @@ def extractMinutiae(thinned):
 
     bifurcations = np.where(minutiae == 6, 1, 0)
     ridgeEndings = np.where(minutiae == 2, 1, 0)
+
+    bifurcations = deleteNearMask(bifurcations, mask)
+    ridgeEndings = deleteNearMask(ridgeEndings, mask)
     return bifurcations, ridgeEndings
 
 def calc_minutia(s):

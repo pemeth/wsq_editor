@@ -427,28 +427,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
         
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+
         if not isinstance(self.bifurcations, type(None)):
             # app has bifurcations cached - show them
             self.showImage(self.bifurcations)
         elif not isinstance(self.thinned, type(None)):
             # app has thinned cached - extract minutiae
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.bifurcations)
         elif not isinstance(self.filtim, type(None)):
             # app has filtim cached - thin and extract minutiae
             self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.bifurcations)
         else:
             # nothing is cached
-            norm = normalizeMeanVariance(self.imgArray)
-            butter = butterworth(norm)
-            mask = getRoi(butter)
             orientim = ridgeOrient(butter)
             freq = ridgeFreq(butter, orientim)
             self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.bifurcations)
 
         overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
@@ -461,28 +462,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+
         if not isinstance(self.ridgeEndings, type(None)):
             # app has ridgeEndings cached - show them
             self.showImage(self.ridgeEndings)
         elif not isinstance(self.thinned, type(None)):
             # app has thinned cached - extract minutiae
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.ridgeEndings)
         elif not isinstance(self.filtim, type(None)):
             # app has filtim cached - thin and extract minutiae
             self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.ridgeEndings)
         else:
             # nothing is cached
-            norm = normalizeMeanVariance(self.imgArray)
-            butter = butterworth(norm)
-            mask = getRoi(butter)
             orientim = ridgeOrient(butter)
             freq = ridgeFreq(butter, orientim)
             self.filtim = gaborFilter(butter, orientim, freq, mask)
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
             self.showImage(self.ridgeEndings)
         
         overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
@@ -611,7 +613,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.thinned, type(None)):
             self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         if isinstance(self.bifurcations, type(None)):
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
+            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
         if isinstance(self.cores, type(None)):
             orient = ridgeOrient(butter * mask, blendSigma=self.blendSigmaForSingularities)
             self.cores, self.deltas = poincare(orient) * mask
