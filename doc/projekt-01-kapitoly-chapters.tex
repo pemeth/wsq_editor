@@ -1379,6 +1379,12 @@
   vytváral priestor uprostred papilárnych línií. Pri okrajoch oblasti záujmu sa prejavuje podobné správanie ako pri termálnom snímači.
 
   \subsection{Analýza snímok}
+  Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
+  Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v predchádzajúcich krokoch pri okrajoch oblasti
+  záujmu, kde po Gaborovom filtrovaní a binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
+  záujmu. Algoritmus pre detekciu markantov typu vidlička a ukončenie funguje správne a korektne extrahuje tieto markanty zo snímky stenčených línií.
+
+  Singularity sú detegované na základe poľa orientácií.
 
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
