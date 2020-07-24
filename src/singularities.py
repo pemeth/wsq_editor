@@ -169,7 +169,7 @@ def deleteSingularities(cores, deltas, regionSize=8):
 
     return cores, deltas
 
-def deleteNearMask(sings, mask, regionSize=8):
+def deleteNearMask(sings, mask, regionSize=10):
     """Delete singularities near the edge of a region of interest mask.
 
     Parameters
