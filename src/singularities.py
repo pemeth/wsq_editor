@@ -165,7 +165,49 @@ def deleteSingularities(cores, deltas, regionSize=8):
 
     return cores, deltas
 
-def singularityCleanup(cores, deltas):
+def deleteNearMask(sings, mask, regionSize=8):
+    """Delete singularities near the edge of a region of interest mask.
+
+    Parameters
+    ----------
+    sings : numpy_array
+        A 2D binary array with nonzero values in fields where singularities were found. This variable has to contain
+        only one type of singularity - either only cores or only deltas.
+    mask : numpy_array
+        A 2D binary array with nonzero values denoting the region of interest.
+    regionSize : int
+        The size of the region around each found singularity, in which the singularities will be deleted.
+        Defaults to 8.
+
+    Returns
+    -------
+        A binary 2D array of the same size as `sings`, but with deleted singularities near the ROI `mask`."""
+    left = right = up = down = regionSize
+    rows, cols = np.nonzero(sings)
+
+    mask = np.invert(mask.astype(np.bool))
+
+    shape = sings.shape
+
+    for i, j in zip(rows, cols):
+        # if near borders, set the regions, so that they do not reach out of bounds
+        if i - left < 0:
+            left = i
+        elif i + right >= shape[0]:
+            right = shape[0] - i + 1
+            
+        if j - up < 0:
+            up = j
+        elif j + down >= shape[1]:
+            down = shape[1] - j + 1
+
+        # if near mask, remove singularity
+        if np.sum(mask[i-left : i+right, j-up : j+down]) != 0:
+            sings[i,j] = 0
+
+    return sings
+
+def singularityCleanup(cores, deltas, mask=None):
     """Calls `averageSingularities` and `deleteSingularities` in this order in order to clean up
     the singularity images.
     Based on:
@@ -179,6 +221,8 @@ def singularityCleanup(cores, deltas):
         A 2D binary array with nonzero values in fields where cores were found.
     deltas : numpy_array
         A 2D binary array with nonzero values in fields where deltas were found.
+    mask : numpy_array
+        A 2D binary array with nonzero values denoting the region of interest.
 
     Returns
     -------
@@ -187,5 +231,9 @@ def singularityCleanup(cores, deltas):
     deltas = averageSingularities(deltas)
 
     cores, deltas = deleteSingularities(cores, deltas)
+
+    if not isinstance(mask, type(None)):
+        cores = deleteNearMask(cores, mask)
+        deltas = deleteNearMask(deltas, mask)
 
     return cores, deltas
