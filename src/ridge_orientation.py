@@ -67,8 +67,8 @@ def ridgeOrient(im, flip=False):
     phiY = np.sin(2 * theta)
 
     # Smoothe the vector field
-    phiX = gaussian_filter(phiX, 3)
-    phiY = gaussian_filter(phiY, 3)
+    phiX = gaussian_filter(phiX, 14)
+    phiY = gaussian_filter(phiY, 14)
 
     # Convert the vector field into an orientation image
     orientation = np.pi / 2 + np.arctan2(phiY, phiX) / 2
