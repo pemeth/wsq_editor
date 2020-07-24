@@ -415,7 +415,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
-        overlaid = overlay(self.imgArray, self.deltas, "triangle", fill="rgb(100,0,100)", outline="rgb(100,0,100)", offset=6)
+        overlaid = overlay(self.imgArray, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=10)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
