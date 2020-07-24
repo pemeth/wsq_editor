@@ -383,7 +383,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showImage(self.thinned)
         self.currentImage = self.thinned
 
-    def showCores(self):
+    def showSingularities(self):
         """Find the cores of the fingerprint image and display them superimposed over the original image."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
@@ -399,25 +399,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
         overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
-        self.showImage(overlaid, normalize=False)
-        self.currentImage = overlaid
-
-    def showDeltas(self):
-        """Find the deltas of the fingerprint image and display them superimposed over the original image."""
-        if isinstance(self.imgArray, type(None)):
-            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
-            return
-
-        if not isinstance(self.deltas, type(None)):
-            # cached
-            self.showImage(self.deltas)
-        else:
-            mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
-            self.cores, self.deltas = poincare(orient) * mask
-            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
-
-        overlaid = overlay(self.imgArray, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=10)
+        overlaid = overlay(overlaid, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=10)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -532,8 +514,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gaborAction = QAction("Show Gabor filtered image", self, triggered=self.showGaborFilter)
         self.butterAction = QAction("Show Butterworth filtered image", self, triggered=self.showButterFilter)
         self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
-        self.coresAction = QAction("Show core singularities", self, triggered=self.showCores)
-        self.deltasAction = QAction("Show delta singularities", self, triggered=self.showDeltas)
+        self.singularitiesAction = QAction("Show singularities", self, triggered=self.showSingularities)
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
         self.fpClassAction = QAction("Show class of the fingerprint", self, triggered=self.showClass)
@@ -578,10 +559,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imageMenu.addAction(self.gaborAction)
         self.imageMenu.addAction(self.thinnedZhangSuenAction)
         
-        # signularities submenu        
-        self.signularitiesSubmenu = self.analysisMenu.addMenu("Singularities")
-        self.signularitiesSubmenu.addAction(self.coresAction)
-        self.signularitiesSubmenu.addAction(self.deltasAction)
+        # signularities menu option
+        self.analysisMenu.addAction(self.singularitiesAction)
 
         # minutiae submenu
         self.minutiaeSubmenu = self.analysisMenu.addMenu("Minutiae")
