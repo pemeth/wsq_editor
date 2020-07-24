@@ -641,7 +641,7 @@
   nemusí znamenať, že zodpovedajú ich charakteristickým markantom, pretože iné typy markantov preukazujú charakteristiky ukončenia (napr. bod má dve ukončenia)
   a vidličky (napr. slučka má dve vidličky). Z tohto dôvodu je potrebná následná validácia nájdených charakteristických behov \cite{bansal2011minutiae}.
 
-  \subsubsection*{Extrakcia na základe počtu prechodov}
+  \subsubsection*{Extrakcia na základe počtu prechodov} \label{sec:extrakcia_prechodmi}
   Metóda sa aplikuje na binarizované snímky so stenčenými papilárnymi líniami. Je to často využívaná metóda pre jej jednoduchosť výpočtovú rýchlosť.
   Spočíva v počítaní prechodov medzi pixelmi papilárnej línie a pozadím pre každý pixel prislúchajúci papilárnym líniám. Tieto prechody je možné vypočítať
   pomocou masky veľkosti {$3\times{}3$} (obrázok~{\ref{obr:maska_CN}}), ktorá je priložená na jednotlivé pixely papilárnych línií. Na ohľad sú brané
@@ -1287,11 +1287,13 @@
 
   \subsection{Markanty}
   Funkcia \texttt{extractMinutiae} prijíma binárnu snímku so stenčenými papilárnymi líniami. Každý pixel príslušný papilárnej línii je skontrolovaný
-  maskami a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí. Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
-  zvlášť polí, aby ich bolo možné separovať. Po extrakcii markantov funkcia vráti obe nové polia rovnakých veľkostí ako vstupná snímka. Tieto polia sú ďalej
+  maskami pre extrahovanie markantov (viď sekcia~{\ref{sec:extrakcia_prechodmi}}) a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí.
+  Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
+  zvlášť polí, aby ich bolo možné separovať. Po extrakcii markantov sa vyfiltrujú tie, ktoré sa nachádzajú do 8 pixelov od okraja oblasti záujmu a následne
+  funkcia vráti obe nové polia vyznačených markantov. Tieto polia sú ďalej
   spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s extrahovanými pozíciami markantov -
-  v podstate maska pozícií. Následne sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje značky na
-  pozíciách extrahovaných markantov~(\ref{obr:markanty}).
+  v podstate maska pozícií. Pomocou tejto funkcie sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje
+  značky na pozíciách extrahovaných markantov (obrázok~{\ref{obr:markanty}}).
 
   Extrahované markanty je možné následne exportovať do JSON súboru. Tento export sa vykonáva v metóde \texttt{exportMinutiaeJSON}, ktorá vezme pozície
   $xy$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
