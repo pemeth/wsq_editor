@@ -711,7 +711,7 @@
   Obecný prístup automatizovanej klasifikácie na báze pravidiel pozostáva z dvoch krokov. Prvým krokom je extrakcia singularít. Historicky jednou
   z najpoužívanejších metód je využitie Poincaré indexu, avšak existujú aj iné prístupy \cite{Handbook}. Druhým krokom je samotný odhad triedy odtlačku.
 
-  \subsection{Detekcia singularít na základe Poincaré indexu}
+  \subsection{Detekcia singularít na základe Poincaré indexu} \label{sec:poincare}
   Ak máme vektorové pole $G$ a krivku $C$ vsadenú do vektorového poľa $G$, tak Poincaré index $P_{G,C}$ je definovaný ako celková rotácia vektorov $G$ pozdĺž
   krivky $C$ \cite{Handbook}. Táto definícia je ilustrovaná na obrázku~{\ref{obr:poincare_index}}. Metóda detekcie singularít na základe Poincaré indexu vyžaduje
   extrakciu orientácií papilárnych línií (uvedené v sekcii~{\ref{sec:orientacia}}).
@@ -1306,37 +1306,49 @@
       \includegraphics[width=\linewidth]{obrazky-figures/bifurcations.png}
       \caption{vidličky}
     \end{subfigure}
-    \hspace{0.05\linewidth}
+    \hfill
     \begin{subfigure}[b]{0.3\linewidth}
       \includegraphics[width=\linewidth]{obrazky-figures/ridge_endings.png}
       \caption{ukončenia}
     \end{subfigure}
-    \caption{Farebne vyznačené markanty na snímke odtlačku prsta.}
+    \hfill
+    \begin{subfigure}[b]{0.3\linewidth}
+      \includegraphics[width=\linewidth]{obrazky-figures/cores_deltas.png}
+      \caption{singularity}
+      \label{obr:singularity}
+    \end{subfigure}
+    \caption{Farebne vyznačené markanty a singularity na snímke odtlačku prsta. Na obrázku~\mbox{(c)} je delta vyznačená trojuholníkom
+            a jadro krúžkom.}
     \label{obr:markanty}
   \end{figure}
 
   \subsection{Singularity a triedy}
-  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom. Funkcia prechádza každý pixel snímky orientácií
-  a daný pixel spolu s jeho okamžitým okolím odovzdá funkcii \texttt{poincareIndex}. Tu sa okno, ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
+  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom~{\ref{sec:poincare}}. Funkcia prechádza každý
+  pixel snímky orientácií
+  a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3 \times 3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
+  ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
   proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
   V~závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
-  Výsledkom sú dve binárne snímky jadier a delt, ktoré majú vyznačené singularity v príslušných bodoch.
+  Výsledkom sú dve binárne snímky jadier a delt, ktoré majú vyznačené singularity v príslušných bodoch (rovnako ako pri markantoch).
   
-  Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}. Táto funkcia plní dva účely. V prvom rade nahrádza oblasti s veľkým
-  množstvom singularít rovnakého typu oblasťou s jednou singularitou umiestnenou na priemernú pozíciu detegovaných singularít v tejto oblasti.
-  V druhom rade odstraňuje singularity rôzneho typu, ak sa nachádzajú v rovnakej oblasti. Výsledná snímka s detegovanými jadrami je zobrazená na
+  Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}, ktorá plní tri účely. V prvom rade nahrádza oblasti s veľkým
+  množstvom singularít rovnakého typu oblasťou s jednou singularitou umiestnenou na priemernú pozíciu detegovaných singularít v~tejto oblasti.
+  V druhom rade odstraňuje singularity rôzneho typu, ak sa nachádzajú v~rovnakej oblasti. V oboch týchto
+  prípadoch sa kontrolujú singularity v oblasti veľkosti $8 \times 8$ pixelov okolo každej detegovanej singularity. V treťom rade sa odstraňujú singularity,
+  ktoré sú v blízkosti 10 pixelov hraniciam oblasti záujmu. Výsledná snímka s detegovanými singularitami je zobrazená na
   obrázku~{\ref{obr:singularity}}, kde vyznačenie singularít prebehlo podobne ako pri markantoch pomocou funkcie \texttt{overlay}.
 
-  \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\linewidth]{obrazky-figures/cores_deltas.png}
-    \caption{Snímka odtlačku prsta s vyznačenými detegovanými jadrami.}
-    \label{obr:singularity}
-  \end{figure}
-
   Detekciu triedy odtlačku prsta vykonáva funkcia \texttt{getClass}. Táto funkcia je schopná rozlíšiť oblúk, klenutý oblúk, ľavú slučku, pravú slučku.
-  Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach. V prípade, že sa
-  v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami.
+  Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach a ich vzájomných
+  pozíciách (sekcia~{\ref{sec:rule-based}}). V prípade, že sa
+  v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami. Sklon sa
+  zistí pomocou výpočtu gradientu úsečky medzi deltou a jadrom. Prahovaním tohto gradientu je možné získať odhad triedy. Prahy sklonu (označený~{$m$})
+  sú v aplikácii nastavené nasledovne:
+  \begin{itemize}
+    \item ak $m \geq 1$, tak sa jedná o ľavú slučku,
+    \item ak $m \leq -1$, tak sa jedná o pravú slučku,
+    \item inak sa jedná o klenutý oblúk.
+  \end{itemize}
 
   \section{Vyhodnotenie}
   Aplikácia je prevedená ako prenositeľná grafická pomôcka pre analýzu snímok odtlačkov prstov. Prenositeľnosť bola testovaná na zariadeniach s operačnými
