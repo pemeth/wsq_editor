@@ -57,9 +57,9 @@ def specifyLoopType(cores, deltas):
 
     slope = (dY - cY) / (dX - cX)
 
-    if slope >= 1.5:
+    if slope >= 1:
         return "left loop"
-    elif slope <= -1.5:
+    elif slope <= -1:
         return "right loop"
     else:
         return "tented arch"
