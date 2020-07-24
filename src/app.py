@@ -395,7 +395,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
-            self.showImage(self.cores)
 
         overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
         self.showImage(overlaid, normalize=False)
@@ -415,7 +414,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
-            self.showImage(self.deltas)
 
         overlaid = overlay(self.imgArray, self.deltas, "triangle", fill="rgb(100,0,100)", outline="rgb(100,0,100)", offset=6)
         self.showImage(overlaid, normalize=False)

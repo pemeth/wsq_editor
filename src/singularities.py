@@ -29,9 +29,14 @@ def poincareIndex(window):
 
     diffs = np.diff(pairs, axis=1).reshape((8,))    # calculate the differences between pairs
 
-    betas = np.zeros(8)
-    betas = np.where(diffs <= -np.pi/2, diffs+np.pi, diffs - np.pi)
-    betas = np.where((diffs > -np.pi/2) & (diffs <= np.pi/2), diffs, diffs - np.pi)
+    # conditional values
+    betas = np.ones(8) * (diffs - np.pi)
+    
+    cond1 = np.where(diffs <= -np.pi/2)
+    betas[cond1] = diffs[cond1] + np.pi
+
+    cond2 = np.where((diffs > -np.pi/2) & (diffs <= np.pi/2))
+    betas[cond2] = diffs[cond2]
 
     return (1 / np.pi) * np.sum(betas)  # return the poincare index of this window
 
@@ -57,18 +62,17 @@ def poincare(img):
     strides = 2 * img.strides
     patches = stride_tricks.as_strided(img, shape=shape, strides=strides)
 
-    Pcs = np.zeros_like(img).astype(np.float32)
     deltas = np.zeros_like(img).astype(np.float32)
     cores = np.zeros_like(img).astype(np.float32)
     for i in range(1, img.shape[0] - 1):
         for j in range(1, img.shape[1] - 1):
             window = img[i-1:i+2, j-1:j+2]   # take a 3x3 window around the current pixel
             Pc = poincareIndex(window)
-            Pcs[i,j] = Pc
+            # for some reason this condition is flipped in comparison to checked research sources (??)
             if Pc >= -1 and Pc <= -0.5:
-                cores[i,j] = 1
-            if Pc >= 0.5 and Pc <= 1:
                 deltas[i,j] = 1
+            if Pc >= 0.5 and Pc <= 1:
+                cores[i,j] = 1
 
     return (cores, deltas)
 
