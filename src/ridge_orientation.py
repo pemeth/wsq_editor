@@ -13,7 +13,7 @@ import exceptions as e
 BLOCK_HEIGHT = 16
 BLOCK_WIDTH = 16
 
-def ridgeOrient(im, flip=False):
+def ridgeOrient(im, blendSigma = 3, flip=False):
     """Takes a normalized fingerprint image array and returns an orientation image of the same size.
     Based on:
     Hong, L., Wan, Y. a Jain, A. Fingerprint image enhancement: algorithm and
@@ -24,6 +24,9 @@ def ridgeOrient(im, flip=False):
     ----------
     im : numpy_array
         The input fingerprint image.
+    blendSigma : int
+        A scalar value defining the standard deviation in the guassian blur applied to the orientation field.
+        Defaults to 3.
     flip : bool
         A hack for plotting a vector field based on the output image. See comment in the code for further info.
         Defaults to False.
@@ -67,8 +70,8 @@ def ridgeOrient(im, flip=False):
     phiY = np.sin(2 * theta)
 
     # Smoothe the vector field
-    phiX = gaussian_filter(phiX, 14)
-    phiY = gaussian_filter(phiY, 14)
+    phiX = gaussian_filter(phiX, blendSigma)
+    phiY = gaussian_filter(phiY, blendSigma)
 
     # Convert the vector field into an orientation image
     orientation = np.pi / 2 + np.arctan2(phiY, phiX) / 2

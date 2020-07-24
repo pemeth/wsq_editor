@@ -49,6 +49,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.scaleFactor = 1.0
 
+        self.blendSigmaForSingularities = 14
+
         self.img = None             # Will hold the image data
         self.imgArray = None        # Will hold the raw image data in a numpy array
         self.imgShape = None        # Will hold the shape of the loaded image
@@ -392,7 +394,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showImage(self.cores)
         else:
             mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
@@ -411,7 +413,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showImage(self.deltas)
         else:
             mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
@@ -496,7 +498,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.deltas, type(None)):
             # not cached
             mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask)    # better results with masked image
+            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
             self.cores, self.deltas = poincare(orient) * mask
             self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
@@ -611,7 +613,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.bifurcations, type(None)):
             self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned)
         if isinstance(self.cores, type(None)):
-            orient = ridgeOrient(butter * mask)
+            orient = ridgeOrient(butter * mask, blendSigma=self.blendSigmaForSingularities)
             self.cores, self.deltas = poincare(orient) * mask
 
     def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
