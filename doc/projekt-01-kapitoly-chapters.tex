@@ -1312,7 +1312,7 @@
     \label{obr:stencene}
   \end{figure}
 
-  \subsection{Markanty}
+  \subsection{Markanty} \label{sec:markanty_algo}
   Funkcia \texttt{extractMinutiae} prijíma binárnu snímku so stenčenými papilárnymi líniami. Každý pixel príslušný papilárnej línii je skontrolovaný
   maskami pre extrahovanie markantov (viď sekcia~{\ref{sec:extrakcia_prechodmi}}) a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí.
   Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
@@ -1458,8 +1458,9 @@
 
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
-  kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy žiaduca aj v prípade kvalitnejšej vstupnej
-  snímky. Tieto rozdiely je možné pozorovať na obrázku~{\ref{obr:porovnanie_kvality}}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej kvality
+  kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy vysoká aj v prípade kvalitnejšej vstupnej
+  snímky. Tieto rozdiely v kvalite je možné pozorovať na obrázku~{\ref{obr:porovnanie_kvality}}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej
+  kvality
   (avšak oba sú dostatočne vysokej kvality) a výstupy ich filtrovania Gaborovým filtrom a stenčenia línií. Je možné vidieť, že dopad na kvalitu filtrovania
   nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno na ľavej strane spodnej časti filtrovanej
   snímky~{\ref{obr:ecsema_gabor}}. Toto naznačuje nedostatočné alebo nekvalitné predspracovanie. Na týchto snímkach je tiež možné vidieť dopad prísneho
@@ -1502,16 +1503,13 @@
     \label{obr:porovnanie_kvality}
   \end{figure}
 
-  Detekcia markantov prejavuje veľké množstvo falošných pozitívnych detekcií. Je však vhodné podotknúť, že samotná detekcia pracuje správne, avšak kroky
-  predspracovania (obzvlášť Gaborove filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty. V~dôsledku nedokonalého filtrovania a binarizácie
-  sa vytvorí fragmentovaná snímka s veľkým množstvom falošných markantov v oblastiach ochorenia kože a prípadne iných oblastiach narušenia alebo meniacej
-  sa frekvencie. Krok stenčovania línií produkuje kvalitné výsledky, na základe ktorých je možné spoľahlivo extrahovať markanty.
-
-  Detekcia jadier nachádza jadrá okrem správnych miest aj na okrajoch oblasti záujmu kde orientácie prudko menia smer medzi oblasťou záujmu a pozadím snímky.
-  Jedným z~možných riešení je opakované vyhladzovanie orientácií, kým sa nenájde platné množstvo singularít, ale z dôvodu pomalej implementácie algoritmu
-  detekcie singularít bolo toto riešenie vypustené.
-  Detekciu delt je možné považovať za nefunkčnú, pretože na testovacej vzorke niekoľkých desiatok snímok sa jej nepodarilo rozlíšiť ani jednu singularitu.
-  Dopadom nefunkčnej detekcie singularít je nesprávna klasifikácia snímok do jednotlivých tried odtlačkov prstov.
+  V oblastiach v okolí hraníc oblasti záujmu je možné vidieť falošné ukončenia línií. Tieto sú po detekcii odfiltrované ako bolo uvedené v
+  sekcii~{\ref{sec:markanty_algo}}. Je však vhodné podotknúť, že samotná detekcia pracuje správne, avšak kroky
+  predspracovania (obzvlášť Gaborove filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty.
+  Detekcia singularít má tendenciu nachádzať singularity okrem správnych miest aj na okrajoch oblasti záujmu kde orientácie prudko menia smer medzi
+  oblasťou záujmu a pozadím snímky. Vyfiltrovaním týchto detekcií podobným spôsobom ako pri markantoch sa získajú dobré výsledky pri snímkach strednej až
+  vysokej kvality.
+  V prípade snímok nižšej kvality, kde výpočet poľa orientácií nie je veľmi spoľahlivý sa častejšie nachádzajú singularity na nekorektných miestach.
 
   \subsection{Rýchlosť algoritmov}
   Knižnica \texttt{numpy} poskytuje možnosť využívania vektorizovaných operácií nad podporovanými dátovými typmi. Tieto operácie sú obecne veľmi rýchle
