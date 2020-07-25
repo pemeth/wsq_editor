@@ -32,7 +32,7 @@ def getClass(cores, deltas):
     if numCores == 1 and numDeltas == 1:
         return specifyLoopType(cores, deltas)
 
-    if numCores == 2 and numDeltas == 2:
+    if (numCores == 2 and numDeltas == 2) or (numCores == 2):
         return "whorl or twin loop"
 
     return "unknown"
@@ -57,10 +57,10 @@ def specifyLoopType(cores, deltas):
 
     slope = (dY - cY) / (dX - cX)
 
-    if slope >= 1:
-        return "left loop"
-    elif slope <= -1:
-        return "right loop"
-    else:
+    if slope >= 2.5 or slope <= -2.5:
         return "tented arch"
-
+    elif slope < 2.5 and slope >= 0:
+        return "left loop"
+    elif slope > -2.5 and slope < 0:
+        return "right loop"
+    return "unknown"
