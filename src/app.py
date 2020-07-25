@@ -55,7 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.imgArray = None        # Will hold the raw image data in a numpy array
         self.imgShape = None        # Will hold the shape of the loaded image
         self.currentImage = None    # Will hold the image currently being shown
-        self.filename = None
+        self.filename = "/home/"
 
         self.filtim = None          # Cache for the filtered image
         self.thinned = None         # Cache for the thinned image
@@ -67,7 +67,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def open(self):
         """Open and show an image"""
         options = QFileDialog.Options()
-        self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "/home",
+
+        head, _ = os.path.split(self.filename)
+        self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image", head,
                                                   "Images (*.png *.bmp *.jpg *.jpeg *.wsq);;Any File (*)",
                                                   options=options)
 
