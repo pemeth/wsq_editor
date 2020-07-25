@@ -941,8 +941,11 @@
   metóda prenosu dát takým spôsobom, že nové príchodzie dáta (podpásma vo vyšších frekvenciách) zvyšujú úroveň detailu obsiahnutej v snímke.
   Toto je dosiahnuteľné vďaka charakteristickým vlastnostiam diskrétnej vlnkovej transformácie a spôsobu kódovania dát vo formáte WSQ.}, čo znamená,
   že po sebe nasledujúce bloky pridávajú detaily snímky v progresívne vyšších frekvenciách \cite{WSQSpecification}. Rozdelením podpásem do blokov na týchto
-  konkrétnych indexoch zabezpečí možnosť graduálnej rekonštrukcie snímky pridávaním detailov nižšej úrovne dekompozície,
-  ako je možné vyčítať z~obrázku~{\ref{obr:WSQ_DWT_dekompozicia}}. Rozdelenie do viacerých, než troch blokov je vo WSQ tiež možné s horným limitom obmedzeným
+  konkrétnych indexoch zabezpečí možnosť graduálnej rekonštrukcie snímky pridávaním detailov nižšej úrovne dekompozície.
+  Na obrázku~{\ref{obr:WSQ_DWT_dekompozicia}} je možné vidieť očíslované podpásma. Spomenuté východzie hranice sa nachádzajú na tákych miestach, kde za
+  progresívneho prenosu je možné snímku rekonštruovať z nízkofrekvenčných podpásem, ktoré boli prenášané ako prvé. V prípade narušenia širokých,
+  vysokofrekvenčných, podpásem je tým pádom možné získať pôvodnú snímku, ale s nižšími vysokofrekvenčnými detailmi.
+  Rozdelenie do viacerých, než troch blokov je vo WSQ tiež možné s horným limitom obmedzeným
   na 8 blokov \cite{brislawn1996compression}.
 
   Koeficienty sa v každom podpásme najskôr zoradia v poradí od ľavého horného rohu po pravý dolný roh (teda po diagonálach \uv{cikcakovito})
