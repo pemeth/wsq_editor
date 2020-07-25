@@ -1424,7 +1424,7 @@
   Podobne ako u termálnom snímači sa jedná o snímky s vysokým kontrastom. Kvalita poľa orientácií v rámci oblasti záujmu je vysoká a uniformná. Mimo oblasti
   záujmu je však z veľkej časti zdanlivo náhodná. Dôvodom takéhoto správania je výrazne jednoliate pozadie, kde neprítomnosť uniformného gradientu spôsobuje
   roztrieštené pole orientácií. Z rovnakého dôvodu sa nespoľahlivejšie prahujú frekvencie mimo papilárnych línií, kde sa často rozoznávajú validné frekvencie.
-  aj mimo oblasti záujmu. Generovanie masky oblasti záujmu je kvalitné vďaka veľmi nízkemu rozptylu hodnôt v oblasti pozadia a veľmi vysokému rozptylu hodnôt
+  Generovanie masky oblasti záujmu je kvalitné vďaka veľmi nízkemu rozptylu hodnôt v oblasti pozadia a veľmi vysokému rozptylu hodnôt
   v oblasti záujmu.
   Snímky zaznamenané týmto snímačom obsahovali veľké množstvo pórov. V niektorých prípadoch, ak boli papilárne línie dostatočne hrubé a póry v rámci nich
   dostatočne veľké, tieto papilárne línie sa po Gaborovom filtrovaní a následnej binarizácii rozdelili na dve. Pri menších póroch sa takýmto rozdvojením
@@ -1438,8 +1438,8 @@
   optickom snímači. Maska oblasti záujmu bola správne generovaná okolo oblasti záujmu. Pri niektorých snímkach, kde sa papilárne línie zlievali do jedného
   tvaru sa maskovali aj tieto oblasti.
   Na niektorých snímkach tohto snímača sa objavovali oblasti poškodené šumom. Pozícia a tvar tohto šumu bol naprieč viacerými snímkami rovnaký, čo môže
-  naznačovať zašpinenie alebo chybu snímača. Tento šum mal podobný dopad na Gaborove filtrovanie ako póry pri optickom snímači, čo znamená, že sa falošne
-  vytváral priestor uprostred papilárnych línií. Pri okrajoch oblasti záujmu sa prejavuje podobné správanie ako pri termálnom snímači.
+  naznačovať zašpinenie alebo chybu snímača. Tento šum mal podobný dopad na Gaborove filtrovanie ako póry pri optickom snímači, čo znamená, že sa niekedy
+  falošne vytváral priestor uprostred papilárnych línií. Pri okrajoch oblasti záujmu sa prejavuje podobné správanie ako pri termálnom snímači.
 
   \subsection{Analýza snímok}
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
