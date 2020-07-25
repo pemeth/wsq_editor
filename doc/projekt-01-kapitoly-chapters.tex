@@ -417,7 +417,8 @@
   Jedným z najzákladnejších prístupov k vytvoreniu masky oblasti záujmu je jednoduchá analýza rozptylu hodnôt pixelov v rámci blokov snímky. Je to elegantné
   riešenie, pretože v mnohých prípadoch sú nezotaviteľné oblasti, podobne ako pozadie, oblasťami nízkeho rozptylu hodnôt - a to či už nízkych hodnôt, v prípade
   tmavých častí odtlačku v dôsledku nadmerného tlaku pri získavaní odtlačku, alebo vysokých hodnôt, ktoré sú vytvárané napríklad z dôvodu ochorenia kože.
-  Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w\times{}h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe vzorcov
+  Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w\times{}h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe
+  vzorcov~{\cite{babatunde2012FP_enhancement}}
   \begin{equation}
     V(b) = \frac{1}{wh} \sum_{i=1}^{w}\sum_{j=1}^{h}(I(i,j) - M(b))^2
   \end{equation}
@@ -425,7 +426,7 @@
     M(b) = \frac{1}{wh} \sum_{k=1}^{w}\sum_{l=1}^{h}(I(k,l)),
   \end{equation}
   kde $b$ je blok pixelov s rozmermi $w\times{}h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
-  a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}~{\cite{babatunde2012FP_enhancement}}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
+  a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
   o oblasť záujmu, inak sa jedná o pozadie. Takýto algoritmus je možné aplikovať rôznymi spôsobmi, a to napríklad po pixeloch, kde je výpočet rozptylu
   aplikovaný na oblasť okolo každého pixelu a pixely sa maskujú jednotlivo, alebo po častiach, kde sa maskuje celý blok a okno pre výpočet rozptylu sa
   posúva o viac, než jeden pixel.
