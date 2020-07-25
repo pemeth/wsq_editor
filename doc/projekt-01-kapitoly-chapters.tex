@@ -1372,8 +1372,9 @@
   \end{figure}
 
   \subsection{Singularity a triedy} \label{sec:singul_a_triedy}
-  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom~{\ref{sec:poincare}}. Funkcia prechádza každý
-  pixel snímky orientácií
+  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom~{\ref{sec:poincare}}. Pred odovzdaním snímky
+  orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných fingularít.
+  Funkcia \texttt{poincare} prechádza každý pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3 \times 3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
   ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
   proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
