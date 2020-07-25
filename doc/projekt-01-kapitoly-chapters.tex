@@ -544,7 +544,7 @@
   globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v okolí
   súčasne spracovávaného pixelu.
 
-  \subsection{Stenčovanie línií}
+  \subsection{Stenčovanie línií} \label{sec:stencovanie}
   Tento krok sa vykonáva na binarizovaných snímkach odtlačkov. Jedná sa o stenčenie línií tvorených odtlačkom prsta na čiernobielej snímke na šírku
   jeden pixel. Týmto sa uľahčuje strojová analýza markantov a singularít, pretože po stenčení je možné pracovať iba s \emph{kostrou} odtlačku,
   ktorá obsahuje iba priebeh papilárnych línií vrátane bodov záujmu ako sú spomenuté markanty, ktoré nezávisia na hrúbke línií \cite{Handbook}.
@@ -1312,8 +1312,12 @@
   \end{figure}
 
   \subsection{Stenčovanie línií}
-  Vykonávané funkciou \texttt{zhangSuen}, stenčovanie sa vykonáva paralelnou metódou Zhang-Suen. Algoritmus je riadený hlavným cyklom, v rámci ktorého sú
-  dva podcykly odstraňujúce pixely nepríslušiace kostre odtlačku prsta. Vstupom tejto funkcie je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
+  Vykonávané funkciou \texttt{zhangSuen}, stenčovanie sa vykonáva paralelnou metódou Zhang-Suen (sekcia~{\ref{sec:stencovanie}}). Algoritmus je riadený
+  hlavným cyklom, v rámci ktorého sú
+  dva podcykly odstraňujúce pixely nepríslušiace kostre odtlačku prsta. Funkcie \texttt{neighborCount} a \texttt{zeroToOnePatternCount} slúžia ako pomocné
+  funkcie pri rozhodovaní podmienok pre odstraňovanie pixelov. V \texttt{zeroToOnePatternCount} sa pomocou \texttt{numpy.diff} získa počet prechodov
+  z pixelu hodnoty 0 na pixel hodnoty 1 v odrolovanom okne $3 \times 3$ pixelov. Funkcia \texttt{neighborCount} vráti počet susedov stredného pixelu okna
+  $3 \times 3$. Vstupom funkcie \texttt{zhangSuen} je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
   Výstup tejto funkcie je binárna snímka stenčených papilárnych línií. Avšak výstupná snímka reprezentuje papilárne línie obrátene oproti predchádzajúcim
   krokom, a to tak, že línie sú reprezentované vyššími hodnotami, než pozadie snímky (viď obrázok~{\ref{obr:stencene}}), teda línie sú bledé na rozdiel od
   tmavých. Toto má význam pri nasledujúcich krokoch analýzy.
