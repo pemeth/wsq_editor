@@ -1170,11 +1170,19 @@
     \caption{Vzhľad aplikácie s načítanou snímkou syntetického odtlačku prsta z internej databázy STRaDe.}
     \label{obr:app}
   \end{figure}
-  Menu \texttt{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok. Menu \texttt{Transformations} má možnosti pre rotovanie a priblíženie
-  snímky. Menu \texttt{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod. a menu
-  \texttt{Analysis} zase voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných markantov do
+  Menu \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok. Menu \emph{Transformations} má možnosti pre rotovanie a priblíženie
+  snímky. Menu \emph{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod. a menu
+  \emph{Analysis} zase voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných markantov do
   JSON súboru.
-  Základom aplikácie sú triedy \texttt{MainWindow} definujúca logiku aplikácie a \texttt{Ui\_MainWindow} definujúca vzhľad aplikácie.
+
+  Hlavné okno aplikácie zobrazuje súčasne načítanú snímku. V prípade, že užívateľ zvolí jednu z možností pre spracovanie alebo analýzu, táto snímka je
+  prepísaná novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa v snímka v hlavnom okne nahradí
+  interpretáciou orientačného poľa súčasnej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V prípade analýzy sa extrahujú potrebné informácie
+  o markantoch alebo singularitách, v závislosti od požiadavky užívateľa, a zobrazí sa pôvodná snímka s vyznačenými markantmi alebo singularitami. Väčsina
+  týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii. V dvoch prípadoch spracovania a analýzy sa zobrazí ďalšie
+  okno. Pri zobrazení orientácií je možné zvoliť zobrazenie snímky orientácii, ktoré sa zobrazí v hlavnom okne, alebo zobrazenie vykresleného vektorového poľa
+  orientácií - toto sa zobrazí v novom okne za pomoci modulu \texttt{matplotlib.pyplot} a jej funkcie \texttt{quiver}. Druhým prípadom, kde sa zobrazí nové
+  okno je pri detekcii triedy, po ktorej sa zobrazí okno so správou zdieľajúcou triedu odtlačku prsta.
 
   \subsection{\texttt{MainWindow}}
   Hlavná trieda grafického rozhrania, ktorá riadi beh a komunikáciu aplikácie s užívateľom pomocou definovaných metód viazaných na rôzne akcie.
@@ -1200,7 +1208,7 @@
   tohto prekladu. Dedením tejto triedy triedou \texttt{MainWindow} je zabezpečené oddelenie definície vzhľadu aplikácie a jej logiky, čo prispieva k
   prehľadnejšiemu kódu.
 
-  \section{Algoritmy}
+  \section{Algoritmy} \label{sec:algoritmy}
   V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
   Základnými úpravami, ktoré sa vykonávajú pred každým iným druhom spracovania sú normalizácia a filtrovanie Butterworth filtrom.
   Normalizácia snímky sa vykonáva pomocou funkcie \texttt{normalizeMeanVariance}, ktorá implementuje metódu
