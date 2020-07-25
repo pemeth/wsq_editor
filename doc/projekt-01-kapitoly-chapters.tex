@@ -1188,9 +1188,15 @@
   prepísaná novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa v snímka v hlavnom okne nahradí
   interpretáciou orientačného poľa súčasnej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V prípade analýzy sa extrahujú potrebné informácie
   o markantoch alebo singularitách, v závislosti od požiadavky užívateľa, a zobrazí sa pôvodná snímka s vyznačenými markantmi alebo singularitami. Väčsina
-  týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii. V dvoch prípadoch spracovania a analýzy sa zobrazí ďalšie
-  okno. Pri zobrazení orientácií je možné zvoliť zobrazenie snímky orientácii, ktoré sa zobrazí v hlavnom okne, alebo zobrazenie vykresleného vektorového poľa
-  orientácií - toto sa zobrazí v novom okne za pomoci modulu \texttt{matplotlib.pyplot} a jej funkcie \texttt{quiver}. Druhým prípadom, kde sa zobrazí nové
+  týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii.
+
+  V niektorých prípadoch použitia sa zobrazí ďalšie okno aplikácie. Pre importovanie snímky sa otvorí súborový dialóg, ktorý umožňuje prehľadávať súbory
+  na počítači užívateľa. Tento dialóg umožňuje filtrovanie súborov dvoma spôsobmi - zobraziť všetky súbory alebo filtrovať niektoré formáty obrázkových
+  súborov\footnote{Menovite PNG, BMP, JPEG, WSQ, TIFF. Aplikácia však podporuje aj iné formáty - tieto sú iba filtrované podľa prípony súboru.}.
+  Pri exportovaní snímky je možné do jednoduchého dialógového okna zadať názov súboru. Ak sa k názvu nepriloží prípona požadovaného formátu, snímka sa
+  exportuje ako PNG. V prípade nepodporovaného formátu sa vypíše chybové hlásenie. Je možné zadať aj absolútnu alebo relatívnu cestu pre export do konkrétneho
+  priečinku. Pri zobrazení orientácií je možné zvoliť zobrazenie snímky orientácii, ktoré sa zobrazí v hlavnom okne, alebo zobrazenie vykresleného vektorového
+  poľa orientácií - toto sa zobrazí v novom okne za pomoci modulu \texttt{matplotlib.pyplot} a jej funkcie \texttt{quiver}. Ďalším prípadom, kde sa zobrazí nové
   okno je pri detekcii triedy, po ktorej sa zobrazí okno so správou zdieľajúcou triedu odtlačku prsta.
 
   \subsection{\texttt{MainWindow}}
