@@ -512,7 +512,7 @@
     \label{obr:frekvencia-Hong}
   \end{figure}
 
-  \subsection{Gaborova funkcia}
+  \subsection{Gaborova funkcia} \label{sec:gaborova_funkcia}
   Gaborova funkcia je využívaná pre zvýšenie kvality snímok znížením šumu v snímke a zachovaním štruktúry papilárnych línií. Jedná sa o kontextuálny
   filter, ktorý na rozdiel od iných konvolučných filtrov filtruje na základe lokálnych informácií o snímke \cite{Handbook}. Gaborov filter je vhodný
   pre filtrovanie snímok odtlačkov, pretože zdieľa isté vlastnosti ich dvojrozmernej reprezentácie. Týmito vlastnosťami sú orientácia a frekvencia,
@@ -536,7 +536,7 @@
   ako konštanty s hodnotou 4 na základe pozorovaní \cite{Hong}. Samotné filtrovanie je konvolúciou každého pixelu snímky odtlačku prsta s vygenerovaným filtrom
   pre daný pixel. Veľkosť konvolučného jadra Gaborovho filtra Hong definuje v oboch smeroch na $k = 11$ pixelov.
 
-  \subsection{Binarizácia}
+  \subsection{Binarizácia} \label{sec:binarizacia}
   Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlačkov prstov.
   Metóda využíva priemer hodnôt v okne $s \times s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
   z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
@@ -1264,23 +1264,29 @@
     \label{obr:frekvencie}
   \end{figure}
 
-  \subsection{Gaborove filtrovanie} \label{sec:gabor_algo}
+  \subsection{Gaborove filtrovanie a binarizácia} \label{sec:gabor_algo}
   Funkcia \texttt{gaborFilter} prijíma štyri hlavné parametre, a to pôvodnú snímku, snímku orientácií, frekvencií a masku oblasti záujmu. Pre každý pixel
   snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gaborovho filtra na základe príslušných dát o~frekvencii a orientácii
-  snímky v tom danom pixeli. Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
+  snímky v tom danom pixeli. Generovanie kernelu je vykonávané vo funkcii \texttt{h} podľa teórie uvedenej v sekcii~{\ref{sec:gaborova_funkcia}}, kde sa
+  uvádza vhodná veľkosť kernelu ako 11 pixelov.
+  Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
   vstupná snímka. Po prejdení každého požadovaného pixelu sú hodnoty získané filtráciou prahované pre získanie binárnej snímky.
 
   Na obrázku~{\ref{obr:gabor}}
   je možné pozorovať filtrovanú snímku pred a po binarizácii. Štvorcové fragmenty na prvých dvoch zobrazených snímkach sú tvorené tým, že snímka frekvencií je
   diskrétna po blokoch, čím sa niekedy tvoria značné skoky vo frekvenciách parametrov filtra susedných pixelov. Tretia snímka bola získaná filtrovaním na základe
   priemerovanej frekvenčnej snímky zbavenej náhlych prechodov medzi susednými blokmi frekvencií. Vďaka tomuto priemerovaniu bolo predídené výrazným štvorcovým
-  fragmentom, čo podporilo kvalitnejšiu binarizáciu.
+  fragmentom vo filtrovanej snímke, čo podporilo kvalitnejšiu binarizáciu.
 
-  Kvôli blokovým fragmentom je totiž obtiažne prahovať snímku, a to nie len pomocou globálneho prahu. Snímky \ref{obr:gabor_binar} a
+  Kvôli blokovým fragmentom je obtiažne prahovať snímku globánym prahom, pretože hodnoty filtrovanej snímky sa v jednotlivých blokoch môžu výrazne líšiť a môžu
+  mať od seba rôzne strené hodnoty a rozptyly. Z tohto dôvodu bola zvolená adaptívna binarizácia. Snímky \ref{obr:gabor_binar} a
   \ref{obr:gabor_binar_freq_blur} boli obe binarizované adaptívne, pričom je zjavné, že výsledok druhej z týchto snímok je značne vyššej kvality bez výrazných
-  fragmentov. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých sa vypočíta optimálny prah. Na základe tohto prahu sa v každom bloku prahujú hodnoty,
-  čím sa získa binárna snímka. Výhodou takejto binarizácie oproti prevedeniu s globálnym prahom je, že berie na ohľad kontext okolných pixelov práve
-  binarizovaného pixelu, vďaka čomu sa získa kvalitnejšie binarizovaná snímka.
+  fragmentov vďaka utlmeniu náhlych prechodov medzi frekvenciami spremerovaním frekvenčnej snímky. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých
+  sa vypočíta optimálny prah. Na základe tohto prahu sa v každom bloku (veľkosti jednej osminy šírky snímky) prahujú hodnoty,
+  čím sa získa binárna snímka. Binarizácia je implementovaná na základe sekcie~{\ref{sec:binarizacia}}. Integrálna snímka je vytvorená pomocou
+  aplikovania \texttt{numpy.cumsum} pozdĺž oboch os. Výhodou takejto binarizácie oproti prevedeniu
+  s globálnym prahom je, že berie na ohľad kontext okolných pixelov práve binarizovaného pixelu, vďaka čomu sa získa kvalitnejšie binarizovaná snímka.
+  Binarizácia sa vykonáva okamžite po Gaborovom filtrovaní.
 
   \begin{figure}[h]
     \centering
