@@ -1205,8 +1205,8 @@
   Butterworth filtrovanie prebieha vo frekvenčnej doméne snímky. Frekvenčná reprezentácia snímky je získaná dvojrozmernou rýchlou Fourierovou transformáciou.
   Pre danú snímku je vytvorený filter dolného priepustu, ktorý sa aplikuje vo frekvenčnej doméne na danú snímku. Nakoniec sa filtrované spektrum inverznou
   transformáciou prevedie do pôvodnej, priestorovej, reprezentácie. Týmto sa odstránia zo snímky vysokofrekvenčné fragmenty ako napríklad textúra papiera
-  pri skenovaných snímkoch odtlačkov prstov. Toto filtrovanie sa vykonáva vo funkcii \texttt{butterworth}. Originály zobrazovaných snímok odtlačkov prstov
-  pochádzajú z internej databázy STRaDe.
+  pri skenovaných snímkoch odtlačkov prstov. Toto filtrovanie sa vykonáva vo funkcii \texttt{butterworth}. Pre Fourierovu transformáciu a jej
+  inverziu je využitý modul \texttt{numpy.fft}. Originály zobrazovaných snímok odtlačkov prstov pochádzajú z internej databázy STRaDe.
 
   \subsection{Orientácia papilárnych línii}
   Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
