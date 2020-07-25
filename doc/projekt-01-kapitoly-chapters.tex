@@ -1210,8 +1210,13 @@
 
   \subsection{Orientácia papilárnych línii}
   Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
-  Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v radiánoch.
-  Na obrázku~{\ref{obr:orientacie}} je zobrazená snímka po filtrovaní Sobel filtrom a jej konečná podoba po interpretácii orientácií pre zobrazenie.
+  Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v radiánoch. Tieto výpočty sú
+  uvedené v sekcii~{\ref{sec:orientacia}}. Pre výpočet gradientov je využitá funkcia \texttt{numpy.gradient}, ktorá pri aplikovaní na dvojrozmerné pole
+  vráti gradienty v smeroch os. Výsledkom pri snímkach je výstup podobný Sobelovmu filtrovaniu. Na týchto gradientoch sú vykonané potrebné výpočty vektorovými
+  aritmetickými operáciami pre získanie vektorového poľa orientácií. Získané pole je mierne filtrované dvojrozmerným Gaussovským filtrom (so štandardnou
+  odchýľkou $\sigma = 3$) pre vyhladenie tohto poľa. Nakoniec je pole prevedené na dvojrozmerné pole orientácií v radiánoch.
+  Na obrázku~{\ref{obr:orientacie}} je zobrazená snímka po extrahovaní gradientov v smeroch $x$ a $y$ a jej konečná podoba po interpretácii orientácií pre
+  zobrazenie v~aplikácii.
 
   \begin{figure}[h]
     \centering
@@ -1229,7 +1234,7 @@
       \includegraphics[width=\linewidth]{obrazky-figures/orientim.png}
       \caption{snímka orientácií}
     \end{subfigure}
-    \caption{Vizualizácia detailov v dvoch smeroch snímky a konečná snímka orientácií.}
+    \caption{Vizualizácia detailov v dvoch smeroch snímky a konečná snímka orientácií. Snímka~(c) je verzia zobrazovaná v aplikácii.}
     \label{obr:orientacie}
   \end{figure}
 
