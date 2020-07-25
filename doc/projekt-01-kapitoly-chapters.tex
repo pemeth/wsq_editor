@@ -1349,7 +1349,7 @@
     \label{obr:markanty}
   \end{figure}
 
-  \subsection{Singularity a triedy}
+  \subsection{Singularity a triedy} \label{sec:singul_a_triedy}
   Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom~{\ref{sec:poincare}}. Funkcia prechádza každý
   pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3 \times 3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
@@ -1423,9 +1423,38 @@
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
   Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v predchádzajúcich krokoch pri okrajoch oblasti
   záujmu, kde po Gaborovom filtrovaní a binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
-  záujmu. Algoritmus pre detekciu markantov typu vidlička a ukončenie funguje správne a korektne extrahuje tieto markanty zo snímky stenčených línií.
+  záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a teda v tesnej blízkosti oblasti záujmu sa falošné markanty odstraňujú.
+  Algoritmus pre detekciu markantov typu vidlička a ukončenie ich na snímke stenčených papilárnych línií deteguje korektne.
 
-  Singularity sú detegované na základe poľa orientácií.
+  Detekcia singularít a tried bola testovaná na vzorke snímok z internej databázy STRaDe. Z tejto databázy boli vyčlenené snímky odtlačkov patriacich do
+  jednej z automaticky rozoznávaných tried - oblúk, klenutý oblúk, ľavá / pravá slučka a špirály. Ako bolo uvedené v sekcii~{\ref{sec:singul_a_triedy}},
+  špirála a dvojitá slučka sa detegujú ako jedna trieda. Testovací dataset bol skompilovaný na základe manuálnej vizuálnej analýzy snímok vo vstupnej
+  databáze. Rozdelenie do jednotlivých tried bolo vykonané na základe pravidiel, ako bolo uvedené v sekcii~{\ref{sec:rule-based}}. Vzhľadom na to, že
+  triedenie odtlačkov nebolo vykonávané expertom, do testovacieho datasetu boli zaradené iba snímky, z ktorých sa jednoznačne dala vyčítať trieda odtlačku.
+  Do datasetu boli zaradené snímky vysokej až strednej kvality. Zoznam názvov súborov, na ktorých boli vykonávané testy je uvedený v
+  prílohe~{\ref{priloha:zoznam_suborov}}. Chybovosť bola vypočítaná vzorcom~{\ref{eq:chybovost}}.
+  \begin{table}[ht]
+    \centering
+    \caption{Tabuľka zobrazujúca výsledky testovania automatickej klasifikácie odtlačkov prstov. Skratky tried sú: O - oblúk, KO - klenutý oblúk,
+    ĽS - ľavá slučka, PS - pravá sľučka, Š / DS - špirála / dvojitá slučka.}
+    \begin{tabular}{ l | c | c | c | c | c | }
+      \cline{2-6}
+                                              & \multicolumn{5}{|c|}{Triedy odtlačkov}            \\
+      \cline{2-6}
+                                              & O       & KO        & ĽS     & PS    & Š / DS     \\
+      \hline
+      \multicolumn{1}{|l|}{Celkový počet}     & 21      & 11        & 24      & 25    & 32        \\
+      \multicolumn{1}{|l|}{Správne zaradené}  & 20      & 9         & 14      & 10    & 17        \\
+      \multicolumn{1}{|l|}{Chybovosť}         & 4,76 \% & 18,18 \%  & 41,6 \% & 60 \% & 46, 87 \% \\
+      \hline
+    \end{tabular}
+    \label{tab:vysledky_testov}
+  \end{table}
+  
+  \begin{equation}
+    \text{chybovosť} = \frac{\text{počet nesprávne klasifikovaných odtlačkov}}{\text{celkový počet odtlačkov danej triedy}} \cdot 100
+    \label{eq:chybovost}
+  \end{equation}
 
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
