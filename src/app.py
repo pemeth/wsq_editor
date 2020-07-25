@@ -70,7 +70,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         head, _ = os.path.split(self.filename)
         self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image", head,
-                                                  "Images (*.png *.bmp *.jpg *.jpeg *.wsq);;Any File (*)",
+                                                  "Images (*.png *.bmp *.jpg *.jpeg *.wsq *.tif);;Any File (*)",
                                                   options=options)
 
         if self.filename:
