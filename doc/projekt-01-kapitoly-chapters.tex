@@ -1372,9 +1372,9 @@
   zistí pomocou výpočtu gradientu úsečky medzi deltou a jadrom. Prahovaním tohto gradientu je možné získať odhad triedy. Prahy sklonu (označený~{$m$})
   sú v aplikácii nastavené nasledovne:
   \begin{itemize}
-    \item ak $m \geq 1$, tak sa jedná o ľavú slučku,
-    \item ak $m \leq -1$, tak sa jedná o pravú slučku,
-    \item inak sa jedná o klenutý oblúk.
+    \item ak $m \geq 2,5$ alebo $m \leq -2,5$, tak sa jedná o klenutý oblúk,
+    \item ak $m < 2,5$ a zároveň $m \geq 0$, tak sa jedná o ľavú slučku,
+    \item ak $m > -2,5$ a zároveň $m < 0$, tak sa jedná o pravú slučku.
   \end{itemize}
 
   \section{Vyhodnotenie}
