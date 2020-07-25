@@ -353,7 +353,7 @@
   automatizovanej analýze a to obzvlášť pre odtlačky, resp. časti odtlačkov prstov, kde sa nenachádza veľké množstvo informácií obsiahnutých na
   nižších úrovniach detailu.
 
-  \section{Spracovanie a analýza snímok odtlačkov prstov} \label{sec:analyza}
+\chapter{Spracovanie a analýza snímok odtlačkov prstov} \label{sec:analyza}
   %V súčasnosti automatizované analyzátory odtlačkov prstov vyžadujú úpravu zdrojových snímok. Surové snímky odtlačkov totiž nie sú vhodné pre
   %extrakciu informácí pomocou algoritmov. Skôr, než sa zo snímok môžu začať extrahovať vlastnosti ako singularity a markanty je potrebné snímku
   %spracovať tak, aby sa so snímkou pracovalo jednoduchšie pri samotnej analýze.
@@ -365,7 +365,7 @@
   sa im nevenuje veľká pozornosť za účelom zrýchlenia systému. Avšak hlavná kostra analýzy je vždy relatívne nemenná.
 
   % //TODO: mozno nejaky obrazok o process flow pri spracovani a analyze pre ilustraciu poradia ukonov
-
+  \section{Spracovanie snímok}
   \subsection{Vylepšenie snímok} \label{sec:vylepsenie_snimok}
   Jedným z prvých krokov spracovávania snímok odtlačkov prstov je ich vylepšenie (angl. image enhancement). Väčšina zdrojov odtlačkov je nespoľahlivých
   v zmysle, že nie je možné zaistiť aby boli zdrojové snímky bez signálového alebo iného šumu. To platí hlavne v kriminalistike,
@@ -383,11 +383,12 @@
   \end{itemize}
   Operácie vylepšenia snímok majú za úlohu zvýšiť rozoznateľnosť priebehu papilárnych línií v prvých dvoch kategóriách a odstrániť oblasti tretej
   kategórie \cite{Hong}.
-  
   Kroky vedúce k vylepšenej snímke však nie sú striktne obmedzené na redukciu šumu. Zvýšenie kontrastu medzi papilárnymi líniami a údoliami medzi nimi
   je taktiež kľúčová k neskorším úpravám snímky.
 
-  \subsubsection{Normalizácia} \label{sec:normalizacia}
+  \subsection{Normalizácia} \label{sec:normalizacia}
+  V tejto podsekcii je popísané tzv. \emph{pixel-wise} vylepšenie snímky pomocou normalizácie hodnôt snímky. Kontextuálne filtrovanie Gaborovým
+  filtrom je uvedené v podsekcii~{\ref{sec:gaborova_funkcia}}.
   Jedným z prvých krokov predspracovania vstupnej snímky odtlačku prstu je normalizácia. Jedná sa o operáciu, ktorá má za cieľ znížiť variácie
   v hodnotách odtieňov šedej, čím sa podporí kvalitnejší výstup ďalších krokov spracovania \cite{Hong}. Jedným zo spôsobov ako normalizovať
   snímku je upraviť variáciu a strednú hodnotu snímky pomocou vzorca~{\ref{eq:normalizacia_Hong}}.
