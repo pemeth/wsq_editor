@@ -351,17 +351,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        if not isinstance(self.filtim, type(None)):
-            # app has it cached
-            self.showImage(self.filtim)
-        else:
-            norm = normalizeMeanVariance(self.imgArray)
-            butter = butterworth(norm)
-            mask = getRoi(butter)
-            orientim = ridgeOrient(butter)
-            freq = ridgeFreq(butter, orientim)
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-            self.showImage(self.filtim)
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
+        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.showImage(self.filtim)
         self.currentImage = self.filtim
 
     def showThinnedZhangSuen(self):
@@ -370,23 +366,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        if not isinstance(self.thinned, type(None)):
-            # app has thinned cached - show it
-            self.showImage(self.thinned)
-        elif not isinstance(self.filtim, type(None)):
-            # app has filtim cached - only thinning needs to be done
-            self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.showImage(self.thinned)
-        else:
-            # nothing is cached
-            norm = normalizeMeanVariance(self.imgArray)
-            butter = butterworth(norm)
-            mask = getRoi(butter)
-            orientim = ridgeOrient(butter)
-            freq = ridgeFreq(butter, orientim)
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-            self.showImage(self.thinned)
+        norm = normalizeMeanVariance(self.imgArray)
+        butter = butterworth(norm)
+        mask = getRoi(butter)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
+        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+        self.showImage(self.thinned)
         self.currentImage = self.thinned
 
     def showSingularities(self):
@@ -395,14 +382,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        if not isinstance(self.cores, type(None)):
-            # cached
-            self.showImage(self.cores)
-        else:
-            mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
-            self.cores, self.deltas = poincare(orient) * mask
-            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
+        mask = getRoi(self.imgArray)
+        orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
+        self.cores, self.deltas = poincare(orient) * mask
+        self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
         overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
         overlaid = overlay(overlaid, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=10)
@@ -419,26 +402,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         butter = butterworth(norm)
         mask = getRoi(butter)
 
-        if not isinstance(self.bifurcations, type(None)):
-            # app has bifurcations cached - show them
-            self.showImage(self.bifurcations)
-        elif not isinstance(self.thinned, type(None)):
-            # app has thinned cached - extract minutiae
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.bifurcations)
-        elif not isinstance(self.filtim, type(None)):
-            # app has filtim cached - thin and extract minutiae
-            self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.bifurcations)
-        else:
-            # nothing is cached
-            orientim = ridgeOrient(butter)
-            freq = ridgeFreq(butter, orientim)
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.bifurcations)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
+        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+        self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
+        self.showImage(self.bifurcations)
 
         overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
         self.showImage(overlaid, normalize=False)
@@ -454,26 +423,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         butter = butterworth(norm)
         mask = getRoi(butter)
 
-        if not isinstance(self.ridgeEndings, type(None)):
-            # app has ridgeEndings cached - show them
-            self.showImage(self.ridgeEndings)
-        elif not isinstance(self.thinned, type(None)):
-            # app has thinned cached - extract minutiae
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.ridgeEndings)
-        elif not isinstance(self.filtim, type(None)):
-            # app has filtim cached - thin and extract minutiae
-            self.thinned = zhangSuen(self.filtim.astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.ridgeEndings)
-        else:
-            # nothing is cached
-            orientim = ridgeOrient(butter)
-            freq = ridgeFreq(butter, orientim)
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-            self.showImage(self.ridgeEndings)
+        orientim = ridgeOrient(butter)
+        freq = ridgeFreq(butter, orientim)
+        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
+        self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
+        self.showImage(self.ridgeEndings)
         
         overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
         self.showImage(overlaid, normalize=False)
@@ -485,12 +440,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        if isinstance(self.deltas, type(None)):
-            # not cached
-            mask = getRoi(self.imgArray)
-            orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
-            self.cores, self.deltas = poincare(orient) * mask
-            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
+        mask = getRoi(self.imgArray)
+        orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
+        self.cores, self.deltas = poincare(orient) * mask
+        self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
         fpClass = getClass(self.cores, self.deltas)
         self.showPopup("The fingerprint has the class: " + fpClass)
