@@ -157,7 +157,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
-        orientim = ridgeOrient(butter)
+        orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
 
         with open("minutiae.json", "w") as f:
             bifIdx = np.nonzero(self.bifurcations)
@@ -283,7 +283,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        orientim = ridgeOrient(self.imgArray, flip=True)
+        orientim = ridgeOrient(self.imgArray, blendSigma=self.params.orientBlend, flip=True)
 
         orientim = np.rot90(np.rot90(orientim)) # rotate the orientation image by 180 degrees, because quiver shows it upside down
 
@@ -309,7 +309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
         
-        orientim = ridgeOrient(self.imgArray)
+        orientim = ridgeOrient(self.imgArray, blendSigma=self.params.orientBlend)
         self.showImage(orientim)
         self.currentImage = orientim
 
@@ -328,7 +328,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
         norm = normalizeMeanVariance(self.imgArray)
-        orientim = ridgeOrient(norm)
+        orientim = ridgeOrient(norm, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(norm, orientim)
         self.showImage(freq)
         self.currentImage = freq
@@ -354,7 +354,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
         mask = getRoi(butter)
-        orientim = ridgeOrient(butter)
+        orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim)
         self.filtim = gaborFilter(butter, orientim, freq, mask)
         self.showImage(self.filtim)
@@ -369,7 +369,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
         mask = getRoi(butter)
-        orientim = ridgeOrient(butter)
+        orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim)
         self.filtim = gaborFilter(butter, orientim, freq, mask)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
@@ -401,8 +401,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
         mask = getRoi(butter)
-
-        orientim = ridgeOrient(butter)
+        orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim)
         self.filtim = gaborFilter(butter, orientim, freq, mask)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
@@ -422,8 +421,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
         mask = getRoi(butter)
-
-        orientim = ridgeOrient(butter)
+        orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim)
         self.filtim = gaborFilter(butter, orientim, freq, mask)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
