@@ -52,8 +52,12 @@ class Ui_ParamWindow(object):
         self.gaborSlider.setObjectName("gaborSlider")
         self.roiSlider = QtWidgets.QSlider(self.processingGroup)
         self.roiSlider.setGeometry(QtCore.QRect(14, 218, 181, 18))
-        self.roiSlider.setMaximum(25)
+        self.roiSlider.setMinimum(1)
+        self.roiSlider.setMaximum(10)
+        self.roiSlider.setProperty("value", 1)
         self.roiSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.roiSlider.setTickPosition(QtWidgets.QSlider.TicksAbove)
+        self.roiSlider.setTickInterval(1)
         self.roiSlider.setObjectName("roiSlider")
         self.label_3 = QtWidgets.QLabel(self.processingGroup)
         self.label_3.setGeometry(QtCore.QRect(14, 109, 207, 24))
@@ -149,7 +153,7 @@ class ParamWindow(QtWidgets.QMainWindow, Ui_ParamWindow):
 
         self.orientBlend = self.orientSlider.value()
         self.freqBlend = self.freqSlider.value()
-        self.roiThresh = self.roiSlider.value()
+        self.roiThresh = self.roiSlider.value() / 10 # so the values are floats (0.1 to 1.0)
         self.gaborSize = self.gaborSlider.value() * 2 + 1 # so the slider moves by 2 and lands on odd numbers
         self.singulSize = self.singularitySlider.value()
         self.minutiaeSize = self.minutiaeSlider.value()
@@ -158,7 +162,7 @@ class ParamWindow(QtWidgets.QMainWindow, Ui_ParamWindow):
     def updateSliderValues(self):
         self.orientBlend = self.orientSlider.value()
         self.freqBlend = self.freqSlider.value()
-        self.roiThresh = self.roiSlider.value()
+        self.roiThresh = self.roiSlider.value() / 10
         self.gaborSize = self.gaborSlider.value() * 2 + 1
         self.singulSize = self.singularitySlider.value()
         self.minutiaeSize = self.minutiaeSlider.value()
