@@ -1581,6 +1581,20 @@
   %TODO dalsia subsekcia pre navrhy pre vylepsenia (napr. spojenie vizualizacie markantov do jedneho menu, namiesto do dvoch pre oba typy markantov)
   %LEFT-OFF-HERE
 
+  \section{Zhrnutie}
+  Vytvorená aplikácia poskytuje jednoduché grafické rozhranie s hlavným oknom zobrazujúcim načítanú snímku a následné operácie vykonávané na nej.
+  Tieto snímky je možné rotovať a približovať, prípadne oddiaľovať. Pre najčastejšie vykonávané akcie sú vytvorené klávesové skratky z dôvodu zjednodušenia
+  ovládania.
+  Aplikácia je schopná otvárať a exportovať snímky v rozšírených formátoch. Jednotlivé implementované kroky spracovania je schopná interpretovať
+  do podoby snímok a zobraziť ich. Niektoré z týchto krokov je možné parametrizovať, vďaka čomu je možné získať rôzne výsledky a demonštrovať význam daných
+  parametrov. Detekcia markantov preukazuje v niektorých prípadoch väčšie množstvo falošných detekcií, a to hlavne v oblasti okrajov oblasti záujmu.
+  Detekcia singularít a na ňom založená klasifikácia preukazuje rôznu chybovosť v závislosti od triedy odtlačku prsta a kvality snímky. Kvalita vstupnej
+  snímky má totiž značný dopad na jednotlivé kroky spracovania.
+  Rýchlosť nevektorizovaných algoritmov je nízka z dôvodu pomalého interpretovaného jazyka, v ktorom boli tieto algoritmy implementované.
+  Implementácia má priestor pre rozšírenie. Spomenutú rýchlosť algoritmov je možné zvýšiť vektorizáciou daných algoritmov alebo ich implementáciou
+  s využitím rozšírenia Cython. Parametrizáciu funkcií užívateľom je možné v niektorých ohľadoch rozšíriť - napríklad parametrizácia veľkosti bloku výpočtu
+  frekvencie.
+
   \chapter{Záver}
   Táto práca bola zameraná na oboznámenie sa s odtlačkami prstov, rôznymi metódami ich snímania a krokmi ich spracovania a analýzy. Druhá kapitola poskytuje
   prehľad anatómie kože so zameraním na kožu na dlaniach a chodidlách, kde sa nachádzajú papilárne línie tvoriace odtlačky prstov. Ďalej sa venuje rôznym
