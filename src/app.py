@@ -318,7 +318,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
-        roi = getRoi(self.imgArray)
+        roi = getRoi(self.imgArray, threshold=self.params.roiThresh)
         self.showImage(roi)
         self.currentImage = roi
 
@@ -353,7 +353,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
-        mask = getRoi(butter)
+        mask = getRoi(butter, threshold=self.params.roiThresh)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
@@ -368,7 +368,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
-        mask = getRoi(butter)
+        mask = getRoi(butter, threshold=self.params.roiThresh)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
@@ -382,7 +382,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        mask = getRoi(self.imgArray)
+        mask = getRoi(self.imgArray, threshold=self.params.roiThresh)
         orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
         self.cores, self.deltas = poincare(orient) * mask
         self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
@@ -400,7 +400,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
-        mask = getRoi(butter)
+        mask = getRoi(butter, threshold=self.params.roiThresh)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
@@ -420,7 +420,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
-        mask = getRoi(butter)
+        mask = getRoi(butter, threshold=self.params.roiThresh)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
@@ -438,7 +438,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        mask = getRoi(self.imgArray)
+        mask = getRoi(self.imgArray, threshold=self.params.roiThresh)
         orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
         self.cores, self.deltas = poincare(orient) * mask
         self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
