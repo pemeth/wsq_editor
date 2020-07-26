@@ -464,7 +464,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.exportImageAction = QAction("&Export as...", self, shortcut="Ctrl+E", triggered=self.exportImage)
         self.exportImageAction.setEnabled(False)
 
-        self.normalizeImageActionComplex = QAction("Show normalized image with mean/variance method", self, triggered=self.showNormalizeMeanVar)
+        self.normalizeImageActionComplex = QAction("Show normalized image", self, shortcut="R", triggered=self.showNormalizeMeanVar)
 
         self.ridgeOrientImageAction = QAction("Show ridge orientation image", self, triggered=self.showOrientationImage)
         self.ridgeOrientPlotAction = QAction("Show ridge orientation plot", self, triggered=self.showOrientationPlot)
@@ -507,8 +507,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomMenu.addAction(self.rotateAction)
 
         # normalization submenu
-        self.normalizeSubmenu = self.imageMenu.addMenu("Normalize")
-        self.normalizeSubmenu.addAction(self.normalizeImageActionComplex)
+        self.imageMenu.addAction(self.normalizeImageActionComplex)
         
         # orientation submenu
         self.ridgeOrientSubmenu = self.imageMenu.addMenu("Ridge orientation")
