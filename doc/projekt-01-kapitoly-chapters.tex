@@ -1573,13 +1573,28 @@
   a zároveň v prevedení \texttt{numpy} poskytujú intuitívne rozhranie pre ich aplikovanie. Nie všade je však možné využiť vektorizované operácie
   (aspoň nie intuitívne), čo často pri snímkach znamená implementáciu algoritmu pomocou cyklického prechádzania dátových polí snímky. V prípade interpretovaných
   jazykov ako Python to znamená značné spomalenie algoritmov. Rozdiel v rýchlosti vektorizovaných operácii oproti cyklickým riešením bol zjavný pri
-  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $400 \times 400$ trvala aplikácia filtra približne 70 sekúnd.
-  Po vektorizovaní tvorby kernelu filtra sa algoritmus zrýchlil na približne 15 sekúnd. Ďalšie značné zrýchlenie by bolo možné dosiahnuť implementáciou
-  algoritmov v kompilovanom jazyku (napr. C) alebo využitím C rozšírenia pre Python - Cython.
-
-  %TODO mozno spravit tabulku s priemernou rychlostou jednotlvych algoritmov?
-  %TODO dalsia subsekcia pre navrhy pre vylepsenia (napr. spojenie vizualizacie markantov do jedneho menu, namiesto do dvoch pre oba typy markantov)
-  %LEFT-OFF-HERE
+  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $416 \times 416$ trvala aplikácia filtra približne
+  70~sekúnd. Po vektorizovaní tvorby kernelu filtra sa algoritmus zrýchlil na približne 12 sekúnd. Rýchlosť algoritmov závisí aj od veľkosti oblasti záujmu,
+  pretože mimo nej sa často niektoré kroky v rámci algoritmov preskakujú, čím sa algoritmy zrýchľujú. Priemerné rýchlosti troch najpomalších algoritmov
+  na vzorke snímok rôznych veľkostí sú uvedené v tabuľke~{\ref{tab:casy_algo}}. Z každej z troch uvedených veľkostí snímok bolo meranie vykonané na piatich
+  snímkach a tieto hodnoty spriemerované.
+  \begin{table}[ht]
+    \centering
+    \caption{Časovanie najpomalších algoritmov. Jednotka px predstavuje pixely.}
+    \begin{tabular}{ l|c|c|c| }
+      \cline{2-4}
+                        & \multicolumn{3}{|c|}{Priemerné časy v sekundách} \\
+      \cline{2-4}
+      \hline
+      \multicolumn{1}{|l|}{Veľkosti snímok}   & Gaborovo filtrovanie & Stenčovanie línií & Extrahovanie singularít \\
+      \hline
+      \multicolumn{1}{|l|}{$300 \times 300$ px} & 6,51 & 18,24 & 7,13 \\
+      \multicolumn{1}{|l|}{$280 \times 440$ px} & 9,20 & 20,97 & 9,52 \\
+      \multicolumn{1}{|l|}{$416 \times 416$ px} & 11,65 & 30,26 & 14,12 \\
+      \hline
+    \end{tabular}
+    \label{tab:casy_algo}
+  \end{table}
 
   \section{Zhrnutie}
   Vytvorená aplikácia poskytuje jednoduché grafické rozhranie s hlavným oknom zobrazujúcim načítanú snímku a následné operácie vykonávané na nej.
