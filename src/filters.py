@@ -61,9 +61,9 @@ def gaborFilter(im, orientim, freqim, mask, blocksize = 11):
     # precomputed tiled blocks for the `h()` gabor kernel generator,
     # so it doesn't need to generate new tiles during every function call
     x = np.arange(-blockhalf, blockhalf + 1)
-    x = np.tile(x, (11, 1))
-    y = np.arange(-blockhalf, blockhalf + 1).reshape((11, 1))
-    y = np.tile(y, (1, 11))
+    x = np.tile(x, (blocksize, 1))
+    y = np.arange(-blockhalf, blockhalf + 1).reshape((blocksize, 1))
+    y = np.tile(y, (1, blocksize))
 
     rows, cols = im.shape
     for r in range(blockhalf, rows-blockhalf):
