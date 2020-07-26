@@ -149,6 +149,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.showPopup("An IO error occurred.", "This may happen when saving an RGB image in a non-RGB format, such as WSQ.")
                 return
 
+    def openParamWindow(self):
+        self.params.show()
+
     def exportMinutiaeJSON(self):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
@@ -485,6 +488,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.rotateAction = QAction("Rotate by 90 degrees", self, shortcut="/", triggered=self.rotateImage)
         self.rotateAction.setEnabled(False)
 
+        self.openParamWindowAction = QAction("Open the parameter settings", self, shortcut="P", triggered=self.openParamWindow)
+
     def createMenus(self):
         """Create menubar menus with corresponding actions."""
         self.fileMenu = self.menubar.addMenu("File")
@@ -494,6 +499,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomMenu = self.menubar.addMenu("Transformations")
         self.imageMenu = self.menubar.addMenu("Image")
         self.analysisMenu = self.menubar.addMenu("Analysis")
+        self.paramsMenu = self.menubar.addMenu("Parameters")
 
         # zoom menu
         self.zoomMenu.addAction(self.zoomInAction)
@@ -528,6 +534,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.analysisMenu.addAction(self.autoAnalysisAction)
         self.analysisMenu.addAction(self.minutiaeExport)
+
+        self.paramsMenu.addAction(self.openParamWindowAction)
 
     def __checkForLoadedImage(self):
         """Check if an image is loaded."""
