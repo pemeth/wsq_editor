@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ParamWindow</class>
+ <widget class="QDialog" name="ParamWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGroupBox" name="processingGroup">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>243</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Image processing</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>41</y>
+      <width>215</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Orientation blending sigma</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>246</y>
+      <width>151</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gabor kernel size</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="orientSlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>78</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>25</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="pageStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>3</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>178</y>
+      <width>111</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ROI threshold</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="gaborSlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>283</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>2</number>
+    </property>
+    <property name="maximum">
+     <number>12</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="pageStep">
+     <number>2</number>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+    <property name="sliderPosition">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>4</number>
+    </property>
+   </widget>
+   <widget class="QSlider" name="roiSlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>218</y>
+      <width>181</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>109</y>
+      <width>207</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Frequency blending sigma</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="freqSlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>147</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>25</number>
+    </property>
+    <property name="value">
+     <number>8</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="orientValLabel">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>78</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gaborValLabel">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>283</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="roiValLabel">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>215</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="freqValLabel">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>147</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="overlayGroup">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>241</width>
+     <height>172</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Image analysis overlay</string>
+   </property>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>103</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Minutiae marker size</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="minutiaeSlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>134</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>5</number>
+    </property>
+    <property name="maximum">
+     <number>25</number>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QSlider" name="singularitySlider">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>72</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>8</number>
+    </property>
+    <property name="maximum">
+     <number>25</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>41</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Singularity marker size</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="minutiaeValLabel">
+    <property name="geometry">
+     <rect>
+      <x>203</x>
+      <y>134</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="singularityValLabel">
+    <property name="geometry">
+     <rect>
+      <x>203</x>
+      <y>72</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="paramResetButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>550</y>
+     <width>102</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
