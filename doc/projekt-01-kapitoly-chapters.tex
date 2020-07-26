@@ -1184,7 +1184,7 @@
   Menu \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok. Menu \emph{Transformations} má možnosti pre rotovanie a priblíženie
   snímky. Menu \emph{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod. a menu
   \emph{Analysis} zase voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných markantov do
-  JSON súboru.
+  JSON súboru. \emph{Parameters} dáva voľbu otvoriť okno, cez ktoré je možné prestaviť niektoré parametry spracovania.
 
   Hlavné okno aplikácie zobrazuje súčasne načítanú snímku. V prípade, že užívateľ zvolí jednu z možností pre spracovanie alebo analýzu, táto snímka je
   prepísaná novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa v snímka v hlavnom okne nahradí
@@ -1199,7 +1199,9 @@
   exportuje ako PNG. V prípade nepodporovaného formátu sa vypíše chybové hlásenie. Je možné zadať aj absolútnu alebo relatívnu cestu pre export do konkrétneho
   priečinku. Pri zobrazení orientácií je možné zvoliť zobrazenie snímky orientácii, ktoré sa zobrazí v hlavnom okne, alebo zobrazenie vykresleného vektorového
   poľa orientácií - toto sa zobrazí v novom okne za pomoci modulu \texttt{matplotlib.pyplot} a jej funkcie \texttt{quiver}. Ďalším prípadom, kde sa zobrazí nové
-  okno je pri detekcii triedy, po ktorej sa zobrazí okno so správou zdieľajúcou triedu odtlačku prsta.
+  okno je pri detekcii triedy, po ktorej sa zobrazí okno so správou zdieľajúcou triedu odtlačku prsta. Pre nastavovanie parametrov je možné otvoriť okno
+  so slidermi (posuvnými bežcami), ktorými sa interaktívne prestavujú vyznačené parametry krokov spracovania. Táto parametrizácia je popísaná pri príslušných
+  algoritmoch v sekcii~{\ref{sec:algoritmy}}.
 
   \subsection{\texttt{MainWindow}}
   Hlavná trieda grafického rozhrania, ktorá riadi beh a komunikáciu aplikácie s užívateľom pomocou definovaných metód viazaných na rôzne akcie.
