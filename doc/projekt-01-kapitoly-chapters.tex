@@ -1247,7 +1247,8 @@
   aritmetickými operáciami pre získanie vektorového poľa orientácií. Získané pole je mierne filtrované dvojrozmerným Gaussovským filtrom (so štandardnou
   odchýľkou $\sigma = 3$) pre vyhladenie tohto poľa. Nakoniec je pole prevedené na dvojrozmerné pole orientácií v radiánoch.
   Na obrázku~{\ref{obr:orientacie}} je zobrazená snímka po extrahovaní gradientov v smeroch $x$ a $y$ a jej konečná podoba po interpretácii orientácií pre
-  zobrazenie v~aplikácii.
+  zobrazenie v~aplikácii. V okne pre parametrizáciu je možné prestaviť štandardnú odchýľku filtrovania, čím sa získavajú rôzne vyhladené snímky orientácií.
+  Hranice tohto parametru sú $<1,25>$.
 
   \begin{figure}[h]
     \centering
@@ -1280,6 +1281,8 @@
   Rozdiel medzi pôvodnou frekvenčnou snímkou a rozostrenou verziou je možné vidieť na obrázku~{\ref{obr:frekvencie}}. Význam tohto rozostrenia je zreteľný pri
   kroku Gaborovho filtrovania, ktoré je popísané v sekcii \ref{sec:gabor_algo}.
   Časť zdrojového kódu extrakcie lokálnych frekvencií je založená na \cite{KovesiMATLABCode}.
+  V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýľku vyhľadzovania snímky. Hranice tohto parametru sú $<0,25>$.
+  Východzia hontota je nastavená na $\sigma = 8$.
 
   \begin{figure}[h]
     \centering
@@ -1300,8 +1303,8 @@
   Funkcia \texttt{gaborFilter} prijíma štyri hlavné parametre, a to pôvodnú snímku, snímku orientácií, frekvencií a masku oblasti záujmu. Pre každý pixel
   snímky, ktorý sa nachádza v oblasti záujmu je následne vygenerovaný vlastný kernel Gaborovho filtra na základe príslušných dát o~frekvencii a orientácii
   snímky v tom danom pixeli. Generovanie kernelu je vykonávané vo funkcii \texttt{h} podľa teórie uvedenej v sekcii~{\ref{sec:gaborova_funkcia}}, kde sa
-  uvádza vhodná veľkosť kernelu ako 11 pixelov.
-  Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
+  uvádza vhodná veľkosť kernelu ako 11 pixelov, ktorá je aj nastavená ako východzia. V okne parametrov je možné túto hodnotu prestaviť na nepárne hodnoty
+  medzi a vrátane 5 a 25. Tento kernel sa konvolúciou aplikuje na súčasný pixel a hodnota sa zapíše do nového dvojrozmerného poľa rovnakej veľkosti ako
   vstupná snímka. Po prejdení každého požadovaného pixelu sú hodnoty získané filtráciou prahované pre získanie binárnej snímky.
 
   Na obrázku~{\ref{obr:gabor}}
@@ -1369,7 +1372,8 @@
   funkcia vráti obe nové polia vyznačených markantov. Tieto polia sú ďalej
   spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s extrahovanými pozíciami markantov -
   v podstate maska pozícií. Pomocou tejto funkcie sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje
-  značky na pozíciách extrahovaných markantov (obrázok~{\ref{obr:markanty}}).
+  značky na pozíciách extrahovaných markantov (obrázok~{\ref{obr:markanty}}). Veľkosť týchto značiek je možné nastaviť v okne parametrizácie od hodnoty
+  5 po 25. Táto hodnota uvádza koľko pixelov sú vzdialené hrany značky od pozície markantu.
 
   Extrahované markanty je možné následne exportovať do JSON súboru. Tento export sa vykonáva v metóde \texttt{exportMinutiaeJSON}, ktorá vezme pozície
   $xy$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
@@ -1413,7 +1417,8 @@
   V druhom rade odstraňuje singularity rôzneho typu, ak sa nachádzajú v~rovnakej oblasti. V oboch týchto
   prípadoch sa kontrolujú singularity v oblasti veľkosti $8 \times 8$ pixelov okolo každej detegovanej singularity. V treťom rade sa odstraňujú singularity,
   ktoré sú v blízkosti 10 pixelov hraniciam oblasti záujmu. Výsledná snímka s detegovanými singularitami je zobrazená na
-  obrázku~{\ref{obr:singularity}}, kde vyznačenie singularít prebehlo podobne ako pri markantoch pomocou funkcie \texttt{overlay}.
+  obrázku~{\ref{obr:singularity}}, kde vyznačenie singularít prebehlo podobne ako pri markantoch pomocou funkcie \texttt{overlay}. Parametrizácia veľkostí
+  značiek prebieha podobne ako pri markantoch, ale s hranicami 8 a 25 pixelov.
 
   Detekciu triedy odtlačku prsta vykonáva funkcia \texttt{getClass}. Táto funkcia je schopná rozlíšiť oblúk, klenutý oblúk, ľavú slučku, pravú slučku.
   Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach a ich vzájomných
