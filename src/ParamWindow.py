@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ParamWindow(object):
     def setupUi(self, ParamWindow):
         ParamWindow.setObjectName("ParamWindow")
-        ParamWindow.resize(260, 560)
+        ParamWindow.resize(260, 600)
         self.processingGroup = QtWidgets.QGroupBox(ParamWindow)
         self.processingGroup.setGeometry(QtCore.QRect(10, 10, 243, 321))
         self.processingGroup.setObjectName("processingGroup")
@@ -114,6 +114,9 @@ class Ui_ParamWindow(object):
         self.singularityValLabel = QtWidgets.QLabel(self.overlayGroup)
         self.singularityValLabel.setGeometry(QtCore.QRect(203, 72, 31, 24))
         self.singularityValLabel.setObjectName("singularityValLabel")
+        self.paramResetButton = QtWidgets.QPushButton(ParamWindow)
+        self.paramResetButton.setGeometry(QtCore.QRect(70, 550, 102, 33))
+        self.paramResetButton.setObjectName("paramResetButton")
 
         self.retranslateUi(ParamWindow)
 
@@ -125,6 +128,7 @@ class Ui_ParamWindow(object):
         self.singularitySlider.valueChanged.connect(ParamWindow.updateSliderValues)
         self.minutiaeSlider.valueChanged.connect(ParamWindow.updateSliderValues)
 
+        self.paramResetButton.clicked.connect(ParamWindow.resetValues)
 
         QtCore.QMetaObject.connectSlotsByName(ParamWindow)
 
@@ -145,18 +149,27 @@ class Ui_ParamWindow(object):
         self.label_5.setText(_translate("ParamWindow", "Singularity overlay size"))
         self.minutiaeValLabel.setText(_translate("ParamWindow", "Val"))
         self.singularityValLabel.setText(_translate("ParamWindow", "Val"))
+        self.paramResetButton.setText(_translate("ParamWindow", "Reset"))
 
 class ParamWindow(QtWidgets.QMainWindow, Ui_ParamWindow):
     def __init__(self, parent=None):
         super(ParamWindow, self).__init__(parent)
         self.setupUi(self)
 
-        self.orientBlend = self.orientSlider.value()
-        self.freqBlend = self.freqSlider.value()
-        self.roiThresh = self.roiSlider.value() / 10 # so the values are floats (0.1 to 1.0)
-        self.gaborSize = self.gaborSlider.value() * 2 + 1 # so the slider moves by 2 and lands on odd numbers
-        self.singulSize = self.singularitySlider.value()
-        self.minutiaeSize = self.minutiaeSlider.value()
+        self.orientBlendOrig = self.orientSlider.value()
+        self.freqBlendOrig = self.freqSlider.value()
+        self.roiThreshOrig = self.roiSlider.value()
+        self.gaborSizeOrig = self.gaborSlider.value()
+        self.singulSizeOrig = self.singularitySlider.value()
+        self.minutiaeSizeOrig = self.minutiaeSlider.value()
+
+        self.orientBlend = self.orientBlendOrig
+        self.freqBlend = self.freqBlendOrig
+        self.roiThresh = self.roiThreshOrig / 10 # so the values are floats (0.1 to 1.0)
+        self.gaborSize = self.gaborSizeOrig * 2 + 1 # so the slider moves by 2 and lands on odd numbers
+        self.singulSize = self.singulSizeOrig
+        self.minutiaeSize = self.minutiaeSizeOrig
+
         self.updateSliderValues()
 
     def updateSliderValues(self):
@@ -176,6 +189,16 @@ class ParamWindow(QtWidgets.QMainWindow, Ui_ParamWindow):
         self.gaborValLabel.setText(str(self.gaborSize))
         self.singularityValLabel.setText(str(self.singulSize))
         self.minutiaeValLabel.setText(str(self.minutiaeSize))
+
+    def resetValues(self):
+        self.orientSlider.setValue(self.orientBlendOrig)
+        self.freqSlider.setValue(self.freqBlendOrig)
+        self.roiSlider.setValue(self.roiThreshOrig)
+        self.gaborSlider.setValue(self.gaborSizeOrig)
+        self.singularitySlider.setValue(self.singulSizeOrig)
+        self.minutiaeSlider.setValue(self.minutiaeSizeOrig)
+
+        self.updateSliderValues()
 
 if __name__ == "__main__":
     import sys
