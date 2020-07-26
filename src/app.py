@@ -387,8 +387,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.cores, self.deltas = poincare(orient) * mask
         self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
-        overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=6)
-        overlaid = overlay(overlaid, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=10)
+        overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=self.params.singulSize)
+        overlaid = overlay(overlaid, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=self.params.singulSize)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -408,7 +408,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
         self.showImage(self.bifurcations)
 
-        overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)")
+        overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)", offset=self.params.minutiaeSize)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
@@ -427,8 +427,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
         self.showImage(self.ridgeEndings)
-        
-        overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)")
+
+        overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)", offset=self.params.minutiaeSize)
         self.showImage(overlaid, normalize=False)
         self.currentImage = overlaid
 
