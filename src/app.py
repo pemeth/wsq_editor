@@ -31,6 +31,7 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog, QAction, QApplication, QMe
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt, QSize
 from MainWindow import Ui_MainWindow
+from ParamWindow import ParamWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -42,6 +43,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.statusbarLabel = QLabel("No image loaded")
         self.statusbarLabel.setMinimumSize(1,1)
         self.statusbar.addWidget(self.statusbarLabel)
+
+        self.params = ParamWindow(self)
+        self.params.show()
 
         # Create the actions and menus
         self.createActions()
