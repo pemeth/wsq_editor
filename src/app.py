@@ -356,7 +356,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mask = getRoi(butter)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
-        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.showImage(self.filtim)
         self.currentImage = self.filtim
 
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mask = getRoi(butter)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
-        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         self.showImage(self.thinned)
         self.currentImage = self.thinned
@@ -403,7 +403,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mask = getRoi(butter)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
-        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
         self.showImage(self.bifurcations)
@@ -423,7 +423,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mask = getRoi(butter)
         orientim = ridgeOrient(butter, blendSigma=self.params.orientBlend)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
-        self.filtim = gaborFilter(butter, orientim, freq, mask)
+        self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
         self.showImage(self.ridgeEndings)
