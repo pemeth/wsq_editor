@@ -167,9 +167,9 @@ class ParamWindow(QtWidgets.QMainWindow, Ui_ParamWindow):
         self.singulSize = self.singularitySlider.value()
         self.minutiaeSize = self.minutiaeSlider.value()
 
-        self.upadeSlidergLabels()
+        self.updateSliderLabels()
 
-    def upadeSlidergLabels(self):
+    def updateSliderLabels(self):
         self.orientValLabel.setText(str(self.orientBlend))
         self.freqValLabel.setText(str(self.freqBlend))
         self.roiValLabel.setText(str(self.roiThresh))
