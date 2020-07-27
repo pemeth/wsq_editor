@@ -1142,11 +1142,12 @@
   metóda Zhang-Suen pre stenčovanie línií.
 
   Automatická analýza snímkov požaduje extrahovanie markantov, singularít a odhadnutie triedy odtlačku prsta na načítanej snímke. Rýchlou metódou extrahovania
-  markantov je metóda popísaná v sekcii~{\ref{sec:extrakcia_prechodmi}}. Z dôvodu voľby jazyka je nutné implementovať rýchle metódy, ktorých jednotlivé kroky
-  je možné vektorizovať, pretože interpreter jazyka Python je obecne veľmi pomalý pri vykonávaní cyklov. Zvolená metóda poskytuje možnosť vektorizácie
-  niektorých jej krokov, čím je možné algoritmus aspoň mierne zrýchliť v porovnaní s nevektorizovanou metódou. Z rovnakého dôvodu sa extrahujú singularity
-  metódou Poncaré indexu popísanou v sekcii~{\ref{sec:poincare}}. Často používanou metódou klasifikácie odtlačkov prstov je klasifikácia na základe pravidiel.
+  markantov je metóda popísaná v sekcii~{\ref{sec:extrakcia_prechodmi}}. Singularity je možné extrahovať napríklad metódou Poncaré indexu popísanou v
+  sekcii~{\ref{sec:poincare}}. Často používanou metódou klasifikácie odtlačkov prstov je klasifikácia na základe pravidiel, ktorá využíva informácie o
+  počte a rozložení singularít.
   Podobným spôsobom klasifikujú odtlačky aj experti daktyloskopie, čiže sa jedná o overenú metódu, vďaka čomu je vhodné ju využiť aj v tejto aplikácii.
+  Taktiež vzhľadom na požiadavky aplikácie je vhodné prepojiť kroky detekcie singularít a klasifikácie, čím sa môže demonštrovať
+  dopad rozložení singularít na klasifikáciu odtlačkov prstov.
 
   Všetky kroky spracovania a analýzy sa užívateľovi po ich vykonaní zobrazia. Práve zobrazenú snímku bude môcť užívateľ exportovať do jedného z podporovaných
   formátov, medzi ktoré patria aj formáty schopné aplikácia načítať. Medzi tieto formáty patria PNG, WSQ, JPEG, TIFF a BMP.
