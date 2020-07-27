@@ -98,6 +98,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.zoomOutAction.setEnabled(True)
             self.rotateAction.setEnabled(True)
             self.mirrorAction.setEnabled(True)
+            self.translateAction.setEnabled(True)
             self.exportImageAction.setEnabled(True)
 
             # reset the cached images
@@ -262,6 +263,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         img = np.flip(img, axis=1)
         self.imgShape = img.shape
 
+        self.showImage(img, normalize=False)
+
+    def translateImage(self):
+        img = self.__QImageToNumpyArr()
+
+        vals, ok = QInputDialog.getText(self, 'Input Dialog', 'Translation values in format x,y:')
+
+        if not ok:
+            return
+
+        x, y = 0, 0
+        vals = vals.split(",", 1)
+
+        if not len(vals) == 2:
+            self.showPopup("Invalid input")
+            return
+
+        try:
+            x = int(vals[0])
+            y = int(vals[1])
+        except ValueError:
+            self.showPopup("Invalid input")
+            return
+
+        params = (1,0,x,0,1,y)
+
+        img = Image.fromarray(img)
+        img = img.transform(img.size, Image.AFFINE, params)
+
+        img = np.asarray(img)
         self.showImage(img, normalize=False)
 
     def showNormalizeMeanVar(self):
@@ -488,6 +519,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.rotateAction.setEnabled(False)
         self.mirrorAction = QAction("Mirror the image along the x axis", self, shortcut="*", triggered=self.mirrorImage)
         self.mirrorAction.setEnabled(False)
+        self.translateAction = QAction("Translate the image...", self, triggered=self.translateImage)
+        self.translateAction.setEnabled(False)
 
         self.openParamWindowAction = QAction("Open the parameter settings", self, shortcut="P", triggered=self.openParamWindow)
 
@@ -507,6 +540,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomMenu.addAction(self.zoomOutAction)
         self.zoomMenu.addAction(self.rotateAction)
         self.zoomMenu.addAction(self.mirrorAction)
+        self.zoomMenu.addAction(self.translateAction)
 
         # normalization submenu
         self.imageMenu.addAction(self.normalizeImageActionComplex)
