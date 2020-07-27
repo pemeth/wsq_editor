@@ -82,7 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.img = Image.open(self.filename)     # Open image with PIL
             except UnidentifiedImageError as e:
                 self.showPopup("The selected file is not a supported image file.", detailedMessage=str(e), icon=QMessageBox.Critical)
-                self.filename = None
+                self.filename = "/home/"
                 return
 
             self.img = self.img.convert("L")        # Convert to 8bit grayscale
