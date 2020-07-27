@@ -419,7 +419,7 @@
   Jedným z najzákladnejších prístupov k vytvoreniu masky oblasti záujmu je jednoduchá analýza rozptylu hodnôt pixelov v rámci blokov snímky. Je to elegantné
   riešenie, pretože v mnohých prípadoch sú nezotaviteľné oblasti, podobne ako pozadie, oblasťami nízkeho rozptylu hodnôt - a to či už nízkych hodnôt, v prípade
   tmavých častí odtlačku v dôsledku nadmerného tlaku pri získavaní odtlačku, alebo vysokých hodnôt, ktoré sú vytvárané napríklad z dôvodu ochorenia kože.
-  Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w\times{}h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe
+  Analýza prebieha tak, že sa snímka rozdelí na bloky veľkosti $w$$\times{}$$h$ a pre každý z týchto blokov sa vypočíta priemerný rozptyl na základe
   vzorcov~{\cite{babatunde2012FP_enhancement}}
   \begin{equation}
     V(b) = \frac{1}{wh} \sum_{i=1}^{w}\sum_{j=1}^{h}(I(i,j) - M(b))^2
@@ -427,7 +427,7 @@
   \begin{equation}
     M(b) = \frac{1}{wh} \sum_{k=1}^{w}\sum_{l=1}^{h}(I(k,l)),
   \end{equation}
-  kde $b$ je blok pixelov s rozmermi $w\times{}h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
+  kde $b$ je blok pixelov s rozmermi $w$$\times{}$$h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
   a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
   o oblasť záujmu, inak sa jedná o pozadie. Takýto algoritmus je možné aplikovať rôznymi spôsobmi, a to napríklad po pixeloch, kde je výpočet rozptylu
   aplikovaný na oblasť okolo každého pixelu a pixely sa maskujú jednotlivo, alebo po častiach, kde sa maskuje celý blok a okno pre výpočet rozptylu sa
@@ -471,7 +471,7 @@
   Orientáciu línií je možné vypočítať mnohými spôsobmi, v tejto práci sa však venujem metóde navrhnutej Hongom et al. v \cite{Hong}.
   Táto metóda sa spolieha na výpočet gradientu Sobelovým, prípadne obdobným operátorom. Postup výpočtu je nasledovný:
   \begin{itemize}
-    \item Vstupná snímka sa rozdelí na $h \times w$ bloky.
+    \item Vstupná snímka sa rozdelí na $h$$\times{}$$w$ bloky.
     \item Vypočíta sa gradient Sobelovým operátorom.
     \item Odhadne sa lokálna orientácia bloku pomocou rovníc:
           \begin{equation}
@@ -485,7 +485,7 @@
           \end{equation}
           kde $\theta{}(i,j)$ je aproximáciou lokálnej orientácie línií metódou najmenších štvorcov pre blok so stredom na pixeli $(i,j)$. Premenné
           $\partial _{x}$ a $\partial _{y}$ sú dvojrozmerné polia obsahujúce vypočítaný gradient v príslušných smeroch, $u$ a $v$ reprezentujú indexy v rámci
-          výpočtového bloku $h \times w$.
+          výpočtového bloku $h$$\times{}$$w$.
   \end{itemize}
 
   \subsection{Frekvencia papilárnych línií} \label{sec:frekvencia}
@@ -499,7 +499,7 @@
   ktorá priamo analyzuje odtiene šedej a ich priebeh v originálnej snímke. Táto metóda priamo aplikuje vyššie uvedenú definíciu na snímku nasledovne:
 
   \begin{enumerate}
-    \item Okno veľkosti $l \times{} w$ sa vytvorí okolo pixelu $[i,j]$. Toto okno je natočené kolmo na smer priebehu papilárnych línií.
+    \item Okno veľkosti $l$$\times{}$$w$ sa vytvorí okolo pixelu $[i,j]$. Toto okno je natočené kolmo na smer priebehu papilárnych línií.
     \item Vypočíta sa $x$-signatúra $X$ spriemerovaním hodnôt pixelov pozdĺž stĺpcov $l$ orientovaného okna.
     \item V prípade, že v orientovanom okne sa nenachádzajú markanty alebo singulárne body, je získaná $x$-signatúra formou sínusová. Vďaka tomu je
           možné frekvenciu medzi vrcholmi vypočítať ako inverziu priemerného počtu pixelov medzi jednotlivými vrcholmi papilárnych línií.
@@ -541,7 +541,7 @@
 
   \subsection{Binarizácia} \label{sec:binarizacia}
   Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlačkov prstov.
-  Metóda využíva priemer hodnôt v okne $s \times s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
+  Metóda využíva priemer hodnôt v okne $s$$\times{}$$s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
   z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
   Teda, ak má súčasný pixel o {$t$}~\% nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel. Výhodou takéhoto prahovania hodnôt oproti
   globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v okolí
@@ -580,7 +580,7 @@
   Zhang a Suen v \cite{ZhangSuen_thinning} navrhli paralelný algoritmus, ktorý definuje výstupný pixel $[i,j]$ binárnej snímky $I$ ako funkciu jeho okamžitého
   okolia. Pixely patriace kostre
   pôvodnej snímky majú hodnotu~1, pričom pozadie má hodnotu~0. Okolie pixelu, na základe ktorého je uvedené rozhodnutie, či bude daný pixel vymazaný z kostry,
-  má veľkosť $3 \times 3$ a definuje kruhový orientovaný sled pixelov (zobrazené na~{\ref{obr:okolie_ZhangSuen}}).
+  má veľkosť $3$$\times{}$$3$ a definuje kruhový orientovaný sled pixelov (zobrazené na~{\ref{obr:okolie_ZhangSuen}}).
   Každá iterácia algoritmu je rozdelená na dve poditerácie. Význam tohto rozdelenia je v zachovaní spojitého priebehu kostry pôvodnej snímky.
   V~každej z poditerácii sa skontrolujú podmienky pre odstránenie daného pixelu:
   \begin{enumerate}
@@ -647,7 +647,7 @@
   \subsubsection*{Extrakcia na základe počtu prechodov} \label{sec:extrakcia_prechodmi}
   Metóda sa aplikuje na binarizované snímky so stenčenými papilárnymi líniami. Je to často využívaná metóda pre jej jednoduchosť výpočtovú rýchlosť.
   Spočíva v počítaní prechodov medzi pixelmi papilárnej línie a pozadím pre každý pixel prislúchajúci papilárnym líniám. Tieto prechody je možné vypočítať
-  pomocou masky veľkosti {$3\times{}3$} (obrázok~{\ref{obr:maska_CN}}), ktorá je priložená na jednotlivé pixely papilárnych línií. Na ohľad sú brané
+  pomocou masky veľkosti {$3$$\times{}$$3$} (obrázok~{\ref{obr:maska_CN}}), ktorá je priložená na jednotlivé pixely papilárnych línií. Na ohľad sú brané
   hodnoty na okrajoch masky (bunky $P_1$ až $P_8$). Zvoleným smerom sa následne prechádzajú páry pixelov prekrývaných okrajovými bunkami masky a vypočíta
   sa kumulatívny rozdiel medzi jednotlivými pármi pomocou vzorca~{\ref{rov:crossing_number}}. Výsledné číslo $C_N$ reprezentuje počet prechodov medzi
   pixelmi pozadia a popredia snímky (angl. crossing number alebo condition number). Z tohto počtu je možné vyvodiť, že ak $C_N = 2$, tak sa jedná o ukončenie,
@@ -662,7 +662,7 @@
         $P_8$ & $P_1$ & $P_2$ \\
         \hline
       \end{tabular}
-    \caption{Maska veľkosti $3\times{}3$ používaná pri výpočte prechodov medzi pixelmi popredia a pozadia pri metóde CN.}
+    \caption{Maska veľkosti $3$$\times{}$$3$ používaná pri výpočte prechodov medzi pixelmi popredia a pozadia pri metóde CN.}
     \label{obr:maska_CN}
   \end{figure}
 
@@ -730,7 +730,7 @@
 
   Iwasokun a Akinyokun \cite{iwasokun2014singularities} navrhli metódu detekcie jadier a delt na základe Poincaré indexu, ktorý využíva extrahované orientácie
   pomocou metódy navrhnutej v \cite{Hong}. Detekcia singularít funguje nasledovne. V snímke orientácií $O(i,j)$ pre každý pixel $(i,j)$ sa zvolí
-  okno veľkosti $3\times{}3$ (znázornené na~{\ref{obr:okno_orientacie}}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
+  okno veľkosti $3$$\times{}$$3$ (znázornené na~{\ref{obr:okno_orientacie}}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
   obklopujúcich pixel $O(i,j)$ v smere proti behu hodinových ručičiek~{\ref{eq:poincare_3}}. Toto okno je kruhové, čiže sa počíta aj rozdiel medzi prvým
   a posledným pixelov v okne. Na~základe rozdielov susedných buniek okna sa podľa rovnice~{\ref{eq:poincare_2}} vráti špecifická hodnota $\beta{}_c$.
   Nakoniec sa jednotlivé
@@ -764,7 +764,7 @@
         $O_2$ & $O_1$ & $O_8$ \\
         \hline
       \end{tabular}
-    \caption{Orientované okno veľkosti $3\times{}3$ okolo pixelu $O(i,j)$ v snímke orientácií.}
+    \caption{Orientované okno veľkosti $3$$\times{}$$3$ okolo pixelu $O(i,j)$ v snímke orientácií.}
     \label{obr:okno_orientacie}
   \end{figure}
   
@@ -814,7 +814,7 @@
   Koncom dvadsiateho storočia sa veľmi rýchlo rozrastala zbierka snímok odtlačkov prstov v~FBI, pričom tieto snímky pôvodne neboli komprimované.
   Toto znamenalo stále sa zvyšujúce nároky na úložisko v dátových centrách zabezpečujúcich ukladanie týchto snímok. Digitálne snímky už boli v tejto dobe
   rozšírené, čo znamenalo aj vývoj kompresných formátov pre ukladanie takýchto snímok. Významným formátom bol stratový JPEG (skratka výboru Joint Photographic
-  Experts Group), ktorý komprimuje snímky na báze metódy diskrétnej kosínovej transformácie pre jednotlivé bloky snímky veľkosti $8 \times{} 8$. Kompresia touto
+  Experts Group), ktorý komprimuje snímky na báze metódy diskrétnej kosínovej transformácie pre jednotlivé bloky snímky veľkosti $8$$\times{}$$8$. Kompresia touto
   metódou bola uspokojivá z hľadiska bežných užívateľov, avšak spôsob kompresie po diskrétnych blokoch, akým sa kompresia prevádzala, spôsobovalo blokovú
   fragmentáciu. Kvôli takýmto fragmentom sa jemné detaily v snímkach odtlačkov prstov skresľovali vďaka nespojitostiam medzi jednotlivými blokmi,
   čo činilo tento formát neuspokojivým pre ukladanie snímok odtlačkov prstov. Bezstratové kompresné formáty nespôsobovali artefakty, avšak poskytovali
@@ -1024,7 +1024,7 @@
 
   \emph{Na druhej úrovni} sa nachádza tzv. rámec, ktorého začiatok sa označuje značkou \textbf{SOF}. Rámce v sebe nesú metadáta o obsahu daného rámca ako
   napríklad dĺžku rámca, počet riadkov a stĺpcov zdrojovej snímky\footnote{Tieto hodnoty sú 16-bitové, čo znamená, že maximálna veľkosť komprimovanej snímky
-  je $65536 \times 65536$. Bežná veľkosť snímok WSQ sa však pohybuje medzi $780\times 780$ až $1625 \times 975$ pri 520 ppi v závislosti od veľkosti
+  je $65536$$\times{}$$65536$. Bežná veľkosť snímok WSQ sa však pohybuje medzi $780$$\times{}$$780$ až $1625$$\times{}$$975$ pri 520 ppi v závislosti od veľkosti
   zaznamenávaných častí skenovaných daktyloskopických kariet \cite{hopper_wsq_format}.}, umiestnenia hodnôt transformačných parametrov, identifikáciu softvéru,
   ktorý kódoval túto snímku apod. Medzi značkami \textbf{SOI} a \textbf{EOI} sa musí nachádzať výlučne jeden rámec.
 
@@ -1357,8 +1357,8 @@
   hlavným cyklom, v rámci ktorého sú
   dva podcykly odstraňujúce pixely nepríslušiace kostre odtlačku prsta. Funkcie \texttt{neighborCount} a \texttt{zeroToOnePatternCount} slúžia ako pomocné
   funkcie pri rozhodovaní podmienok pre odstraňovanie pixelov. V \texttt{zeroToOnePatternCount} sa pomocou \texttt{numpy.diff} získa počet prechodov
-  z pixelu hodnoty 0 na pixel hodnoty 1 v odrolovanom okne $3 \times 3$ pixelov. Funkcia \texttt{neighborCount} vráti počet susedov stredného pixelu okna
-  $3 \times 3$. Vstupom funkcie \texttt{zhangSuen} je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
+  z pixelu hodnoty 0 na pixel hodnoty 1 v odrolovanom okne $3$$\times{}$$3$ pixelov. Funkcia \texttt{neighborCount} vráti počet susedov stredného pixelu okna
+  $3$$\times{}$$3$. Vstupom funkcie \texttt{zhangSuen} je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
   Výstup tejto funkcie je binárna snímka stenčených papilárnych línií. Avšak výstupná snímka reprezentuje papilárne línie obrátene oproti predchádzajúcim
   krokom, a to tak, že línie sú reprezentované vyššími hodnotami, než pozadie snímky (viď obrázok~{\ref{obr:stencene}}), teda línie sú bledé na rozdiel od
   tmavých. Toto má význam pri nasledujúcich krokoch analýzy.
@@ -1412,7 +1412,7 @@
   Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom (sekcia~{\ref{sec:poincare}}). Pred odovzdaním
   snímky orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných singularít.
   Funkcia \texttt{poincare} prechádza každý pixel snímky orientácií
-  a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3 \times 3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
+  a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3$$\times{}$$3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
   ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
   proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
   V~závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
@@ -1421,7 +1421,7 @@
   Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}, ktorá plní tri účely. V prvom rade nahrádza oblasti s veľkým
   množstvom singularít rovnakého typu oblasťou s jednou singularitou umiestnenou na priemernú pozíciu detegovaných singularít v~tejto oblasti.
   V druhom rade odstraňuje singularity rôzneho typu, ak sa nachádzajú v~rovnakej oblasti. V oboch týchto
-  prípadoch sa kontrolujú singularity v oblasti veľkosti $8 \times 8$ pixelov okolo každej detegovanej singularity. V treťom rade sa odstraňujú singularity,
+  prípadoch sa kontrolujú singularity v oblasti veľkosti $8$$\times{}$$8$ pixelov okolo každej detegovanej singularity. V treťom rade sa odstraňujú singularity,
   ktoré sú v blízkosti 10 pixelov hraniciam oblasti záujmu. Výsledná snímka s detegovanými singularitami je zobrazená na
   obrázku~{\ref{obr:singularity}}, kde vyznačenie singularít prebehlo podobne ako pri markantoch pomocou funkcie \texttt{overlay}. Parametrizácia veľkostí
   značiek prebieha podobne ako pri markantoch, ale s hranicami 8 a 25 pixelov.
@@ -1579,7 +1579,7 @@
   a zároveň v prevedení \texttt{numpy} poskytujú intuitívne rozhranie pre ich aplikovanie. Nie všade je však možné využiť vektorizované operácie
   (aspoň nie intuitívne), čo často pri snímkach znamená implementáciu algoritmu pomocou cyklického prechádzania dátových polí snímky. V prípade interpretovaných
   jazykov ako Python to znamená značné spomalenie algoritmov. Rozdiel v rýchlosti vektorizovaných operácii oproti cyklickým riešením bol zjavný pri
-  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $416 \times 416$ pixelov trvala aplikácia filtra približne
+  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $416$$\times{}$$416$ pixelov trvala aplikácia filtra približne
   70~sekúnd. Po vektorizovaní tvorby kernelu filtra sa algoritmus zrýchlil na približne 12 sekúnd. Rýchlosť algoritmov závisí aj od veľkosti oblasti záujmu,
   pretože mimo nej sa často niektoré kroky v rámci algoritmov preskakujú, čím sa algoritmy zrýchľujú. Priemerné rýchlosti troch najpomalších algoritmov
   na vzorke snímok rôznych veľkostí sú uvedené v tabuľke~{\ref{tab:casy_algo}}. Z každej z troch uvedených veľkostí snímok bolo meranie vykonané na piatich
@@ -1594,9 +1594,9 @@
       \hline
       \multicolumn{1}{|l|}{Veľkosti snímok}   & Gaborovo filtrovanie & Stenčovanie línií & Extrahovanie singularít \\
       \hline
-      \multicolumn{1}{|l|}{$300 \times 300$ px} & 6,51 & 18,24 & 7,13 \\
-      \multicolumn{1}{|l|}{$280 \times 440$ px} & 9,20 & 20,97 & 9,52 \\
-      \multicolumn{1}{|l|}{$416 \times 416$ px} & 11,65 & 30,26 & 14,12 \\
+      \multicolumn{1}{|l|}{$300$$\times{}$$300$ px} & 6,51 & 18,24 & 7,13 \\
+      \multicolumn{1}{|l|}{$280$$\times{}$$440$ px} & 9,20 & 20,97 & 9,52 \\
+      \multicolumn{1}{|l|}{$416$$\times{}$$416$ px} & 11,65 & 30,26 & 14,12 \\
       \hline
     \end{tabular}
     \label{tab:casy_algo}
