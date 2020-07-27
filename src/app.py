@@ -248,19 +248,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def rotateImage(self):
         """Rotate the image counter-clockwise."""
         #TODO rotating some images skews them, don't know why
-        if self.img.format() == QImage.Format_RGB888:
-            channels = 3
-        else:
-            channels = 1
-
-        s = self.img.bits().asstring(self.imgShape[0] * self.imgShape[1] * channels)
-        
-        if channels == 3:
-            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1], channels))
-        else:
-            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1]))
-
-        img = img.astype(np.uint8)
+        img = self.__QImageToNumpyArr()
 
         img = np.rot90(img)
         self.imgShape = img.shape
@@ -535,6 +523,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.analysisMenu.addAction(self.minutiaeExport)
 
         self.paramsMenu.addAction(self.openParamWindowAction)
+
+    def __QImageToNumpyArr(self):
+        """Converts the currently shown QImage into a numpy array."""
+        if self.img.format() == QImage.Format_RGB888:
+            channels = 3
+        else:
+            channels = 1
+
+        s = self.img.bits().asstring(self.imgShape[0] * self.imgShape[1] * channels)
+
+        if channels == 3:
+            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1], channels))
+        else:
+            img = np.fromstring(s, dtype=np.uint8).reshape((self.imgShape[0], self.imgShape[1]))
+
+        img = img.astype(np.uint8)
+
+        return img
 
     def __checkForLoadedImage(self):
         """Check if an image is loaded."""
