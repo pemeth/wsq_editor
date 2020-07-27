@@ -438,10 +438,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        mask = getRoi(self.imgArray, threshold=self.params.roiThresh)
-        orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
-        self.cores, self.deltas = poincare(orient) * mask
-        self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
+        self.showSingularities()
 
         fpClass = getClass(self.cores, self.deltas)
         self.showPopup("The fingerprint has the class: " + fpClass)
