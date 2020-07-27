@@ -283,7 +283,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        orientim = ridgeOrient(self.imgArray, blendSigma=self.params.orientBlend, flip=True)
+        norm = normalizeMeanVariance(self.imgArray)
+        orientim = ridgeOrient(norm, blendSigma=self.params.orientBlend, flip=True)
 
         orientim = np.rot90(np.rot90(orientim)) # rotate the orientation image by 180 degrees, because quiver shows it upside down
 
@@ -309,7 +310,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
         
-        orientim = ridgeOrient(self.imgArray, blendSigma=self.params.orientBlend)
+        norm = normalizeMeanVariance(self.imgArray)
+        orientim = ridgeOrient(norm, blendSigma=self.params.orientBlend)
         self.showImage(orientim)
         self.currentImage = orientim
 
@@ -318,7 +320,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
-        roi = getRoi(self.imgArray, threshold=self.params.roiThresh)
+        norm = normalizeMeanVariance(self.imgArray)
+        roi = getRoi(norm, threshold=self.params.roiThresh)
         self.showImage(roi)
         self.currentImage = roi
 
@@ -329,7 +332,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         norm = normalizeMeanVariance(self.imgArray)
         orientim = ridgeOrient(norm, blendSigma=self.params.orientBlend)
-        freq = ridgeFreq(norm, orientim, blend_sigma=self.params.freqBlend)
+        butter = butterworth(norm)
+        freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend)
         self.showImage(freq)
         self.currentImage = freq
 
@@ -382,8 +386,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
             return
 
-        mask = getRoi(self.imgArray, threshold=self.params.roiThresh)
-        orient = ridgeOrient(self.imgArray * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
+        norm = normalizeMeanVariance(self.imgArray)
+        mask = getRoi(norm, threshold=self.params.roiThresh)
+        orient = ridgeOrient(norm * mask, blendSigma=self.blendSigmaForSingularities)  # better results with masked image
         self.cores, self.deltas = poincare(orient) * mask
         self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
