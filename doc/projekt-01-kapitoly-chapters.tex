@@ -1444,20 +1444,20 @@
   \end{itemize}
   V prípade, že na základe pravidiel nie je algoritmus schopný zaradiť odtlačok do triedy, zaradí sa do triedy \uv{unknown}.
 
-  \section{Vyhodnotenie}
+\chapter{Vyhodnotenie}
   Aplikácia je prevedená ako prenositeľná grafická pomôcka pre analýzu snímok odtlačkov prstov. Prenositeľnosť bola testovaná na zariadeniach s operačnými
   systémami Windows 10, macOS 10.15 a Debian 9.12 (stretch). Na všetkých systémoch bola aplikácia testovaná s rôznymi formátmi vstupných snímok. Medzi
   podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
   Windows sa totiž počas testovania nepodarilo spojazdniť doplnkový modul \texttt{wsq} pre knižnicu Pillow.
 
-  \subsection{Spracovanie snímok z rôznych senzorov}
+  \section{Spracovanie snímok z rôznych senzorov}
   Pri testovaní boli využité snímky z troch rôznych druhov senzorov, menovite z kapacitného, optického a termálneho. V závislosti od senzoru sa prejavili
   rozdiely v kvalite výstupov jednotlivých krokov spracovania. V tejto podsekcii je uvedené ich slovné vyhodnotenie na základe senzoru.
   Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi senzormi. V tejto sekcii sú pre ukážku uvedené originálne snímky,
   snímky po Gaborovom filtrovaní a nájdené singularity pre každý typ senzoru. Ostatné kroky spracovania sú zobrazené v
   prílohe~{\ref{priloha:vysledky_spracovania}}.
 
-  \subsubsection{Termálny snímač Bergdata FCAT 100}
+  \subsection{Termálny snímač Bergdata FCAT 100}
   Snímky získané týmto senzorom preukazujú vysoký kontrast a ostré hrany medzi pozadím a papilárnymi líniami. Toto podporuje extrakciu gradientov Sobelovým
   filtrom, čo má za dôsledok výpočet spoľahlivejšieho poľa orientácií v rámci oblasti záujmu. Získané frekvencie boli vo väčšine testovaných prípadov
   prahované vhodne. Validné frekvencie sa totiž rozoznávali hlavne v oblasti záujmu, pričom mimo nej boli často vyfiltrované. Toto je vďaka miernemu gradientu
@@ -1476,7 +1476,7 @@
     \label{obr:vyhodnotenie_termal_mini}
   \end{figure*}
 
-  \subsubsection{Optický snímač SAGEM MorphoSmart MSO300}
+  \subsection{Optický snímač SAGEM MorphoSmart MSO300}
   Podobne ako u termálnom snímači sa jedná o snímky s vysokým kontrastom. Kvalita poľa orientácií v rámci oblasti záujmu je vysoká a uniformná. Mimo oblasti
   záujmu je však z veľkej časti zdanlivo náhodná. Dôvodom takéhoto správania je výrazne jednoliate pozadie, kde neprítomnosť uniformného gradientu spôsobuje
   roztrieštené pole orientácií. Z rovnakého dôvodu sa nespoľahlivejšie prahujú frekvencie mimo papilárnych línií, kde sa často rozoznávajú validné frekvencie.
@@ -1496,7 +1496,7 @@
     \label{obr:vyhodnotenie_optical_mini}
   \end{figure*}
 
-  \subsubsection{Kapacitný snímač Veridicom 5th Sense PRL}
+  \subsection{Kapacitný snímač Veridicom 5th Sense PRL}
   Tieto snímky boli všeobecne najnižšej kvality s veľkým množstvom vynechaných línií, prípadne zlievajúcimi sa líniami, pravdepodobne v dôsledku nadmerného
   tlaku prstom na snímač. Kvalita získaného poľa orientácií v rámci oblasti záujmu bola pri niektorých snímkach o niečo nižšia, než pri iných snímačoch, ale
   nie o toľko nižšia, že by bolo nepoužiteľné napríklad pri Gaborovom filtrovaní. Extrahovanie lokálnych frekvencií malo výsledky podobnej kvality ako pri
@@ -1515,7 +1515,7 @@
     \label{obr:vyhodnotenie_capac_mini}
   \end{figure*}
 
-  \subsection{Analýza snímok}
+  \section{Analýza snímok}
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
   Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v predchádzajúcich krokoch pri okrajoch oblasti
   záujmu, kde po Gaborovom filtrovaní a binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
@@ -1561,7 +1561,7 @@
     \label{tab:vysledky_testov}
   \end{table}
 
-  \subsection{Snímky rôznej kvality}
+  \section{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
   kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy vysoká aj v prípade kvalitnejšej vstupnej
   snímky. Tieto rozdiely v kvalite je možné pozorovať na obrázku~{\ref{obr:porovnanie_kvality}}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej
@@ -1616,7 +1616,7 @@
   vysokej kvality.
   V prípade snímok nižšej kvality, kde výpočet poľa orientácií nie je veľmi spoľahlivý sa častejšie nachádzajú singularity na nekorektných miestach.
 
-  \subsection{Rýchlosť algoritmov}
+  \section{Rýchlosť algoritmov}
   Knižnica \texttt{numpy} poskytuje možnosť využívania vektorizovaných operácií nad podporovanými dátovými typmi. Tieto operácie sú obecne veľmi rýchle
   a zároveň v prevedení \texttt{numpy} poskytujú intuitívne rozhranie pre ich aplikovanie. Nie všade je však možné využiť vektorizované operácie
   (aspoň nie intuitívne), čo často pri snímkach znamená implementáciu algoritmu pomocou cyklického prechádzania dátových polí snímky. V prípade interpretovaných
