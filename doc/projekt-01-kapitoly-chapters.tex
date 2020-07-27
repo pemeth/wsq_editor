@@ -1453,7 +1453,8 @@
   \subsection{Spracovanie snímok z rôznych senzorov}
   Pri testovaní boli využité snímky z troch rôznych druhov senzorov, menovite z kapacitného, optického a termálneho. V závislosti od senzoru sa prejavili
   rozdiely v kvalite výstupov jednotlivých krokov spracovania. V tejto podsekcii je uvedené ich slovné vyhodnotenie na základe senzoru.
-  Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi sernzormi. Jednotlivé kroky spracovania sú zobrazené v
+  Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi sernzormi. V tejto sekcii sú pre ukážku uvedené originálne snímky,
+  snímky po Gaborovom filtrovaní a nájdené singularity pre každý typ senzoru. Ostatné kroky spracovania sú zobrazené v
   prílohe~{\ref{priloha:vysledky_spracovania}}.
 
   \subsubsection{Termálny snímač Bergdata FCAT 100}
@@ -1465,6 +1466,15 @@
   Gaborove filtrovanie pri týchto snímkach produkuje výsledky najvyššej kvality spomedzi uvedených troch snímačov a do výslednej binárnej snímky sa zavádza
   najmenšie množstvo chýb. Najväčšie nedostatky je možné pozorovať na okrajoch
   oblasti záujmu, kde sa papilárne línie ukončujú a nahrádza ich pozadie. V týchto oblastiach sa línie majú tendenciu zliať do jednej.
+  Viď obrázok~{\ref{obr:vyhodnotenie_termal_mini}}.
+  \begin{figure*}[h]\centering
+    \centering
+    \includegraphics[width=0.25\linewidth]{obrazky-figures/eval_results/termal_orig.png}\hspace{0.02\linewidth}
+    \includegraphics[width=0.25\linewidth]{obrazky-figures/eval_results/termal_gabor.png}\hspace{0.02\linewidth}
+    \includegraphics[width=0.25\linewidth]{obrazky-figures/eval_results/termal_singularities.png}
+    \caption{Snímka z termálneho snímača, filtrované papilárne línie Gaborovým filtrom a~vyznačené singularity.}
+    \label{obr:vyhodnotenie_termal_mini}
+  \end{figure*}
 
   \subsubsection{Optický snímač SAGEM MorphoSmart MSO300}
   Podobne ako u termálnom snímači sa jedná o snímky s vysokým kontrastom. Kvalita poľa orientácií v rámci oblasti záujmu je vysoká a uniformná. Mimo oblasti
@@ -1476,6 +1486,15 @@
   dostatočne veľké, tieto papilárne línie sa po Gaborovom filtrovaní a následnej binarizácii rozdelili na dve. Pri menších póroch sa takýmto rozdvojením
   predíde Butterworthovým filtrom dolného priepustu, ktorý vyfiltruje tieto vysokofrekvenčné časti snímky. Pri okrajoch oblasti záujmu sa prejavuje podobné
   správanie ako pri termálnom snímači.
+  Viď obrázok~{\ref{obr:vyhodnotenie_optical_mini}}.
+  \begin{figure*}[h]\centering
+    \centering
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/optical_orig.png}\hfill
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/optical_gabor.png}\hfill
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/optical_singularities.png}
+    \caption{Snímka z optického snímača, filtrované papilárne línie Gaborovým filtrom a~vyznačené singularity.}
+    \label{obr:vyhodnotenie_optical_mini}
+  \end{figure*}
 
   \subsubsection{Kapacitný snímač Veridicom 5th Sense PRL}
   Tieto snímky boli všeobecne najnižšej kvality s veľkým množstvom vynechaných línií, prípadne zlievajúcimi sa líniami, pravdepodobne v dôsledku nadmerného
@@ -1486,6 +1505,15 @@
   Na niektorých snímkach tohto snímača sa objavovali oblasti poškodené šumom. Pozícia a tvar tohto šumu bol naprieč viacerými snímkami rovnaký, čo môže
   naznačovať zašpinenie alebo chybu snímača. Tento šum mal podobný dopad na Gaborove filtrovanie ako póry pri optickom snímači, čo znamená, že sa niekedy
   falošne vytváral priestor uprostred papilárnych línií. Pri okrajoch oblasti záujmu sa prejavuje podobné správanie ako pri termálnom snímači.
+  Viď obrázok~{\ref{obr:vyhodnotenie_capac_mini}}.
+  \begin{figure*}[h]\centering
+    \centering
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/capac_orig.png}\hfill
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/capac_gabor.png}\hfill
+    \includegraphics[width=0.32\linewidth]{obrazky-figures/eval_results/capac_singularities.png}
+    \caption{Snímka z kapacitného snímača, filtrované papilárne línie Gaborovým filtrom a~vyznačené singularity.}
+    \label{obr:vyhodnotenie_capac_mini}
+  \end{figure*}
 
   \subsection{Analýza snímok}
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
