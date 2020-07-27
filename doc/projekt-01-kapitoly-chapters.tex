@@ -1138,8 +1138,7 @@
   potrebné pri mnohých metódach analýzy. Vstupnú snímku odtlačku prsta je často vhodné filtrovať filtrom dolného priepustu, ktorý je schopný vyfiltrovať šum
   a prípadné nedokonalosti zo vstupných snímok. V tejto aplikácii sa využije frekvenčný filter Butterworth, ktorý je vhodným filtrom pre snímky odtlačky
   prstov~{\cite{Drahansky}}. Ďalšími vhodnými filtrami a algoritmami pre takéto snímky sú Gaborov filter pre filtrovanie papilárnych línií a
-  metóda Zhang-Suen pre stenčovanie línií. Z dôvodu rozšírenia týchto metód a ich celkovej kvalite výstupov pri využití na snímkoch odtlačkov prstov
-  je vhodné ich implementovať.
+  metóda Zhang-Suen pre stenčovanie línií.
 
   Automatická analýza snímkov požaduje extrahovanie markantov, singularít a odhadnutie triedy odtlačku prsta na načítanej snímke. Rýchlou metódou extrahovania
   markantov je metóda popísaná v sekcii~{\ref{sec:extrakcia_prechodmi}}. Z dôvodu voľby jazyka je nutné implementovať rýchle metódy, ktorých jednotlivé kroky
@@ -1149,7 +1148,7 @@
   Podobným spôsobom klasifikujú odtlačky aj experti daktyloskopie, čiže sa jedná o overenú metódu, vďaka čomu je vhodné ju využiť aj v tejto aplikácii.
 
   Všetky kroky spracovania a analýzy sa užívateľovi po ich vykonaní zobrazia. Práve zobrazenú snímku bude môcť užívateľ exportovať do jedného z podporovaných
-  formátov, medzi ktoré patria aj formáty schopné aplikácia načítať.
+  formátov, medzi ktoré patria aj formáty schopné aplikácia načítať. Medzi tieto formáty patria PNG, WSQ, JPEG, TIFF a BMP.
 
   \section{Využité technológie}
   Aplikácia je napísaná v jazyku Python verzie 3.5.3. Na rozhodnutie využiť tento jazyk mal najväčší dopad jeho prenositeľnosť a vysoká podpora nástrojov,
@@ -1162,7 +1161,7 @@
     \item Grafické rozhranie je postavené na aplikačnom rámci PyQt5. Tento rámec je jedným z dvoch rozšírených Python väzieb\footnote{Týmito rozšírenými
           väzbami sú PyQt a PySide.}
           na multiplatformový, voľne dostupný GUI toolkit Qt.
-    \item Pre importovanie a exportovanie snímok sa využila knižnica Pillow (fork knižnice PIL). Jedná sa o knižnicu pre spracovanie obrázkov,
+    \item Pre importovanie a exportovanie snímok sa využila knižnica Pillow (fork knižnice Python Imaging Library). Jedná sa o knižnicu pre spracovanie obrázkov,
           ktorá poskytuje mnoho funkcionalít, avšak v rámci tejto aplikácie sa primárne využíva iba pre načítanie snímok odtlačkov prstov a ukladanie
           ich spracovaných variánt.
     \item Samotné úpravy snímok a algoritmy pre ich spracovanie využívajú knižnice \texttt{numpy}, prípadne \texttt{scipy}. Tieto knižnice sú vhodné pre
@@ -1181,16 +1180,21 @@
               Napravo okno s možnosťou prestavovania niektorých parametrov spracovania a vyznačovania singularít a markantov.}
     \label{obr:app}
   \end{figure}
-  Menu \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok. Menu \emph{Transformations} má možnosti pre rotovanie a priblíženie
-  snímky. Menu \emph{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod. a menu
-  \emph{Analysis} zase voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných markantov do
-  JSON súboru. \emph{Parameters} dáva voľbu otvoriť okno, cez ktoré je možné prestaviť niektoré parametry spracovania.
 
   Hlavné okno aplikácie zobrazuje súčasne načítanú snímku. V prípade, že užívateľ zvolí jednu z možností pre spracovanie alebo analýzu, zobrazenie snímky je
   nahradené novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa snímka v hlavnom okne nahradí
   interpretáciou orientačného poľa súčasne načítanej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V prípade analýzy sa extrahujú potrebné
   informácie o markantoch alebo singularitách, v závislosti od požiadavky užívateľa, a zobrazí sa pôvodná snímka s vyznačenými markantmi alebo singularitami.
-  Väčsina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii.
+  Väčsina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii. Ovládací panel (menu) sprístupňujúce úkony aplikácie má
+  nasledovné rozloženie:
+  \begin{itemize}
+    \item \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok.
+    \item \emph{Transformations} má možnosti pre rotovanie a priblíženie snímky.
+    \item \emph{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod.
+    \item \emph{Analysis} dáva voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných
+          markantov do JSON súboru.
+    \item \emph{Parameters} umožńuje otvoriť okno, v ktorom je možné prestaviť niektoré parametry spracovania.
+  \end{itemize}
 
   V niektorých prípadoch použitia sa zobrazí ďalšie okno aplikácie. Pre importovanie snímky sa otvorí súborový dialóg, ktorý umožňuje prehľadávať súbory
   na počítači užívateľa. Tento dialóg umožňuje filtrovanie súborov dvoma spôsobmi - zobraziť všetky súbory alebo filtrovať niektoré formáty obrázkových
