@@ -541,7 +541,8 @@
 
   \subsection{Binarizácia} \label{sec:binarizacia}
   Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlačkov prstov.
-  Metóda využíva priemer hodnôt v okne $s$$\times{}$$s$ v okolí každého pixelu snímky. Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
+  Metóda využíva priemer hodnôt v okne $s$$\times{}$$s$ v okolí každého pixelu snímky. Veľkosť $s$ Bradley stanovuje na jednu osminu šírky spracúvanej snímky.
+  Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
   z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
   Teda, ak má súčasný pixel o {$t$}~\% nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel. Výhodou takéhoto prahovania hodnôt oproti
   globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v okolí
