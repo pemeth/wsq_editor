@@ -1413,6 +1413,9 @@
   \subsection{Singularity a triedy} \label{sec:singul_a_triedy}
   Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom (sekcia~{\ref{sec:poincare}}). Pred odovzdaním
   snímky orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných singularít.
+  Význam vyhľadenia orientácií spočíva vo vyfiltrovaní vysokofrekvenčných zmien orientácií, ktoré môžu byť falošne detegované ako singularity. Filtrovanie
+  s príliš vysokou hodnotou odchýľky však môže vyfiltrovať validné singularity z dôvodu nadmerného vyhladenia. Hodnota odchýľky filtra bola zvolená na
+  základe testovania.
   Funkcia \texttt{poincare} prechádza každý pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3$$\times{}$$3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
   ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
