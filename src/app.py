@@ -97,6 +97,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.zoomInAction.setEnabled(True)
             self.zoomOutAction.setEnabled(True)
             self.rotateAction.setEnabled(True)
+            self.mirrorAction.setEnabled(True)
             self.exportImageAction.setEnabled(True)
 
             # reset the cached images
@@ -251,6 +252,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         img = self.__QImageToNumpyArr()
 
         img = np.rot90(img)
+        self.imgShape = img.shape
+
+        self.showImage(img, normalize=False)
+
+    def mirrorImage(self):
+        img = self.__QImageToNumpyArr()
+
+        img = np.flip(img, axis=1)
         self.imgShape = img.shape
 
         self.showImage(img, normalize=False)
@@ -475,6 +484,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomOutAction.setEnabled(False)
         self.rotateAction = QAction("Rotate by 90 degrees", self, shortcut="/", triggered=self.rotateImage)
         self.rotateAction.setEnabled(False)
+        self.mirrorAction = QAction("Mirror the image along the x axis", self, shortcut="*", triggered=self.mirrorImage)
+        self.mirrorAction.setEnabled(False)
 
         self.openParamWindowAction = QAction("Open the parameter settings", self, shortcut="P", triggered=self.openParamWindow)
 
@@ -493,6 +504,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.zoomMenu.addAction(self.zoomInAction)
         self.zoomMenu.addAction(self.zoomOutAction)
         self.zoomMenu.addAction(self.rotateAction)
+        self.zoomMenu.addAction(self.mirrorAction)
 
         # normalization submenu
         self.imageMenu.addAction(self.normalizeImageActionComplex)
