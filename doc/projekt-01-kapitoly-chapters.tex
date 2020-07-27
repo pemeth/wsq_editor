@@ -1538,8 +1538,8 @@
   kvality nie je možné spoľahlivo extrahovať. Je však nutné podotknúť, že kvalita spracovania snímky nie je vždy vysoká aj v prípade kvalitnejšej vstupnej
   snímky. Tieto rozdiely v kvalite je možné pozorovať na obrázku~{\ref{obr:porovnanie_kvality}}, kde sú zobrazené originálne snímky odtlačkov prstov rôznej
   kvality
-  (avšak oba sú dostatočne vysokej kvality) a výstupy ich filtrovania Gaborovým filtrom a stenčenia línií. Je možné vidieť, že dopad na kvalitu filtrovania
-  nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno na ľavej strane spodnej časti filtrovanej
+  (avšak oba sú dostatočnej kvality k úspešnému spracovaniu) a výstupy ich filtrovania Gaborovým filtrom a stenčenia línií. Je možné vidieť, že dopad na kvalitu
+  filtrovania nemá výlučne iba ochorenie pokožky, ale aj nízky kontrast medzi papilárnymi líniami a pozadím - vidno na ľavej strane spodnej časti filtrovanej
   snímky~{\ref{obr:ecsema_gabor}}. Toto naznačuje nedostatočné alebo nekvalitné predspracovanie. Na týchto snímkach je tiež možné vidieť dopad prísneho
   prahovania pri vytváraní masky oblasti záujmu, čo sa prejavuje vo forme štvorcových fragmentov uprostred odtlačkov prstov.
 
@@ -1552,7 +1552,7 @@
     \hfill
     \begin{subfigure}[b]{0.3\linewidth}
       \includegraphics[width=\linewidth]{obrazky-figures/warts_gabor.png}
-      \caption{filtrovaná Gaborovým filtrom}
+      \caption{po Gaborovom filtrovaní}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\linewidth}
@@ -1567,7 +1567,7 @@
     \hfill
     \begin{subfigure}[b]{0.3\linewidth}
       \includegraphics[width=\linewidth]{obrazky-figures/ecsema_gabor.png}
-      \caption{filtrovaná Gaborovým filtrom}
+      \caption{po Gaborovom filtrovaní}
       \label{obr:ecsema_gabor}
     \end{subfigure}
     \hfill
