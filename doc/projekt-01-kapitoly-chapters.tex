@@ -1500,7 +1500,21 @@
   databáze. Rozdelenie do jednotlivých tried bolo vykonané na základe pravidiel, ako bolo uvedené v sekcii~{\ref{sec:rule-based}}. Vzhľadom na to, že
   triedenie odtlačkov nebolo vykonávané expertom, do testovacieho datasetu boli zaradené iba snímky, z ktorých sa jednoznačne dala vyčítať trieda odtlačku.
   Do datasetu boli zaradené snímky vysokej až strednej kvality. Zoznam názvov súborov, na ktorých boli vykonávané testy je uvedený v
-  prílohe~{\ref{priloha:zoznam_suborov}}. Chybovosť bola vypočítaná vzorcom~{\ref{eq:chybovost}}.
+  prílohe~{\ref{priloha:zoznam_suborov}}. Tabuľka~{\ref{tab:vysledky_testov}} prezentuje výsledky testov a uvádza percentuálnu chybovosť klasifikácie, kde
+  chybovosť bola vypočítaná vzorcom~{\ref{eq:chybovost}}.
+  \begin{equation}
+    \text{chybovosť} = \frac{\text{počet nesprávne klasifikovaných odtlačkov}}{\text{celkový počet odtlačkov danej triedy}} \cdot 100
+    \label{eq:chybovost}
+  \end{equation}
+
+  Výsledky klasifikácie sa značne líšia v závislosti od triedy odtlačku. Najspoľahlivejšie boli klasifikované odtlačky triedy oblúk, ktoré majú hladké
+  pole orientácií v rámci oblasti záujmu, vďaka čomu nie sú detegované žiadne singularity. Jediná nesprávna klasifikácia prebehla na snímke strednej kvality
+  na okraji odtlačku prsta, kde sa falošne detegovalo jadro a nebolo vyfiltrované. Klasifikácia klenutých oblúkov malo tiež nízku chybovosť, ale veľkosť
+  testovacej vzorky bola o polovicu menšia, čo skresľuje výsledky.
+  Odtlačky ľavých a pravých slučiek, ktoré mali delty blízko okraju oblasti záujmu boli klasifikované nesprávne kvôli vyfiltrovaniu týchto delt. Rozdiel v
+  chybovosti týchto tried je pravdepodobne spôsobený rozdielnym pomerom kvalitnejších snímok k snímkam strednej kvality, pri ktorých sa presnosť mierne
+  znižuje.
+
   \begin{table}[ht]
     \centering
     \caption{Tabuľka zobrazujúca výsledky testovania automatickej klasifikácie odtlačkov prstov. Skratky tried sú: O - oblúk, KO - klenutý oblúk,
@@ -1518,11 +1532,6 @@
     \end{tabular}
     \label{tab:vysledky_testov}
   \end{table}
-  
-  \begin{equation}
-    \text{chybovosť} = \frac{\text{počet nesprávne klasifikovaných odtlačkov}}{\text{celkový počet odtlačkov danej triedy}} \cdot 100
-    \label{eq:chybovost}
-  \end{equation}
 
   \subsection{Snímky rôznej kvality}
   V závislosti od kvality vstupnej snímky sa výsledky výstupov líšia. Toto je očakávané správanie, keďže vlastnosti odtlačku prsta zo snímky značne zlej
