@@ -1433,7 +1433,7 @@
 
   Detekciu triedy odtlačku prsta vykonáva funkcia \texttt{getClass}. Táto funkcia je schopná rozlíšiť oblúk, klenutý oblúk, ľavú slučku, pravú slučku.
   Špirálu a dvojitú slučku deteguje ako jednu triedu. Detekcia prebieha na základe pravidiel počtu singularít v jednotlivých triedach a ich vzájomných
-  pozíciách (sekcia~{\ref{sec:rule-based}}). V prípade, že sa
+  pozíciách (sekcia~{\ref{sec:rule-based}}). Pri špirálach a dvojitých slučkách sa sleduje iba počet singularít. V prípade, že sa
   v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami. Sklon sa
   zistí pomocou výpočtu gradientu úsečky medzi deltou a jadrom. Prahovaním tohto gradientu je možné získať odhad triedy. Prahy sklonu (označený~{$m$})
   sú v aplikácii nastavené nasledovne.
