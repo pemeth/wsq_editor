@@ -1225,12 +1225,18 @@
   vstupné akcie vykonateľné užívateľom naviažu na tieto metódy. Väzbu zabezpečuje trieda \texttt{QAction}. Definícia akcie zahŕňa aj voliteľnú  voľbu
   klávesovej skratky. PyQt zabezpečuje naslúchanie klávesovým skratkám a pri ich stlačení zavolá definovanú callback metódu príslušnej akcie.
 
-  \subsection{\texttt{Ui\_MainWindow}}
-  Táto trieda bola generovaná automaticky z exportovaného \texttt{.ui} súboru vytvoreného aplikáciou Qt Creator. Jedná sa o aplikáciu pre navrhovanie
+  \subsection{\texttt{ParamWindow}}
+  Definuje logiku okna parametrov. Tu sa inicializujú východiskové hodnoty nastaviteľných paramterov a riadi sa aktualizácia menených hodnôt.
+  Metóda \texttt{updateSliderValues} sa stará o aktualizáciu hodnôt členských premenných triedy na základe posuvných bežcov, ktorými sa nastavujú parametre.
+  Táto metóda volá aj metódu \texttt{updateSliderLabels}, ktorá zabezpečuje prepisovanie užívateľom videných hodnôt. Tieto hodnoty odzrkadľujú hodnoty
+  nastavovaných parametrov. Metóda \texttt{resetValues} obnovuje hodnoty parametrov na východiskové.
+
+  \subsection{\texttt{Ui\_MainWindow} a \texttt{Ui\_ParamWindow}}
+  Tieto triedy boli generované automaticky z exportovaného \texttt{.ui} súboru vytvoreného aplikáciou Qt Creator. Jedná sa o aplikáciu pre navrhovanie
   grafických rozhraní pre využitie v~súbehu s GUI toolkitom Qt. Pomocou tohto nástroja bolo navrhnuté a následne exportované GUI vytváranej aplikácie. Súbory
-  \texttt{.ui} sú vlastne XML reprezentáciou návrhu grafického rozhrania a je možné ich preložiť do PyQt zápisu. Trieda \texttt{Ui\_MainWindow} je výsledkom
-  tohto prekladu. Dedením tejto triedy triedou \texttt{MainWindow} je zabezpečené oddelenie definície vzhľadu aplikácie a jej logiky, čo prispieva k
-  prehľadnejšiemu kódu.
+  \texttt{.ui} sú vlastne XML reprezentáciou návrhu grafického rozhrania a je možné ich preložiť do PyQt zápisu. Triedy \texttt{Ui\_MainWindow}
+  a \texttt{Ui\_ParamWindow} sú výsledkom tohto prekladu. Dedením týchto tried triedami implementujúcimi logiku daných okien je zabezpečené oddelenie definície
+  vzhľadu aplikácie a jej logiky, čo prispieva k prehľadnejšiemu kódu.
 
   \section{Algoritmy} \label{sec:algoritmy}
   V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
