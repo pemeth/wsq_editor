@@ -1236,7 +1236,8 @@
   Základnými úpravami, ktoré sa vykonávajú pred každým iným druhom spracovania sú normalizácia a filtrovanie Butterworth filtrom.
   Normalizácia snímky sa vykonáva pomocou funkcie \texttt{normalizeMeanVariance}, ktorá implementuje metódu
   popísanú v sekcii~{\ref{sec:normalizacia}}, čo znamená, že normalizuje pomocou úpravy strednej hodnoty a rozptylu hodnôt pixelov v~snímke. Tento úkon je
-  vykonávaný pred každým iným druhom spracovania.\\
+  vykonávaný pred každým iným druhom spracovania.
+
   Butterworth filtrovanie prebieha vo frekvenčnej doméne snímky. Frekvenčná reprezentácia snímky je získaná dvojrozmernou rýchlou Fourierovou transformáciou.
   Pre danú snímku je vytvorený filter dolného priepustu, ktorý sa aplikuje vo frekvenčnej doméne na danú snímku. Nakoniec sa filtrované spektrum inverznou
   transformáciou prevedie do pôvodnej, priestorovej, reprezentácie. Týmto sa odstránia zo snímky vysokofrekvenčné fragmenty ako napríklad textúra papiera
@@ -1252,7 +1253,7 @@
   odchýľkou $\sigma = 3$) pre vyhladenie tohto poľa. Nakoniec je pole prevedené na dvojrozmerné pole orientácií v radiánoch.
   Na obrázku~{\ref{obr:orientacie}} je zobrazená snímka po extrahovaní gradientov v smeroch $x$ a $y$ a jej konečná podoba po interpretácii orientácií pre
   zobrazenie v~aplikácii. V okne pre parametrizáciu je možné prestaviť štandardnú odchýľku filtrovania, čím sa získavajú rôzne vyhladené snímky orientácií.
-  Hranice tohto parametru sú $<1,25>$.
+  Hranice tohto parametru sú $\langle{}1,25\rangle{}$.
 
   \begin{figure}[h]
     \centering
@@ -1285,7 +1286,8 @@
   Rozdiel medzi pôvodnou frekvenčnou snímkou a rozostrenou verziou je možné vidieť na obrázku~{\ref{obr:frekvencie}}. Význam tohto rozostrenia je zreteľný pri
   kroku Gaborovho filtrovania, ktoré je popísané v sekcii \ref{sec:gabor_algo}.
   Časť zdrojového kódu extrakcie lokálnych frekvencií je založená na \cite{KovesiMATLABCode}.
-  V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýľku vyhľadzovania snímky. Hranice tohto parametru sú $<0,25>$.
+  V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýľku vyhľadzovania snímky. Hranice tohto parametru sú
+  $\langle{}0,25\rangle{}$.
   Východzia hontota je nastavená na $\sigma = 8$.
 
   \begin{figure}[h]
@@ -1380,7 +1382,7 @@
   5 po 25. Táto hodnota uvádza koľko pixelov sú vzdialené hrany značky od pozície markantu.
 
   Extrahované markanty je možné následne exportovať do JSON súboru. Tento export sa vykonáva v metóde \texttt{exportMinutiaeJSON}, ktorá vezme pozície
-  $xy$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
+  $x, y$ jednotlivých extrahovaných markantov a orientáciu línií v danom pixeli a serializuje ich do JSON formátu. Výsledná serializovaná štruktúra markantov
   pozostáva z dvoch objektov (\uv{bifurcations} a~{\uv{ridgeEndings}}), ktoré obsahujú zoznam príslušných pozícií a orientácií línií. Je dôležité poznamenať,
   že do súboru sa ukladá orientácia papilárnych línií pod nájdeným markantom a nie orientácia samotného markantu.
 
@@ -1407,8 +1409,8 @@
   \end{figure}
 
   \subsection{Singularity a triedy} \label{sec:singul_a_triedy}
-  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom~{\ref{sec:poincare}}. Pred odovzdaním snímky
-  orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných fingularít.
+  Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom (sekcia~{\ref{sec:poincare}}). Pred odovzdaním
+  snímky orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných singularít.
   Funkcia \texttt{poincare} prechádza každý pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3 \times 3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
   ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
@@ -1429,9 +1431,9 @@
   pozíciách (sekcia~{\ref{sec:rule-based}}). V prípade, že sa
   v odtlačku nachádza po jednej z oboch singularít, rozlíšenie medzi klenutým oblúkom a slučkami sa vykoná na základe sklonu medzi singularitami. Sklon sa
   zistí pomocou výpočtu gradientu úsečky medzi deltou a jadrom. Prahovaním tohto gradientu je možné získať odhad triedy. Prahy sklonu (označený~{$m$})
-  sú v aplikácii nastavené nasledovne:
+  sú v aplikácii nastavené nasledovne.
   \begin{itemize}
-    \item ak $m \geq 2,5$ alebo $m \leq -2,5$, tak sa jedná o klenutý oblúk,
+    \item Ak $m \geq 2,5$ alebo $m \leq -2,5$, tak sa jedná o klenutý oblúk,
     \item ak $m < 2,5$ a zároveň $m \geq 0$, tak sa jedná o ľavú slučku,
     \item ak $m > -2,5$ a zároveň $m < 0$, tak sa jedná o pravú slučku.
   \end{itemize}
