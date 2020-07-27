@@ -1486,7 +1486,7 @@
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
   Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v predchádzajúcich krokoch pri okrajoch oblasti
   záujmu, kde po Gaborovom filtrovaní a binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
-  záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a teda v tesnej blízkosti oblasti záujmu sa falošné markanty odstraňujú.
+  záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a teda v tesnej blízkosti oblasti záujmu sa markanty odstraňujú.
   Algoritmus pre detekciu markantov typu vidlička a ukončenie ich na snímke stenčených papilárnych línií deteguje korektne.
 
   Detekcia singularít a tried bola testovaná na vzorke snímok z internej databázy STRaDe. Z tejto databázy boli vyčlenené snímky odtlačkov patriacich do
@@ -1579,7 +1579,7 @@
   a zároveň v prevedení \texttt{numpy} poskytujú intuitívne rozhranie pre ich aplikovanie. Nie všade je však možné využiť vektorizované operácie
   (aspoň nie intuitívne), čo často pri snímkach znamená implementáciu algoritmu pomocou cyklického prechádzania dátových polí snímky. V prípade interpretovaných
   jazykov ako Python to znamená značné spomalenie algoritmov. Rozdiel v rýchlosti vektorizovaných operácii oproti cyklickým riešením bol zjavný pri
-  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $416 \times 416$ trvala aplikácia filtra približne
+  implementácií Gaborovho filtra, ktorý bol pôvodne plne cyklický. V takom prípade pri snímke veľkosti $416 \times 416$ pixelov trvala aplikácia filtra približne
   70~sekúnd. Po vektorizovaní tvorby kernelu filtra sa algoritmus zrýchlil na približne 12 sekúnd. Rýchlosť algoritmov závisí aj od veľkosti oblasti záujmu,
   pretože mimo nej sa často niektoré kroky v rámci algoritmov preskakujú, čím sa algoritmy zrýchľujú. Priemerné rýchlosti troch najpomalších algoritmov
   na vzorke snímok rôznych veľkostí sú uvedené v tabuľke~{\ref{tab:casy_algo}}. Z každej z troch uvedených veľkostí snímok bolo meranie vykonané na piatich
