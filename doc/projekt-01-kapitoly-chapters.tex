@@ -1373,10 +1373,11 @@
 
   \subsection{Markanty} \label{sec:markanty_algo}
   Funkcia \texttt{extractMinutiae} prijíma binárnu snímku so stenčenými papilárnymi líniami. Každý pixel príslušný papilárnej línii je skontrolovaný
-  maskami pre extrahovanie markantov (viď sekcia~{\ref{sec:extrakcia_prechodmi}}) a pozícia vyhovjúcich pixelov je uložená do zvlášť dvojrozmerných polí.
-  Oba kontrolované typy markantov (vidličky a ukončenia) sú ukladané do
-  zvlášť polí, aby ich bolo možné separovať. Po extrakcii markantov sa vyfiltrujú tie, ktoré sa nachádzajú do 8 pixelov od okraja oblasti záujmu a následne
-  funkcia vráti obe nové polia vyznačených markantov. Tieto polia sú ďalej
+  maskami pre extrahovanie markantov (viď sekcia~{\ref{sec:extrakcia_prechodmi}}). V dvojrozmernom poli (inicializovanom na nulové hodnoty) rovnakej veľkosti
+  ako vstupná snímka stenčených línií sa na pozíciách detekcií markantov vyznačí typ detegovaného markantu. Pozície vidličiek sú označené hodnotou 6 a pozície
+  ukončení hodnotou 2, rovnako ako je uvedené v sekcii~{\ref{sec:extrakcia_prechodmi}}. Nakoniec sa pomocou funkcie \texttt{numpy.where} vytvoria dve nové
+  binárne polia s nenulovými hodnotami na pozíciách príslušných markantov. Po extrakcii markantov sa vyfiltrujú tie, ktoré sa nachádzajú do 8 pixelov od okraja
+  oblasti záujmu a následne funkcia vráti obe nové polia vyznačených markantov. Tieto polia sú ďalej
   spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s extrahovanými pozíciami markantov -
   v podstate maska pozícií. Pomocou tejto funkcie sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje
   značky na pozíciách extrahovaných markantov (obrázok~{\ref{obr:markanty}}). Veľkosť týchto značiek je možné nastaviť v okne parametrizácie od hodnoty
