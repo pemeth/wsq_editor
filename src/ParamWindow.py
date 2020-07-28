@@ -150,7 +150,7 @@ class Ui_ParamWindow(object):
 
     def retranslateUi(self, ParamWindow):
         _translate = QtCore.QCoreApplication.translate
-        ParamWindow.setWindowTitle(_translate("ParamWindow", "Dialog"))
+        ParamWindow.setWindowTitle(_translate("ParamWindow", "Parameter settings"))
         self.processingGroup.setTitle(_translate("ParamWindow", "Image processing"))
         self.label.setText(_translate("ParamWindow", "Orientation blending sigma"))
         self.label_4.setText(_translate("ParamWindow", "Gabor kernel size"))
