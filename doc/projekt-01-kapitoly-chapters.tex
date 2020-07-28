@@ -1283,7 +1283,8 @@
   \end{figure}
 
   \subsection{Frekvencia papilárnych línií}
-  Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky veľkosti 36 pixelov, ktoré sú následne natočené
+  Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky veľkosti 36 pixelov (nastaviťeľné cez okno pre
+  parametrizáciu na hodnoty $\langle{}25,50\rangle{}$), ktoré sú následne natočené
   podľa priemernej orientácie v tomto bloku tak, aby papilárne línie boli kolmé na os $x$. Natočenie vykonáva funkcia \texttt{rotate} z~modulu
   \texttt{scipy.ndimage}, pomocou ktorej je možné natáčať dvojrozmerné polia. V takto natočenom bloku sú následne spriemerované hodnoty po stĺpcoch
   a extrahovaná $x$-signatúra línií ako je popísané v sekcii~{\ref{sec:frekvencia}}. Z tejto signatúry sa vypočíta priemerná frekvencia v danom bloku a vytvorí
