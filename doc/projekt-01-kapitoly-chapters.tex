@@ -1685,9 +1685,9 @@
   \chapter{Záver}
   Táto práca bola zameraná na oboznámenie sa s odtlačkami prstov, rôznymi metódami ich snímania a krokmi ich spracovania a analýzy. Druhá kapitola poskytuje
   prehľad anatómie kože so zameraním na kožu na dlaniach a chodidlách, kde sa nachádzajú papilárne línie tvoriace odtlačky prstov. Ďalej sa venuje rôznym
-  spôsobom zaznamenávania odtlačkov prstov ako sú rôzne typy snímačov a skenovanie daktyloskopických kariet. Sú tu uvedené aj spôsoby klasifikácie, spracovania
-  a analýzy snímok odtlačkov prstov automatizovanými systémami. V tretej kapitole je popísaný rozšírený formát navrhnutý pre snímky odtlačkov prstov WSQ a jeho
-  porovnanie s novším, ale obecnejším, formátom JPEG 2000. Predposledná kapitola je venovaná výstupu práce.
+  spôsobom zaznamenávania odtlačkov prstov ako sú rôzne typy snímačov a skenovanie daktyloskopických kariet. V tretej kapitole sú uvedené spôsoby
+  spracovania a analýzy snímok odtlačkov prstov automatizovanými systémami. Štvrtá kapitola sa venuje rozšírenému formátu snímok navrhnutého pre snímky
+  odtlačkov prstov WSQ a jeho porovnanie s novším, ale obecnejším, formátom JPEG 2000. Posledné kapitoly sú venované výstupu práce.
 
   Výstupom práce je aplikácia schopná predspracovať a analyzovať snímky odtlačkov prstov. Jedná sa o grafickú a prenositeľnú aplikáciu napísanú v jazyku
   Python. Podporuje veľké množstvo formátov snímok, medzi nimi aj formáty rozšírené v oblasti daktyloskopickej analýzy ako WSQ, JPEG 2000, PNG, BMP a iné.
@@ -1695,11 +1695,12 @@
   značiek vrstvených na pôvodnú snímku. Cieľom týchto vizualizácií je demoštrácia úkonov spojených so spracovaním snímok pre ich lepšie pochopenie.
   Jednotlivé kroky spracovania snímok odtlačkov je možné exportovať do formátu špecifikovaného užívateľom.
   Užívateľ má tiež možnosť exportovať textový súbor obsahujúci popis extrahovaných markantov vo formáte JSON.
+  Niektoré kroky spracovania je možné parametrizovať cez grafické rozhranie aplikácie.
 
   Výsledná aplikácia však má priestor pre vylepšenie. Asi jej najvýraznejším nedostatkom je rýchlosť niektorých algoritmov, ktoré sa spoliehajú na
   cykly pre prácu s dátami snímok, pričom takáto implementácia v jazyku Python nie je ideálnym riešením. Prepísanie algoritmov do jazyka Cython by umožnilo
-  zrýchlenie algoritmov, pričom by sa zachovala prenositeľnosť. Kvalita niektorých krokov spracovania tiež nie je vždy žiaduca, pretože so znižujúcou sa kvalitou
-  vstupných snímok sa kvalita výstupov značne zhoršuje.
+  zrýchlenie algoritmov, pričom by sa zachovala prenositeľnosť. Niektoré kroky spracovania sú citlivé na kvalitu vstupnej snímky a~automatická
+  klasifikácia preukazuje rozdielnu chybovosť v závislosti od triedy odtlačku prsta a od kvality vstupnej snímky.
 
   %\begin{figure}[]
   %  \centering
