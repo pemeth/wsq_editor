@@ -159,7 +159,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
             return
-        self.__runAll() # get minutiae
+        self.showBifurcations()
 
         norm = normalizeMeanVariance(self.imgArray)
         butter = butterworth(norm)
@@ -472,15 +472,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fpClass = getClass(self.cores, self.deltas)
         self.showPopup("The fingerprint has the class: " + fpClass)
 
-    def autoAnalysis(self):
-        """Run all of the algorithms and cache the results of the slow algorithms, so they can be accessed again with no speed penalty."""
-        if isinstance(self.imgArray, type(None)):
-            self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.")
-            return
-
-        self.__runAll()
-        self.showPopup("Complete!", detailedMessage="Analysis outputs are cached.")
-
     def createActions(self):
         """Create actions for the application."""
         self.openImageAction = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
@@ -501,7 +492,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
         self.fpClassAction = QAction("Show class of the fingerprint", self, triggered=self.showClass)
-        self.autoAnalysisAction = QAction("Run all", self, triggered=self.autoAnalysis)
         self.minutiaeExport = QAction("Save minutiae info to minutiae.json", self, triggered=self.exportMinutiaeJSON)
 
         self.zoomInAction = QAction("Zoom in 1.25x", self, shortcut="+", triggered=self.zoomIn)
@@ -560,7 +550,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.analysisMenu.addAction(self.fpClassAction)
 
-        self.analysisMenu.addAction(self.autoAnalysisAction)
         self.analysisMenu.addAction(self.minutiaeExport)
 
         self.paramsMenu.addAction(self.openParamWindowAction)
@@ -570,26 +559,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.imgArray == None:
             return False
         return True
-
-    def __runAll(self):
-        """Run all of the algorithms."""
-        norm = normalizeMeanVariance(self.imgArray)
-        butter = butterworth(norm)
-        mask = getRoi(butter)
-        orientim = ridgeOrient(butter)
-        freq = ridgeFreq(butter, orientim)
-
-        # check cache; if not cached run algorithm
-        if isinstance(self.filtim, type(None)):
-            self.filtim = gaborFilter(butter, orientim, freq, mask)
-        if isinstance(self.thinned, type(None)):
-            self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
-        if isinstance(self.bifurcations, type(None)):
-            self.bifurcations, self.ridgeEndings = extractMinutiae(self.thinned, mask)
-        if isinstance(self.cores, type(None)):
-            orient = ridgeOrient(butter * mask, blendSigma=self.blendSigmaForSingularities)
-            self.cores, self.deltas = poincare(orient) * mask
-            self.cores, self.deltas = singularityCleanup(self.cores, self.deltas, mask)
 
     def showPopup(self, message, detailedMessage="", icon=QMessageBox.Information):
         """Shows an informative popup window with `message` as it's main text."""
