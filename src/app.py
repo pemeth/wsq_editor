@@ -496,7 +496,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.freqAction = QAction("Show frequency image", self, triggered=self.showFrequency)
         self.gaborAction = QAction("Show Gabor filtered image", self, triggered=self.showGaborFilter)
         self.butterAction = QAction("Show Butterworth filtered image", self, triggered=self.showButterFilter)
-        self.thinnedZhangSuenAction = QAction("Show thinned binary image", self, triggered=self.showThinnedZhangSuen)
+        self.thinnedZhangSuenAction = QAction("Show thinned image", self, triggered=self.showThinnedZhangSuen)
         self.singularitiesAction = QAction("Show singularities", self, triggered=self.showSingularities)
         self.bifurcationAction = QAction("Show bifurcation minutiae", self, triggered=self.showBifurcations)
         self.ridgeEndingAction = QAction("Show ridge ending minutiae", self, triggered=self.showRidgeEndings)
