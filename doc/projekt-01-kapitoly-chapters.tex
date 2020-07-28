@@ -3,10 +3,11 @@
   Takýto vzor môže slúžiť ako jedinečný podpis jednotlivca, vďaka čomu sa pôvodne odtlačky prstov začali využívať v kriminalistike. V modernm svete sa ich
   využitie značne rozšírilo a to obzvášť do osobnej autentikácie a autorizácie prístupu do zabezpečených zariadení ako sú smartfóny. Od manuálnej analýzy
   odtlačkov k automatizovanému spracovaniu však bolo potrebné vykonať výskum nielen do samotných vzorov tvorených papilárnymi líniami.
-  Kapitola~{\ref{kap:odtlacok}} tejto práce je preto venovaná rôznym aspektom spojených s analýzou a spracovaním odtlačkov prstov. Je v ňej rozobraná anatómia
+  Kapitola~{\ref{kap:odtlacok}} tejto práce je venovaná popisu anatómie ľudskej
   kože so zameraním na oblasti, kde sa tvoria papilárne línie. Ďalej poskytuje prehľad o metódach zaznamenávania snímok štruktúr papilárnych línií od
-  skenovania daktyloskopických kariet s odtlačkami prstov po moderné elektronické snímače. Posledné sekcie popisujú často využívané spôsoby spracovania
-  získaných snímok a metódy analýzy štruktúr odtlačkov.
+  skenovania daktyloskopických kariet s odtlačkami prstov po moderné elektronické snímače. Nakoniec je v nej popísaná klasifikácia odtlačkov prstov na rôznych
+  úrovniach. Kapitola~{\ref{kap:analyza}} uvádza prehľad používaných metód spracovania a vylepšovania snímok odtlačkov prstov. Ďalej sú v nej popísané rôzne
+  spôsoby automatickej analýzy markantov, singularít a tried odtlačkov prstov.
 
   V druhej polovici 20.~storočia sa v Spojených štátoch amerických začala digitalizácia fyzických záznamov odtlačkov prstov z dôvodu ich prudko narastajúceho
   počtu. Veľké množstvo záznamov však zabraňovalo ich digitalizácii bez kompresie, pričom ale neexistoval žiadny kompresný algoritmus, ktorý by vyhovoval
@@ -17,10 +18,10 @@
   sa dôkladne študovala. Formátu WSQ a jeho porovnaniu s JPEG 2000 je venovaná kapitola~{\ref{kap:wsq}}.
 
   Vzhľadom na množstvo rôznych úkonov spojených s analýzou odtlačkov prstov je pri študovaní týchto úkonov nápomocné mať vizuálne pomôcky
-  pre demonštráciu procesov s~nimi spojených. Obrázky a náčrty v študijných materiáloch sú samozrejme veľkou pomôckou, avšak nemusia vždy
-  poskytnúť tie informácie, ktoré študent potrebuje. Výstup tejto práce má za cieľ poskytnúť aplikáciu, ktorá je schopná reprodukovať
+  pre demonštráciu procesov s~nimi spojených. Výstup tejto práce má za cieľ poskytnúť aplikáciu, ktorá je schopná reprodukovať
   niektoré najbežnejšie úkony predspracovania a analýzy snímok odtlačkov prstov tak, aby užívateľovi demonštrovali význam jednotlivých úkonov
-  interaktívnym spôsobom na snímkach dodaných samotným užívateľom. Návrh aplikácie a jej implementácia je popísaná v kapitole~{\ref{kap:navrh_appky}}.
+  interaktívnym spôsobom na snímkach dodaných samotným užívateľom. Návrh a implementácia aplikácie je popísaná v kapitole~{\ref{kap:navrh_appky}}
+  a jej vyhodnotenie v kapitole~{\ref{kap:vyhodnotenie}}.
 
 \chapter{Odtlačok prsta} \label{kap:odtlacok}
   Každý človek na svete je unikátne identifikovateľný podľa odtlačkov prsta. Ako prvý publikoval význam odtlačkov prstov zanechaných na miestach činu
@@ -353,7 +354,7 @@
   automatizovanej analýze a to obzvlášť pre odtlačky, resp. časti odtlačkov prstov, kde sa nenachádza veľké množstvo informácií obsiahnutých na
   nižších úrovniach detailu.
 
-\chapter{Spracovanie a analýza snímok odtlačkov prstov} \label{sec:analyza}
+\chapter{Spracovanie a analýza snímok odtlačkov prstov} \label{kap:analyza}
   %V súčasnosti automatizované analyzátory odtlačkov prstov vyžadujú úpravu zdrojových snímok. Surové snímky odtlačkov totiž nie sú vhodné pre
   %extrakciu informácí pomocou algoritmov. Skôr, než sa zo snímok môžu začať extrahovať vlastnosti ako singularity a markanty je potrebné snímku
   %spracovať tak, aby sa so snímkou pracovalo jednoduchšie pri samotnej analýze.
@@ -1454,7 +1455,7 @@
   \end{itemize}
   V prípade, že na základe pravidiel nie je algoritmus schopný zaradiť odtlačok do triedy, zaradí sa do triedy \uv{unknown}.
 
-\chapter{Vyhodnotenie}
+\chapter{Vyhodnotenie} \label{kap:vyhodnotenie}
   Aplikácia je prevedená ako prenositeľná grafická pomôcka pre analýzu snímok odtlačkov prstov. Prenositeľnosť bola testovaná na zariadeniach s operačnými
   systémami Windows 10, macOS 10.15 a Debian 9.12 (stretch). Na všetkých systémoch bola aplikácia testovaná s rôznymi formátmi vstupných snímok. Medzi
   podporované formáty patria BMP, JPEG, PNG a WSQ a iné. Všetky súčasti aplikácie, až na jednu výnimku fungujú na všetkých testovaných systémoch. V prostredí
