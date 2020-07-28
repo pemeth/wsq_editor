@@ -1132,7 +1132,7 @@
   \subsection{Funkcionalita}
   Základom aplikácie je schopnosť otvárať a manipulovať so snímkami. Vstupné snímky môžu byť v bežných formátoch ako napríklad PNG, BMP, TIFF a rozšírených
   formátoch ukladania snímok odtlačkov prstov WSQ a JPEG 2000. Je vhodné implementovať dialógové okno pre zvolenie požadovanej snímky.
-  Snímku je po jej načítaní možné zobraziť v rámci aplikácie. Zobrazenú snímku je potrebné môct otáčať a približovať (prípadne oddiaľovať). V~prípade, ak
+  Snímku je po jej načítaní možné zobraziť v rámci aplikácie. Zobrazenú snímku je potrebné môcť otáčať a približovať (prípadne odďaľovať). V~prípade, ak
   sa snímka priblíži tak, že jej časť preteká za okraj okna, je nutné mať možnosť v rámci okna snímku posúvať. Zobrazenie jednotlivých operácií prebieha
   okamžite po ich vykonaní.
 
@@ -1140,13 +1140,13 @@
   Pre toto je potrebné implementovať spôsob interpretácie rôznych štádií úprav snímky ako zobraziteľný obrázok. Medzi základné operácie navrhované pre túto
   aplikáciu patria normalizácia vstupnej snímky a extrahovanie poľa orientácií, lokálnych frekvencií papilárnych línií a oblasti záujmu v snímke. Tieto
   operácie sú často využívané a je vhodné ich implementovať aj v tejto aplikácii. Okrem toho posledné tri vymenované sú aj dôležitými krokmi spracovania
-  potrebné pri mnohých metódach analýzy. Vstupnú snímku odtlačku prsta je často vhodné filtrovať filtrom dolného priepustu, ktorý je schopný vyfiltrovať šum
+  potrebné pri mnohých metódach analýzy. Vstupnú snímku odtlačku prsta je často vhodné filtrovať filtrom dolného priepustu, ktorý je schopný odfiltrovať šum
   a prípadné nedokonalosti zo vstupných snímok. V tejto aplikácii sa využije frekvenčný filter Butterworth, ktorý je vhodným filtrom pre snímky odtlačky
   prstov~{\cite{Drahansky}}. Ďalšími vhodnými filtrami a algoritmami pre takéto snímky sú Gaborov filter pre filtrovanie papilárnych línií a
   metóda Zhang-Suen pre stenčovanie línií.
 
   Automatická analýza snímkov požaduje extrahovanie markantov, singularít a odhadnutie triedy odtlačku prsta na načítanej snímke. Rýchlou metódou extrahovania
-  markantov je metóda popísaná v sekcii~{\ref{sec:extrakcia_prechodmi}}. Singularity je možné extrahovať napríklad metódou Poncaré indexu popísanou v
+  markantov je metóda popísaná v sekcii~{\ref{sec:extrakcia_prechodmi}}. Singularity je možné extrahovať napríklad metódou Poincaré indexu popísanou v
   sekcii~{\ref{sec:poincare}}. Často používanou metódou klasifikácie odtlačkov prstov je klasifikácia na základe pravidiel, ktorá využíva informácie o
   počte a rozložení singularít.
   Podobným spôsobom klasifikujú odtlačky aj experti daktyloskopie, čiže sa jedná o overenú metódu, vďaka čomu je vhodné ju využiť aj v tejto aplikácii.
@@ -1191,7 +1191,7 @@
   nahradené novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa snímka v hlavnom okne nahradí
   interpretáciou orientačného poľa súčasne načítanej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V~prípade analýzy sa extrahujú potrebné
   informácie o markantoch alebo singularitách, v závislosti od požiadavky užívateľa, a zobrazí sa pôvodná snímka s vyznačenými markantmi alebo singularitami.
-  Väčsina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v~aplikácii. Ovládací panel (menu) sprístupňujúce úkony aplikácie má
+  Väčšina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v~aplikácii. Ovládací panel (menu) sprístupňujúce úkony aplikácie má
   nasledovné rozloženie:
   \begin{itemize}
     \item \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok.
@@ -1199,7 +1199,7 @@
     \item \emph{Image} uvádza voľby pre zobrazenie jednotlivých krokov spracovania ako sú filtrovanie, extrakcia frekvencií apod.
     \item \emph{Analysis} dáva voľby pre analýzu snímky, čo zahŕňa zobrazenie singularít, markantov, výpis detegovanej triedy a uloženie extrahovaných
           markantov do JSON súboru.
-    \item \emph{Parameters} umožńuje otvoriť okno, v ktorom je možné prestaviť niektoré parametry spracovania.
+    \item \emph{Parameters} umožňuje otvoriť okno, v ktorom je možné prestaviť niektoré parametre spracovania.
   \end{itemize}
 
   V niektorých prípadoch použitia sa zobrazí ďalšie okno aplikácie. Pre importovanie snímky sa otvorí súborový dialóg, ktorý umožňuje prehľadávať súbory
@@ -1210,7 +1210,7 @@
   priečinku. Pri zobrazení orientácií je možné zvoliť zobrazenie snímky orientácii, ktoré sa zobrazí v hlavnom okne, alebo zobrazenie vykresleného vektorového
   poľa orientácií - toto sa zobrazí v novom okne za pomoci modulu \texttt{matplotlib.pyplot} a jej funkcie \texttt{quiver}. Ďalším prípadom, kde sa zobrazí nové
   okno je pri detekcii triedy, po ktorej sa zobrazí okno so správou zdieľajúcou triedu odtlačku prsta. Pre nastavovanie parametrov je možné otvoriť okno
-  so slidermi (posuvnými bežcami), ktorými sa interaktívne prestavujú vyznačené parametry krokov spracovania. Táto parametrizácia je popísaná pri príslušných
+  so slidermi (posuvnými bežcami), ktorými sa interaktívne prestavujú vyznačené parametre krokov spracovania. Táto parametrizácia je popísaná pri príslušných
   algoritmoch v sekcii~{\ref{sec:algoritmy}}.
 
   \subsection{\texttt{MainWindow}}
@@ -1231,7 +1231,7 @@
   klávesovej skratky. PyQt zabezpečuje naslúchanie klávesovým skratkám a pri ich stlačení zavolá definovanú callback metódu príslušnej akcie.
 
   \subsection{\texttt{ParamWindow}}
-  Definuje logiku okna parametrov. Tu sa inicializujú východiskové hodnoty nastaviteľných paramterov a riadi sa aktualizácia menených hodnôt.
+  Definuje logiku okna parametrov. Tu sa inicializujú východiskové hodnoty nastaviteľných parametrov a riadi sa aktualizácia menených hodnôt.
   Metóda \texttt{updateSliderValues} sa stará o aktualizáciu hodnôt členských premenných triedy na základe posuvných bežcov, ktorými sa nastavujú parametre.
   Táto metóda volá aj metódu \texttt{updateSliderLabels}, ktorá zabezpečuje prepisovanie užívateľom videných hodnôt. Tieto hodnoty odzrkadľujú hodnoty
   nastavovaných parametrov. Metóda \texttt{resetValues} obnovuje hodnoty parametrov na východiskové.
@@ -1256,14 +1256,14 @@
   inverziu je využitý modul \texttt{numpy.fft}. Originály zobrazovaných snímok odtlačkov prstov pochádzajú z internej databázy STRaDe.
 
   \subsection{Orientácia papilárnych línii}
-  Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
+  Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobelovými filtrami v oboch smeroch.
   Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v~radiánoch. Tieto výpočty sú
   uvedené v sekcii~{\ref{sec:orientacia}}. Pre výpočet gradientov je využitá funkcia \texttt{numpy.gradient}, ktorá pri aplikovaní na dvojrozmerné pole
   vráti gradienty v smeroch os. Výsledkom pri snímkach je výstup podobný Sobelovmu filtrovaniu. Na týchto gradientoch sú vykonané potrebné výpočty vektorovými
   aritmetickými operáciami pre získanie vektorového poľa orientácií. Získané pole je mierne filtrované dvojrozmerným Gaussovským filtrom (so štandardnou
-  odchýľkou $\sigma = 3$) pre vyhladenie tohto poľa. Nakoniec je pole prevedené na dvojrozmerné pole orientácií v radiánoch.
+  odchýlkou $\sigma = 3$) pre vyhladenie tohto poľa. Nakoniec je pole prevedené na dvojrozmerné pole orientácií v radiánoch.
   Na obrázku~{\ref{obr:orientacie}} je zobrazená snímka po extrahovaní gradientov v smeroch $x$ a $y$ a jej konečná podoba po interpretácii orientácií pre
-  zobrazenie v~aplikácii. V okne pre parametrizáciu je možné prestaviť štandardnú odchýľku filtrovania, čím sa získavajú rôzne vyhladené snímky orientácií.
+  zobrazenie v~aplikácii. V okne pre parametrizáciu je možné prestaviť štandardnú odchýlku filtrovania, čím sa získavajú rôzne vyhladené snímky orientácií.
   Hranice tohto parametru sú $\langle{}1,25\rangle{}$.
 
   \begin{figure}[h]
@@ -1287,7 +1287,7 @@
   \end{figure}
 
   \subsection{Frekvencia papilárnych línií}
-  Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky veľkosti 36 pixelov (nastaviťeľné cez okno pre
+  Algoritmus je riadený funkciou \texttt{ridgeFreq}. V tejto funkcii sa iteratívne prechádza blokmi snímky veľkosti 36 pixelov (nastaviteľné cez okno pre
   parametrizáciu na hodnoty $\langle{}25,50\rangle{}$), ktoré sú následne natočené
   podľa priemernej orientácie v tomto bloku tak, aby papilárne línie boli kolmé na os $x$. Natočenie vykonáva funkcia \texttt{rotate} z~modulu
   \texttt{scipy.ndimage}, pomocou ktorej je možné natáčať dvojrozmerné polia. V takto natočenom bloku sú následne spriemerované hodnoty po stĺpcoch
@@ -1298,9 +1298,9 @@
   Rozdiel medzi pôvodnou frekvenčnou snímkou a rozostrenou verziou je možné vidieť na obrázku~{\ref{obr:frekvencie}}. Význam tohto rozostrenia je zreteľný pri
   kroku Gaborovho filtrovania, ktoré je popísané v~sekcii~{\ref{sec:gabor_algo}}.
   Časť zdrojového kódu extrakcie lokálnych frekvencií je založená na \cite{KovesiMATLABCode}.
-  V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýľku vyhľadzovania snímky. Hranice tohto parametru sú
+  V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýlku vyhladzovania snímky. Hranice tohto parametru sú
   $\langle{}0,25\rangle{}$.
-  Východzia hontota je nastavená na $\sigma = 8$.
+  Východzia hodnota je nastavená na $\sigma = 8$.
 
   \begin{figure}[h]
     \centering
@@ -1331,10 +1331,10 @@
   priemerovanej frekvenčnej snímky zbavenej náhlych prechodov medzi susednými blokmi frekvencií. Vďaka tomuto priemerovaniu bolo predídené výrazným štvorcovým
   fragmentom vo filtrovanej snímke, čo podporilo kvalitnejšiu binarizáciu.
 
-  Kvôli blokovým fragmentom je obtiažne prahovať snímku globánym prahom, pretože hodnoty filtrovanej snímky sa v jednotlivých blokoch môžu výrazne líšiť a môžu
-  mať od seba rôzne strené hodnoty a rozptyly. Z tohto dôvodu bola zvolená adaptívna binarizácia. Snímky \ref{obr:gabor_binar} a
+  Kvôli blokovým fragmentom je obtiažne prahovať snímku globálnym prahom, pretože hodnoty filtrovanej snímky sa v jednotlivých blokoch môžu výrazne líšiť a môžu
+  mať od seba rôzne stredné hodnoty a rozptyly. Z tohto dôvodu bola zvolená adaptívna binarizácia. Snímky \ref{obr:gabor_binar} a
   \ref{obr:gabor_binar_freq_blur} boli obe binarizované adaptívne, pričom je zjavné, že výsledok druhej z~týchto snímok je značne vyššej kvality bez výrazných
-  fragmentov vďaka utlmeniu náhlych prechodov medzi frekvenciami spremerovaním frekvenčnej snímky. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých
+  fragmentov vďaka utlmeniu náhlych prechodov medzi frekvenciami spriemerovaním frekvenčnej snímky. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých
   sa vypočíta optimálny prah. Na základe tohto prahu sa v každom bloku (veľkosti jednej osminy šírky snímky) prahujú hodnoty,
   čím sa získa binárna snímka. Binarizácia je implementovaná na základe sekcie~{\ref{sec:binarizacia}}. Integrálna snímka je vytvorená pomocou
   aplikovania \texttt{numpy.cumsum} pozdĺž oboch os. Výhodou takejto binarizácie oproti prevedeniu
@@ -1367,7 +1367,7 @@
   \subsection{Stenčovanie línií}
   Vykonávané funkciou \texttt{zhangSuen}, stenčovanie sa vykonáva paralelnou metódou Zhang-Suen (sekcia~{\ref{sec:stencovanie}}). Algoritmus je riadený
   hlavným cyklom, v rámci ktorého sú
-  dva podcykly odstraňujúce pixely nepríslušiace kostre odtlačku prsta. Funkcie \texttt{neighborCount} a \texttt{zeroToOnePatternCount} slúžia ako pomocné
+  dva podcykly odstraňujúce pixely nepríslušné kostre odtlačku prsta. Funkcie \texttt{neighborCount} a \texttt{zeroToOnePatternCount} slúžia ako pomocné
   funkcie pri rozhodovaní podmienok pre odstraňovanie pixelov. V \texttt{zeroToOnePatternCount} sa pomocou \texttt{numpy.diff} získa počet prechodov
   z pixelu hodnoty 0 na pixel hodnoty 1 v odrolovanom okne $3$$\times{}$$3$ pixelov. Funkcia \texttt{neighborCount} vráti počet susedov stredného pixelu okna
   $3$$\times{}$$3$. Vstupom funkcie \texttt{zhangSuen} je binarizovaná snímka získaná funkciou \texttt{gaborFilter}.
@@ -1387,7 +1387,7 @@
   maskami pre extrahovanie markantov (viď sekcia~{\ref{sec:extrakcia_prechodmi}}). V dvojrozmernom poli (inicializovanom na nulové hodnoty) rovnakej veľkosti
   ako vstupná snímka stenčených línií sa na pozíciách detekcií markantov vyznačí typ detegovaného markantu. Pozície vidličiek sú označené hodnotou 6 a pozície
   ukončení hodnotou 2, rovnako ako je uvedené v sekcii~{\ref{sec:extrakcia_prechodmi}}. Nakoniec sa pomocou funkcie \texttt{numpy.where} vytvoria dve nové
-  binárne polia s nenulovými hodnotami na pozíciách príslušných markantov. Po extrakcii markantov sa vyfiltrujú tie, ktoré sa nachádzajú do 8 pixelov od okraja
+  binárne polia s nenulovými hodnotami na pozíciách príslušných markantov. Po extrakcii markantov sa odfiltrujú tie, ktoré sa nachádzajú do 8 pixelov od okraja
   oblasti záujmu a následne funkcia vráti obe nové polia vyznačených markantov. Tieto polia sú ďalej
   spracované funkciou \texttt{overlay}, ktorá vezme vstupnú snímku a dvojrozmerné pole rovnakej veľkosti s extrahovanými pozíciami markantov -
   v podstate maska pozícií. Pomocou tejto funkcie sa na vstupnej snímke vyznačia oblasti špecifikované maskou, čím sa získa výstupná snímka, ktorá obsahuje
@@ -1423,9 +1423,9 @@
 
   \subsection{Singularity a triedy} \label{sec:singul_a_triedy}
   Extrakcia singularít je riadená funkciou \texttt{poincare}, ktorá využíva metódu extrakcie Poincaré indexom (sekcia~{\ref{sec:poincare}}). Pred odovzdaním
-  snímky orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýľkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných singularít.
-  Význam vyhľadenia orientácií spočíva vo vyfiltrovaní vysokofrekvenčných zmien orientácií, ktoré môžu byť falošne detegované ako singularity. Filtrovanie
-  s príliš vysokou hodnotou odchýľky však môže vyfiltrovať validné singularity z dôvodu nadmerného vyhladenia. Hodnota odchýľky filtra bola zvolená na
+  snímky orientácií tejto funkcii sa vyhladí Gaussovským filtrom s odchýlkou $\sigma = 14$, vďaka čomu sa snímka zbaví väčšiny falošných singularít.
+  Význam vyhladenia orientácií spočíva v odfiltrovaní vysokofrekvenčných zmien orientácií, ktoré môžu byť falošne detegované ako singularity. Filtrovanie
+  s príliš vysokou hodnotou odchýlky však môže odfiltrovať validné singularity z dôvodu nadmerného vyhladenia. Hodnota odchýlky filtra bola zvolená na
   základe testovania.
   Funkcia \texttt{poincare} prechádza každý pixel snímky orientácií
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3$$\times{}$$3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
@@ -1466,12 +1466,12 @@
   rozdiely v kvalite výstupov jednotlivých krokov spracovania. V tejto podsekcii je uvedené ich slovné vyhodnotenie na základe senzoru.
   Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi senzormi. Pre každý senzor je uvedený obrázok s jednotlivými krokmi spracovania
   a zobrazenými automaticky detegovanými singularitami. Poradie týchto snímok je pri každom senzore rovnaké. Prvý riadok zobrazuje originálnu snímku, snímku
-  frekvencií a~snímku orientácii. Druhý riadok binarizovanú snímku po Gaborom filtrovaní, stenčené línie a singularity.
+  frekvencií a~snímku orientácii. Druhý riadok binarizovanú snímku po Gaborovom filtrovaní, stenčené línie a singularity.
 
   \subsection{Termálny snímač Bergdata FCAT 100}
   Snímky získané týmto senzorom preukazujú vysoký kontrast a ostré hrany medzi pozadím a papilárnymi líniami. Toto podporuje extrakciu gradientov Sobelovým
   filtrom, čo má za dôsledok výpočet spoľahlivejšieho poľa orientácií v rámci oblasti záujmu. Získané frekvencie boli vo väčšine testovaných prípadov
-  prahované vhodne. Validné frekvencie sa totiž rozoznávali hlavne v oblasti záujmu, pričom mimo nej boli často vyfiltrované. Toto je vďaka miernemu gradientu
+  prahované vhodne. Validné frekvencie sa totiž rozoznávali hlavne v oblasti záujmu, pričom mimo nej boli často odfiltrované. Toto je vďaka miernemu gradientu
   hodnôt šedej v smere osi~{$y$} v oblasti, kde nebol priložený prst, čím sa tvorí veľmi nízka frekvencia v tomto smere.
   Malý rozptyl hodnôt pozadia a veľký rozptyl hodnôt v oblasti záujmu značne zlepšuje kvalitu generovanej masky oblasti záujmu.
   Gaborove filtrovanie pri týchto snímkach produkuje výsledky najvyššej kvality spomedzi uvedených troch snímačov a do výslednej binárnej snímky sa zavádza
@@ -1499,7 +1499,7 @@
   v oblasti záujmu.
   Snímky zaznamenané týmto snímačom obsahovali veľké množstvo pórov. V~niektorých prípadoch, ak boli papilárne línie dostatočne hrubé a póry v rámci nich
   dostatočne veľké, tieto papilárne línie sa po Gaborovom filtrovaní a následnej binarizácii rozdelili na dve. Pri menších póroch sa takýmto rozdvojením
-  predíde Butterworthovým filtrom dolného priepustu, ktorý vyfiltruje tieto vysokofrekvenčné časti snímky. Pri okrajoch oblasti záujmu sa prejavuje podobné
+  predíde Butterworthovým filtrom dolného priepustu, ktorý odfiltruje tieto vysokofrekvenčné časti snímky. Pri okrajoch oblasti záujmu sa prejavuje podobné
   správanie ako pri termálnom snímači.
   Viď obrázok~{\ref{obr:vyhodnotenie_optical}}.
   \begin{figure*}[h]\centering
@@ -1541,12 +1541,12 @@
   \section{Analýza snímok}
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
   Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v~predchádzajúcich krokoch pri okrajoch oblasti
-  záujmu, kde po Gaborovom filtrovaní a~binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
+  záujmu, kde po Gaborovom filtrovaní a~binarizácii majú papilárne línie tendenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
   záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a~teda v~tesnej blízkosti oblasti záujmu sa markanty odstraňujú.
   Algoritmus pre detekciu markantov typu vidlička a ukončenie ich na snímke stenčených papilárnych línií deteguje korektne.
 
   Detekcia singularít a tried bola testovaná na vzorke snímok z internej databázy STRaDe. Z tejto databázy boli vyčlenené snímky odtlačkov patriacich do
-  jednej z automaticky rozoznávaných tried - oblúk, klenutý oblúk, ľavá slučka, pravá slučka a špirály. Ako bolo uvedené v sekcii~{\ref{sec:singul_a_triedy}},
+  jednej z automaticky rozpoznávaných tried - oblúk, klenutý oblúk, ľavá slučka, pravá slučka a špirály. Ako bolo uvedené v sekcii~{\ref{sec:singul_a_triedy}},
   špirála a dvojitá slučka sa detegujú ako jedna trieda. Testovací dataset bol skompilovaný na základe manuálnej vizuálnej analýzy snímok vo vstupnej
   databáze. Rozdelenie do jednotlivých tried bolo vykonané na základe pravidiel, ako bolo uvedené v~sekcii~{\ref{sec:rule-based}}. Vzhľadom na to, že
   triedenie odtlačkov nebolo vykonávané expertom, do testovacieho datasetu boli zaradené iba snímky, z ktorých sa jednoznačne dala vyčítať trieda odtlačku
@@ -1561,16 +1561,16 @@
 
   Výsledky klasifikácie sa značne líšia v závislosti od triedy odtlačku. Najspoľahlivejšie boli klasifikované odtlačky triedy oblúk, ktoré majú hladké
   pole orientácií v rámci oblasti záujmu, vďaka čomu nie sú detegované žiadne singularity. Jediná nesprávna klasifikácia prebehla na snímke strednej kvality
-  na okraji odtlačku prsta, kde sa falošne detegovalo jadro a nebolo vyfiltrované. Klasifikácia klenutých oblúkov malo tiež nízku chybovosť, ale veľkosť
+  na okraji odtlačku prsta, kde sa falošne detegovalo jadro a nebolo odfiltrované. Klasifikácia klenutých oblúkov malo tiež nízku chybovosť, ale veľkosť
   testovacej vzorky bola o polovicu menšia, čo skresľuje výsledky.
-  Odtlačky ľavých a~pravých slučiek, ktoré mali delty blízko okraju oblasti záujmu boli klasifikované nesprávne kvôli vyfiltrovaniu týchto delt. Rozdiel v
+  Odtlačky ľavých a~pravých slučiek, ktoré mali delty blízko okraju oblasti záujmu boli klasifikované nesprávne kvôli odfiltrovaniu týchto delt. Rozdiel v
   chybovosti týchto tried je pravdepodobne spôsobený rozdielnym pomerom kvalitnejších snímok k snímkam strednej kvality, pri ktorých sa presnosť mierne
   znižuje.
 
   \begin{table}[ht]
     \centering
     \caption{Tabuľka zobrazujúca výsledky testovania automatickej klasifikácie odtlačkov prstov. Skratky tried sú: O - oblúk, KO - klenutý oblúk,
-    ĽS - ľavá slučka, PS - pravá sľučka, Š / DS - špirála / dvojitá slučka.}
+    ĽS - ľavá slučka, PS - pravá slučka, Š / DS - špirála / dvojitá slučka.}
     \begin{tabular}{ l | c | c | c | c | c | }
       \cline{2-6}
                                               & \multicolumn{5}{|c|}{Triedy odtlačkov}            \\
@@ -1636,7 +1636,7 @@
   sekcii~{\ref{sec:markanty_algo}}. Je však vhodné podotknúť, že samotná detekcia pracuje správne, avšak kroky
   predspracovania (obzvlášť Gaborove filtrovanie a binarizácia) zavedú do binárnej snímky falošné markanty.
   Detekcia singularít má tendenciu nachádzať singularity okrem správnych miest aj na okrajoch oblasti záujmu kde orientácie prudko menia smer medzi
-  oblasťou záujmu a pozadím snímky. Vyfiltrovaním týchto detekcií podobným spôsobom ako pri markantoch sa získajú dobré výsledky pri snímkach strednej až
+  oblasťou záujmu a pozadím snímky. Odfiltrovaním týchto detekcií podobným spôsobom ako pri markantoch sa získajú dobré výsledky pri snímkach strednej až
   vysokej kvality.
   V prípade snímok nižšej kvality, kde výpočet poľa orientácií nie je veľmi spoľahlivý sa častejšie nachádzajú singularity na nekorektných miestach.
 
@@ -1670,7 +1670,7 @@
 
   \section{Zhrnutie}
   Vytvorená aplikácia poskytuje jednoduché grafické rozhranie s hlavným oknom zobrazujúcim načítanú snímku a následné operácie vykonávané na nej.
-  Tieto snímky je možné rotovať a približovať, prípadne oddiaľovať. Pre najčastejšie vykonávané akcie sú vytvorené klávesové skratky z dôvodu zjednodušenia
+  Tieto snímky je možné rotovať a približovať, prípadne odďaľovať. Pre najčastejšie vykonávané akcie sú vytvorené klávesové skratky z dôvodu zjednodušenia
   ovládania.
   Aplikácia je schopná otvárať a exportovať snímky v rozšírených formátoch. Jednotlivé implementované kroky spracovania je schopná interpretovať
   do podoby snímok a zobraziť ich. Niektoré z týchto krokov je možné parametrizovať, vďaka čomu je možné získať rôzne výsledky a demonštrovať význam daných
@@ -1692,7 +1692,7 @@
   Výstupom práce je aplikácia schopná predspracovať a analyzovať snímky odtlačkov prstov. Jedná sa o grafickú a prenositeľnú aplikáciu napísanú v jazyku
   Python. Podporuje veľké množstvo formátov snímok, medzi nimi aj formáty rozšírené v oblasti daktyloskopickej analýzy ako WSQ, JPEG 2000, PNG, BMP a iné.
   Aplikácia poskytuje možnosť vizualizácie jednotlivých zaužívaných krokov predspracovania snímok. Výsledky analýzy sú tiež zobrazené pomocou farebných
-  značiek vrstvených na pôvodnú snímku. Cieľom týchto vizualizácií je demoštrácia úkonov spojených so spracovaním snímok pre ich lepšie pochopenie.
+  značiek vrstvených na pôvodnú snímku. Cieľom týchto vizualizácií je demonštrácia úkonov spojených so spracovaním snímok pre ich lepšie pochopenie.
   Jednotlivé kroky spracovania snímok odtlačkov je možné exportovať do formátu špecifikovaného užívateľom.
   Užívateľ má tiež možnosť exportovať textový súbor obsahujúci popis extrahovaných markantov vo formáte JSON.
   Niektoré kroky spracovania je možné parametrizovať cez grafické rozhranie aplikácie.
