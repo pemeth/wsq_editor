@@ -25,6 +25,11 @@ def vals2Grayscale(vals):
     vals = np.float32(vals)
     vMin = np.amin(vals)
     vMax = np.amax(vals)
+
+    if (vMax - vMin) == 0:
+        # prevents division-by-zero, which does not crash the app, but it clutters the terminal with messages
+        return np.zeros_like(vals, dtype=np.uint8)
+
     return np.uint8((vals - vMin) * (255 / (vMax - vMin)))
 
 def overlay(img, overlayImg, marker, fill=None, outline=None, offset=3):
