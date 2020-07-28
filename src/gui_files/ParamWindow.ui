@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>243</width>
-     <height>321</height>
+     <height>351</height>
     </rect>
    </property>
    <property name="title">
@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>41</y>
+      <y>42</y>
       <width>215</width>
       <height>24</height>
      </rect>
@@ -42,7 +42,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>246</y>
+      <y>290</y>
       <width>151</width>
       <height>24</height>
      </rect>
@@ -55,7 +55,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>78</y>
+      <y>70</y>
       <width>181</width>
       <height>23</height>
      </rect>
@@ -92,7 +92,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>178</y>
+      <y>233</y>
       <width>111</width>
       <height>24</height>
      </rect>
@@ -105,7 +105,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>283</y>
+      <y>317</y>
       <width>181</width>
       <height>23</height>
      </rect>
@@ -142,7 +142,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>218</y>
+      <y>263</y>
       <width>181</width>
       <height>18</height>
      </rect>
@@ -170,7 +170,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>109</y>
+      <y>113</y>
       <width>207</width>
       <height>24</height>
      </rect>
@@ -183,7 +183,7 @@
     <property name="geometry">
      <rect>
       <x>14</x>
-      <y>147</y>
+      <y>140</y>
       <width>181</width>
       <height>23</height>
      </rect>
@@ -208,7 +208,7 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>78</y>
+      <y>70</y>
       <width>31</width>
       <height>24</height>
      </rect>
@@ -221,7 +221,7 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>283</y>
+      <y>317</y>
       <width>31</width>
       <height>24</height>
      </rect>
@@ -234,7 +234,7 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>215</y>
+      <y>260</y>
       <width>31</width>
       <height>24</height>
      </rect>
@@ -247,7 +247,61 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>147</y>
+      <y>140</y>
+      <width>31</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Val</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="freqBlockSlider">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>200</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>25</number>
+    </property>
+    <property name="maximum">
+     <number>50</number>
+    </property>
+    <property name="value">
+     <number>36</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>173</y>
+      <width>207</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Frequency block size</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="freqValLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>200</y>
       <width>31</width>
       <height>24</height>
      </rect>

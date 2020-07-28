@@ -26,7 +26,7 @@ import scipy.signal as signal
 
 import exceptions as e
 
-def ridgeFreq(im, orientim, blend_sigma=8):
+def ridgeFreq(im, orientim, blend_sigma=8, blocksize=36):
     """Return ridge frequencies in image `im`.
     If no 'blend_sigma' is entered, the returned frequecy image is blocky. The 'blend_sigma' specifies a gaussian
     blur sigma value for blending the neighboring frequencies into a more continuous frequency image. If specified,
@@ -62,8 +62,6 @@ def ridgeFreq(im, orientim, blend_sigma=8):
 
     rows, cols = im.shape
     freq = np.zeros((rows, cols))
-
-    blocksize = 36
 
     for r in range(0,rows-blocksize, blocksize):
         for c in range(0,cols-blocksize, blocksize):
