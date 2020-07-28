@@ -87,6 +87,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.img = self.img.convert("L")        # Convert to 8bit grayscale
             self.imgArray = np.asarray(self.img)    # Convert image to numpy array
+            self.currentImage = self.imgArray.copy()    # Currently shown image as numpy array
 
             self.imgShape = self.imgArray.shape
             self.showImage(self.imgArray, normalize=False)
@@ -203,6 +204,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         imgBytes = img.tobytes()
 
+        self.currentImage = img
+        self.imgShape = self.currentImage.shape
+
         # calculate number of bytes per line in the image
         bytesPerLine = (self.imgShape[1] * self.imgShape[0]) / self.imgShape[0]
 
@@ -249,8 +253,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def rotateImage(self):
         """Rotate the image counter-clockwise."""
-        #TODO rotating some images skews them, don't know why
-        img = self.__QImageToNumpyArr()
+        img = self.currentImage
 
         img = np.rot90(img)
         self.imgShape = img.shape
@@ -258,7 +261,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(img, normalize=False)
 
     def mirrorImage(self):
-        img = self.__QImageToNumpyArr()
+        img = self.currentImage
 
         img = np.flip(img, axis=1)
         self.imgShape = img.shape
@@ -266,7 +269,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(img, normalize=False)
 
     def translateImage(self):
-        img = self.__QImageToNumpyArr()
+        img = self.currentImage
 
         vals, ok = QInputDialog.getText(self, 'Input Dialog', 'Translation values in format x,y:')
 
@@ -304,7 +307,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             norm = normalizeMeanVariance(self.imgArray)
             self.showImage(norm)
-            self.currentImage = norm
         except AttributeError:
             print("An exception occurred! No loaded image found!")
 
@@ -344,7 +346,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         orientim = ridgeOrient(norm, blendSigma=self.params.orientBlend)
         self.showImage(orientim)
-        self.currentImage = orientim
 
     def showRoi(self):
         """Get the region of interest of the input image and display it."""
@@ -354,7 +355,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         norm = normalizeMeanVariance(self.imgArray)
         roi = getRoi(norm, threshold=self.params.roiThresh)
         self.showImage(roi)
-        self.currentImage = roi
 
     def showFrequency(self):
         """Get the frequency image and display it."""
@@ -366,7 +366,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         butter = butterworth(norm)
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend, blocksize=self.params.freqBlock)
         self.showImage(freq)
-        self.currentImage = freq
 
     def showButterFilter(self):
         """Filter the input image with a Butterworth filter and display it."""
@@ -378,7 +377,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         butter = butterworth(norm)
 
         self.showImage(butter)
-        self.currentImage = butter
 
     def showGaborFilter(self):
         """Calculate a gabor filtered image and display it."""
@@ -393,7 +391,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         freq = ridgeFreq(butter, orientim, blend_sigma=self.params.freqBlend, blocksize=self.params.freqBlock)
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.showImage(self.filtim)
-        self.currentImage = self.filtim
 
     def showThinnedZhangSuen(self):
         """Thin the lines in a binary image with the Zhang-Suen method and display it."""
@@ -409,7 +406,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.filtim = gaborFilter(butter, orientim, freq, mask, blocksize=self.params.gaborSize)
         self.thinned = zhangSuen((np.invert(self.filtim) * mask).astype(np.float32))
         self.showImage(self.thinned)
-        self.currentImage = self.thinned
 
     def showSingularities(self):
         """Find the cores of the fingerprint image and display them superimposed over the original image."""
@@ -426,7 +422,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         overlaid = overlay(self.imgArray, self.cores, "circle", fill="rgb(0,100,200)", outline="rgb(0,100,200)", offset=self.params.singulSize)
         overlaid = overlay(overlaid, self.deltas, "triangle", fill="rgb(0,255,0)", outline="rgb(0,255,0)", offset=self.params.singulSize)
         self.showImage(overlaid, normalize=False)
-        self.currentImage = overlaid
 
     def showBifurcations(self):
         """Find the bifurcations of the fingerprint image and display them superimposed over the original image."""
@@ -446,7 +441,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         overlaid = overlay(self.imgArray, self.bifurcations, "square", outline="rgb(0,255,0)", offset=self.params.minutiaeSize)
         self.showImage(overlaid, normalize=False)
-        self.currentImage = overlaid
 
     def showRidgeEndings(self):
         """Find the ridge endings of the fingerprint image and display them superimposed over the original image."""
@@ -466,7 +460,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         overlaid = overlay(self.imgArray, self.ridgeEndings, "circle", outline="rgb(255,0,0)", offset=self.params.minutiaeSize)
         self.showImage(overlaid, normalize=False)
-        self.currentImage = overlaid
 
     def showClass(self):
         """Find out the class of the fingerprint and display it in a popup window."""
