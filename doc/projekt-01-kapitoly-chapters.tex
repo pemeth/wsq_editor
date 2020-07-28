@@ -35,7 +35,7 @@
   Táto sekcia čerpala z \cite{freinkel2001skin} ak nie je uvedené inak.
   Ľudská koža je orgán obklopujúci ľudské telo plniaci mnoho účelov. Troma hlavnými účelmi kože sú ochrana pred vonkajšími vplyvmi, regulácia
   telesných charakteristík (napr. telesná teplota) a zmyslové vnímanie okolitého sveta.
-  Koža sa skladá z troch hlavných vrstiev: pokožka (\emph{epidermis}), zamša (\emph{dermis}) a podkožné väzivo (\emph{hypodermis}). Tieto vrstvy sa ešte môžu
+  Koža sa skladá z troch hlavných vrstiev: pokožka (\emph{epidermis}), zamša (\emph{dermis}) a~podkožné väzivo (\emph{hypodermis}). Tieto vrstvy sa ešte môžu
   ďalej deliť na ďalšie podvrstvy podľa účelu alebo biologického zloženia danej podvrstvy.
 
   \subsection{Pokožka}
@@ -428,7 +428,7 @@
     M(b) = \frac{1}{wh} \sum_{k=1}^{w}\sum_{l=1}^{h}(I(k,l)),
   \end{equation}
   kde $b$ je blok pixelov s rozmermi $w$$\times{}$$h$ a $I$ je vstupná snímka odtlačku prsta. Funkcia $M(b)$ teda počíta priemernú hodnotu v rámci bloku $b$
-  a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}. V prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
+  a funkcia $V(b)$ rozptyl hodnôt v~bloku~{$b$}. V~prípade, že rozptyl v bloku je nad istou prahovou hranicou, jedná sa
   o oblasť záujmu, inak sa jedná o pozadie. Takýto algoritmus je možné aplikovať rôznymi spôsobmi, a to napríklad po pixeloch, kde je výpočet rozptylu
   aplikovaný na oblasť okolo každého pixelu a pixely sa maskujú jednotlivo, alebo po častiach, kde sa maskuje celý blok a okno pre výpočet rozptylu sa
   posúva o viac, než jeden pixel.
@@ -521,14 +521,14 @@
   pre filtrovanie snímok odtlačkov, pretože zdieľa isté vlastnosti ich dvojrozmernej reprezentácie. Týmito vlastnosťami sú orientácia a frekvencia,
   ktoré je možné extrahovať zo snímky odtlačku prsta. Vďaka týmto zdieľaným vlastnostiam je možné pre každý pixel snímky vygenerovať prispôsobený konvolučný
   filter, čím sa redukuje, prípadne úplne zamedzuje, používaniu preddefinovaných filtrov obmedzeného počtu. V prípade využitia preddefinovaných filtrov je totiž
-  nutné využiť najlepšiu zhodu filtra s konkrétnou orientáciou a frekvenciou v danom bode snímky, čím sa zhoršujú výsledky filtrovania.
+  nutné využiť najlepšiu zhodu filtra s konkrétnou orientáciou a~frekvenciou v danom bode snímky, čím sa zhoršujú výsledky filtrovania.
   Na obrázku~{\ref{obr:gabor_kernel}} je zobrazené konvolučné jadro Gaborovho filtra vygenerované v programe
   \mbox{MATLAB}\footnote{\url{https://www.mathworks.com/products/matlab.html}}.
   
   \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\linewidth]{obrazky-figures/gabor_kernel.png}
-    \caption{Príklad jadra (angl. kernel) Gaborovho filtra vytvorený v programe MATLAB s parametrami {$f = 20$}~pixelov/cyklus a $\phi{} = 0$ radiánov.}
+    \caption{Príklad jadra (angl. kernel) Gaborovho filtra vytvorený v programe MATLAB s~parametrami {$f = 20$}~pixelov/cyklus a $\phi{} = 0$ radiánov.}
     \label{obr:gabor_kernel}
   \end{figure}
   Matematický zápis Gaborovho filtra je nasledovný:
@@ -543,9 +543,9 @@
   Adaptívna binarizácia podľa Bradleyho \cite{bradley2007adaptive} je jednou z využívaných binarizačných algoritmov pri analýze odtlačkov prstov.
   Metóda využíva priemer hodnôt v okne $s$$\times{}$$s$ v okolí každého pixelu snímky. Veľkosť $s$ Bradley stanovuje na jednu osminu šírky spracúvanej snímky.
   Tento priemer je získaný pomocou integrálneho obrazu, ktorý je pred-počítaný
-  z pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
+  z~pôvodnej snímky. Následne sa získaný priemer prahuje cez hodnotu $t$, ktorá definuje, o~koľko percent môže byť súčasný pixel nižší, než lokálny priemer.
   Teda, ak má súčasný pixel o {$t$}~\% nižšiu hodnotu, než okolie, je nastavený na čiernu, inak je to biely pixel. Výhodou takéhoto prahovania hodnôt oproti
-  globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v okolí
+  globálnemu prahu, ktorý sa aplikuje na celú snímku je, že sa prispôsobuje oblastiam snímky v závislosti od kontrastu, resp. od rozptylu hodnôt v~okolí
   súčasne spracovávaného pixelu.
 
   \subsection{Stenčovanie línií} \label{sec:stencovanie}
@@ -560,7 +560,7 @@
   Pri analýze odtlačkov prsta má stenčovanie vzorov papilárnych línií význam pre extrakcii markantov. Znamená to, že kvalitne stenčené línie zvyšujú kvalitu
   extrakcie markantov. Prístupov k zvýšeniu kvality stenčených línií je viacero, ako napríklad vypĺňanie menších dier v líniách alebo normalizácia šírky
   línií na konštantnú šírku pomocou filtrov \cite{Handbook}. Jedným z~prístupov je aj využiť algoritmus stenčovania, ktorý bol navrhnutý s úmyslom zredukovať
-  falošné výbežky v kostre. Jedným z takýchto algoritmov je Zhang-Suen \cite{ZhangSuen_thinning}, ktorý mal za cieľ minimalizovať tvorbu falošných výrastkov
+  falošné výbežky v kostre. Jedným z~takýchto algoritmov je Zhang-Suen \cite{ZhangSuen_thinning}, ktorý mal za cieľ minimalizovať tvorbu falošných výrastkov
   a zároveň maximalizovať rýchlosť procesu stenčovania.
   
   \begin{figure}[h]
@@ -663,7 +663,7 @@
         $P_8$ & $P_1$ & $P_2$ \\
         \hline
       \end{tabular}
-    \caption{Maska veľkosti $3$$\times{}$$3$ používaná pri výpočte prechodov medzi pixelmi popredia a pozadia pri metóde CN.}
+    \caption{Maska veľkosti $3$$\times{}$$3$ používaná pri výpočte prechodov medzi pixelmi popredia a~pozadia pri metóde CN.}
     \label{obr:maska_CN}
   \end{figure}
 
@@ -939,7 +939,7 @@
   $Q_k$ je šírkou nenulovej kvantovacej nádoby a $C$ je centrom kvantovacích nádob pri dekódovaní a zostáva konštantou pre každé podpásmo. Konštanta
   {$C$}~je špecifikáciou daná ako $C = 0,44$ pre najnovší kodér, pričom $Z_k$ a $Q_k$ sa získa výpočtom rozptylu jednotlivých podpásem. $p_k(m,n)$ označuje
   kvantovaný koeficient zodpovedajúci pôvodnému koeficientu $a_k(m,n)$ a koeficient $\hat{a}_k(m,n)$ je spätne dekódovaný koeficient z~{$p_k(m,n)$}.
-  Funkcie $\lfloor$ $\rfloor$ a $\lceil$ $\rceil$ definujú zaokrúhlenie na celé číslo smerom nadol a smerom nahor v tomto poradí \cite{WSQSpecification}.
+  Funkcie $\lfloor$ $\rfloor$ a $\lceil$ $\rceil$ definujú zaokrúhlenie na celé číslo smerom nadol a~smerom nahor v tomto poradí \cite{WSQSpecification}.
 
   Všeobecná charakteristika kvantovača pre jedno podpásmo je znázornené na obrázku~{\ref{obr:wsq_kvantovacia_charakteristika}}. Tu je možné vidieť, že šírka
   nultej kvantovacej nádoby $Z$ a šírka zvyšných kvantovacích nádob $Q$ sa líši. Z tohto dôvodu je nutné definovať dve rôzne šírky nádob pre jeden kvantovač.
@@ -1189,9 +1189,9 @@
 
   Hlavné okno aplikácie zobrazuje súčasne načítanú snímku. V prípade, že užívateľ zvolí jednu z možností pre spracovanie alebo analýzu, zobrazenie snímky je
   nahradené novou, ktorá odzrkadľuje vykonanú operáciu. To znamená, že ak užívateľ zvolí zobrazenie orientačnej snímky, tak sa snímka v hlavnom okne nahradí
-  interpretáciou orientačného poľa súčasne načítanej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V prípade analýzy sa extrahujú potrebné
+  interpretáciou orientačného poľa súčasne načítanej snímky. Toto platí pre všetky úkony spracovania vstupnej snímky. V~prípade analýzy sa extrahujú potrebné
   informácie o markantoch alebo singularitách, v závislosti od požiadavky užívateľa, a zobrazí sa pôvodná snímka s vyznačenými markantmi alebo singularitami.
-  Väčsina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v aplikácii. Ovládací panel (menu) sprístupňujúce úkony aplikácie má
+  Väčsina týchto úprav je zobrazená v sekcii~{\ref{sec:algoritmy}} rovnakým spôsobom ako v~aplikácii. Ovládací panel (menu) sprístupňujúce úkony aplikácie má
   nasledovné rozloženie:
   \begin{itemize}
     \item \emph{File} poskytuje možnosti pre otvorenie súboru a export spracovaných snímok.
@@ -1241,7 +1241,7 @@
   grafických rozhraní pre využitie v~súbehu s GUI toolkitom Qt. Pomocou tohto nástroja bolo navrhnuté a následne exportované GUI vytváranej aplikácie. Súbory
   \texttt{.ui} sú vlastne XML reprezentáciou návrhu grafického rozhrania a je možné ich preložiť do PyQt zápisu. Triedy \texttt{Ui\_MainWindow}
   a \texttt{Ui\_ParamWindow} sú výsledkom tohto prekladu. Dedením týchto tried triedami implementujúcimi logiku daných okien je zabezpečené oddelenie definície
-  vzhľadu aplikácie a jej logiky, čo prispieva k prehľadnejšiemu kódu.
+  vzhľadu aplikácie a jej logiky, čo prispieva k~prehľadnejšiemu kódu.
 
   \section{Algoritmy} \label{sec:algoritmy}
   V tejto sekcii sú popísané jednotlivé využité algoritmy a ich implementácia v aplikácii.
@@ -1257,7 +1257,7 @@
 
   \subsection{Orientácia papilárnych línii}
   Snímka orientácií je získaná pomocou funkcie \texttt{ridgeOrient}. Gradient v smeroch $x$ a $y$ sa získa konvolúciou snímky Sobel filtrami v oboch smeroch.
-  Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v radiánoch. Tieto výpočty sú
+  Z gradientov sa prepočítajú vektorové polia v oboch smeroch a z nich sa následne získa orientačná snímka s orientáciami v~radiánoch. Tieto výpočty sú
   uvedené v sekcii~{\ref{sec:orientacia}}. Pre výpočet gradientov je využitá funkcia \texttt{numpy.gradient}, ktorá pri aplikovaní na dvojrozmerné pole
   vráti gradienty v smeroch os. Výsledkom pri snímkach je výstup podobný Sobelovmu filtrovaniu. Na týchto gradientoch sú vykonané potrebné výpočty vektorovými
   aritmetickými operáciami pre získanie vektorového poľa orientácií. Získané pole je mierne filtrované dvojrozmerným Gaussovským filtrom (so štandardnou
@@ -1296,7 +1296,7 @@
   obsahuje lokálne frekvencie papilárnych línií po diskrétnych blokoch, pričom susedné bloky môžu mať značne odlišné hodnoty. Takéto správanie zdravé papilárne
   línie nepreukazujú a preto je na túto snímku aplikované Gaussovské rozostrenie (priemerovanie), čím sa \uv{spomalí} prechod medzi jednotlivými blokmi.
   Rozdiel medzi pôvodnou frekvenčnou snímkou a rozostrenou verziou je možné vidieť na obrázku~{\ref{obr:frekvencie}}. Význam tohto rozostrenia je zreteľný pri
-  kroku Gaborovho filtrovania, ktoré je popísané v sekcii \ref{sec:gabor_algo}.
+  kroku Gaborovho filtrovania, ktoré je popísané v~sekcii~{\ref{sec:gabor_algo}}.
   Časť zdrojového kódu extrakcie lokálnych frekvencií je založená na \cite{KovesiMATLABCode}.
   V okne pre parametrizáciu je, podobne ako pri orientáciách, možné prestaviť štandardnú odchýľku vyhľadzovania snímky. Hranice tohto parametru sú
   $\langle{}0,25\rangle{}$.
@@ -1333,7 +1333,7 @@
 
   Kvôli blokovým fragmentom je obtiažne prahovať snímku globánym prahom, pretože hodnoty filtrovanej snímky sa v jednotlivých blokoch môžu výrazne líšiť a môžu
   mať od seba rôzne strené hodnoty a rozptyly. Z tohto dôvodu bola zvolená adaptívna binarizácia. Snímky \ref{obr:gabor_binar} a
-  \ref{obr:gabor_binar_freq_blur} boli obe binarizované adaptívne, pričom je zjavné, že výsledok druhej z týchto snímok je značne vyššej kvality bez výrazných
+  \ref{obr:gabor_binar_freq_blur} boli obe binarizované adaptívne, pričom je zjavné, že výsledok druhej z~týchto snímok je značne vyššej kvality bez výrazných
   fragmentov vďaka utlmeniu náhlych prechodov medzi frekvenciami spremerovaním frekvenčnej snímky. Samotná binarizácia je vykonávaná po blokoch, v rámci ktorých
   sa vypočíta optimálny prah. Na základe tohto prahu sa v každom bloku (veľkosti jednej osminy šírky snímky) prahujú hodnoty,
   čím sa získa binárna snímka. Binarizácia je implementovaná na základe sekcie~{\ref{sec:binarizacia}}. Integrálna snímka je vytvorená pomocou
@@ -1466,7 +1466,7 @@
   rozdiely v kvalite výstupov jednotlivých krokov spracovania. V tejto podsekcii je uvedené ich slovné vyhodnotenie na základe senzoru.
   Vyhodnotenie prebiehalo na snímkach rovnakých prstov získaných troma rôznymi senzormi. Pre každý senzor je uvedený obrázok s jednotlivými krokmi spracovania
   a zobrazenými automaticky detegovanými singularitami. Poradie týchto snímok je pri každom senzore rovnaké. Prvý riadok zobrazuje originálnu snímku, snímku
-  frekvencií a snímku orientácii. Druhý riadok binarizovanú snímku po Gaborom filtrovaní, stenčené línie a singularity.
+  frekvencií a~snímku orientácii. Druhý riadok binarizovanú snímku po Gaborom filtrovaní, stenčené línie a singularity.
 
   \subsection{Termálny snímač Bergdata FCAT 100}
   Snímky získané týmto senzorom preukazujú vysoký kontrast a ostré hrany medzi pozadím a papilárnymi líniami. Toto podporuje extrakciu gradientov Sobelovým
@@ -1493,11 +1493,11 @@
 
   \subsection{Optický snímač SAGEM MorphoSmart MSO300}
   Podobne ako u termálnom snímači sa jedná o snímky s vysokým kontrastom. Kvalita poľa orientácií v rámci oblasti záujmu je vysoká a uniformná. Mimo oblasti
-  záujmu je však z veľkej časti zdanlivo náhodná. Dôvodom takéhoto správania je výrazne jednoliate pozadie, kde neprítomnosť uniformného gradientu spôsobuje
+  záujmu je však z~veľkej časti zdanlivo náhodná. Dôvodom takéhoto správania je výrazne jednoliate pozadie, kde neprítomnosť uniformného gradientu spôsobuje
   roztrieštené pole orientácií. Z rovnakého dôvodu sa nespoľahlivejšie prahujú frekvencie mimo papilárnych línií, kde sa často rozoznávajú validné frekvencie.
   Generovanie masky oblasti záujmu je kvalitné vďaka veľmi nízkemu rozptylu hodnôt v oblasti pozadia a veľmi vysokému rozptylu hodnôt
   v oblasti záujmu.
-  Snímky zaznamenané týmto snímačom obsahovali veľké množstvo pórov. V niektorých prípadoch, ak boli papilárne línie dostatočne hrubé a póry v rámci nich
+  Snímky zaznamenané týmto snímačom obsahovali veľké množstvo pórov. V~niektorých prípadoch, ak boli papilárne línie dostatočne hrubé a póry v rámci nich
   dostatočne veľké, tieto papilárne línie sa po Gaborovom filtrovaní a následnej binarizácii rozdelili na dve. Pri menších póroch sa takýmto rozdvojením
   predíde Butterworthovým filtrom dolného priepustu, ktorý vyfiltruje tieto vysokofrekvenčné časti snímky. Pri okrajoch oblasti záujmu sa prejavuje podobné
   správanie ako pri termálnom snímači.
@@ -1540,19 +1540,19 @@
 
   \section{Analýza snímok}
   Testované boli tri spôsoby analýzy: markanty, singularity a triedy. Pri analýze markantov sa využila metóda spoliehajúca sa na stenčené línie markantov.
-  Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v predchádzajúcich krokoch pri okrajoch oblasti
-  záujmu, kde po Gaborovom filtrovaní a binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
-  záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a teda v tesnej blízkosti oblasti záujmu sa markanty odstraňujú.
+  Samotné stenčovanie pracuje správne a produkuje kvalitné výsledky z binarizovaných snímok. Problém nastáva v~predchádzajúcich krokoch pri okrajoch oblasti
+  záujmu, kde po Gaborovom filtrovaní a~binarizácii majú papilárne línie tentenciu sa zlievať. Toto často vytvára falošné vidličky na okrajoch oblasti
+  záujmu. Tieto oblasti sa filtrujú podobne ako pri singularitách, a~teda v~tesnej blízkosti oblasti záujmu sa markanty odstraňujú.
   Algoritmus pre detekciu markantov typu vidlička a ukončenie ich na snímke stenčených papilárnych línií deteguje korektne.
 
   Detekcia singularít a tried bola testovaná na vzorke snímok z internej databázy STRaDe. Z tejto databázy boli vyčlenené snímky odtlačkov patriacich do
   jednej z automaticky rozoznávaných tried - oblúk, klenutý oblúk, ľavá slučka, pravá slučka a špirály. Ako bolo uvedené v sekcii~{\ref{sec:singul_a_triedy}},
   špirála a dvojitá slučka sa detegujú ako jedna trieda. Testovací dataset bol skompilovaný na základe manuálnej vizuálnej analýzy snímok vo vstupnej
-  databáze. Rozdelenie do jednotlivých tried bolo vykonané na základe pravidiel, ako bolo uvedené v sekcii~{\ref{sec:rule-based}}. Vzhľadom na to, že
+  databáze. Rozdelenie do jednotlivých tried bolo vykonané na základe pravidiel, ako bolo uvedené v~sekcii~{\ref{sec:rule-based}}. Vzhľadom na to, že
   triedenie odtlačkov nebolo vykonávané expertom, do testovacieho datasetu boli zaradené iba snímky, z ktorých sa jednoznačne dala vyčítať trieda odtlačku
   (tzn. napríklad odtlačok z obrázku~{\ref{obr:vyhodnotenie_capac}} by nebol zaradený do datasetu).
   Do datasetu boli zaradené snímky vysokej až strednej kvality. Zoznam názvov súborov, na ktorých boli vykonávané testy je uvedený v
-  prílohe~{\ref{priloha:zoznam_suborov}}. Tabuľka~{\ref{tab:vysledky_testov}} prezentuje výsledky testov a uvádza percentuálnu chybovosť klasifikácie, kde
+  prílohe~{\ref{priloha:zoznam_suborov}}. Tabuľka~{\ref{tab:vysledky_testov}} prezentuje výsledky testov a~uvádza percentuálnu chybovosť klasifikácie, kde
   chybovosť bola vypočítaná vzorcom~{\ref{eq:chybovost}}.
   \begin{equation}
     \text{chybovosť} = \frac{\text{počet nesprávne klasifikovaných odtlačkov}}{\text{celkový počet odtlačkov danej triedy}} \cdot 100
@@ -1563,7 +1563,7 @@
   pole orientácií v rámci oblasti záujmu, vďaka čomu nie sú detegované žiadne singularity. Jediná nesprávna klasifikácia prebehla na snímke strednej kvality
   na okraji odtlačku prsta, kde sa falošne detegovalo jadro a nebolo vyfiltrované. Klasifikácia klenutých oblúkov malo tiež nízku chybovosť, ale veľkosť
   testovacej vzorky bola o polovicu menšia, čo skresľuje výsledky.
-  Odtlačky ľavých a pravých slučiek, ktoré mali delty blízko okraju oblasti záujmu boli klasifikované nesprávne kvôli vyfiltrovaniu týchto delt. Rozdiel v
+  Odtlačky ľavých a~pravých slučiek, ktoré mali delty blízko okraju oblasti záujmu boli klasifikované nesprávne kvôli vyfiltrovaniu týchto delt. Rozdiel v
   chybovosti týchto tried je pravdepodobne spôsobený rozdielnym pomerom kvalitnejších snímok k snímkam strednej kvality, pri ktorých sa presnosť mierne
   znižuje.
 
