@@ -153,9 +153,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 return
 
     def openParamWindow(self):
+        """Shows the parameter window."""
         self.params.show()
 
     def exportMinutiaeJSON(self):
+        """Detects minutiae and exports them into a JSON file."""
         if isinstance(self.imgArray, type(None)):
             self.showPopup("No image loaded.", detailedMessage="Load an image through the \"File\" menu.", )
             return
@@ -261,6 +263,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(img, normalize=False)
 
     def mirrorImage(self):
+        """Mirror the image along the x axis."""
         img = self.currentImage
 
         img = np.flip(img, axis=1)
@@ -269,6 +272,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showImage(img, normalize=False)
 
     def translateImage(self):
+        """Request x and y translation values from the user and translate the image accordingly."""
         img = self.currentImage
 
         vals, ok = QInputDialog.getText(self, 'Input Dialog', 'Translation values in format x,y:')
