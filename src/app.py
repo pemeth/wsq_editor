@@ -354,7 +354,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         norm = normalizeMeanVariance(self.imgArray)
         roi = getRoi(norm, threshold=self.params.roiThresh)
-        self.showImage(roi)
+        self.showImage(norm * roi)
 
     def showFrequency(self):
         """Get the frequency image and display it."""
