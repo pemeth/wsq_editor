@@ -22,6 +22,10 @@ Kontaktné emaily (contact emails):
         email: kanich@fit.vut.cz
 
 
+V rovnakom priečinku ako toto README sú súbory s výsledkami klasifikácii jednotlivých snímok.
+
+In the same folder as this README are files with the results of classification of the individual images.
+
                 Súbory podľa manuálnej klasifikácie (Files by manual classification)
                     Všetky súbory z priečinku "Realne bez umyslnych chyb"
                     (All images from folder "Realne bez umyslnych chyb")
