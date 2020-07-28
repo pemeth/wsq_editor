@@ -1,3 +1,9 @@
+"""Simple testing framework for the fingerprint classification algorithm.
+
+Author: Patrik Nemeth
+Xlogin: xnemet04
+School: Vysoke Uceni Technicke v Brne, Fakulta Informacnich Technologii
+"""
 import numpy as np
 from normalize import normalizeMeanVariance
 from region_of_interest import getRoi
