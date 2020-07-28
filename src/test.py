@@ -12,14 +12,8 @@ from normalize import normalizeMeanVariance
 from region_of_interest import getRoi
 from ridge_orientation import ridgeOrient
 from ridge_frequency import ridgeFreq
-from filters import gaborFilter, butterworth
-from singularities import poincare, singularityCleanup
-from fp_classes import getClass
+from filters import gaborFilter
 import exceptions as ex
-
-import os
-from glob import glob
-from PIL import Image
 
 class TestImageManipulationFunctions(unittest.TestCase):
     def setUp(self):
@@ -163,52 +157,6 @@ class TestOptionalParams(TestImageManipulationFunctions):
         for item in invalidParams:
             with self.assertRaises(ex.InvalidDataType):
                 gaborFilter(self.im, orientim, freq, mask, blocksize=item)
-
-def checkClasses(file_path, expect):
-    files = {}
-
-    if os.path.isdir(file_path):
-        files = glob(file_path + "/*.bmp")
-    elif os.path.isfile(file_path):
-        files = [file_path]
-    else:
-        print("Special files not supported.")
-        return
-
-    countAll = len(files)
-    countCorrect = 0
-
-    with open(file_path + "/out.txt", mode="x") as out:
-        out.write("FILE : CLASS" + "\r\n")
-        print("FILE : CLASS ; core count | delta count")
-        for f in files:
-            img = Image.open(f)
-            img = img.convert("L")
-            img = np.asarray(img)
-
-            norm = normalizeMeanVariance(img)
-            butter = butterworth(norm)
-            mask = getRoi(butter)
-            orient = ridgeOrient(butter * mask, blendSigma=14)
-            cores, deltas = poincare(orient) * mask
-            cores, deltas = singularityCleanup(cores, deltas, mask)
-
-            fpClass = getClass(cores, deltas)
-
-            out.write(f + " : " + fpClass + "\r\n")
-            print(f + " : " + fpClass, " ; ", np.sum(cores), " | ", np.sum(deltas))
-            if expect == fpClass:
-                countCorrect += 1
-
-        errorRate = ((countAll - countCorrect) * 100) / countAll
-        print("Number of tested files: ", str(countAll))
-        print("Number of correct classifications: ", str(countCorrect))
-        print("Error rate: " + str(errorRate))
-
-        out.write("Number of tested files: " + str(countAll))
-        out.write("Number of correct classifications: " + str(countCorrect))
-        out.write("Error rate: " + str(errorRate))
-
 
 if __name__ == '__main__':
     unittest.main()
