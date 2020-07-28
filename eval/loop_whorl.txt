@@ -1,0 +1,34 @@
+FILE : CLASS
+out/classes/loop_whorl/1253_3_1_P4.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_3_P5.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_1_L5.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_1_3_L5.bmp : arch
+out/classes/loop_whorl/1115_1_2_P5.bmp : arch
+out/classes/loop_whorl/1115_1_1_L4.bmp : tented arch
+out/classes/loop_whorl/1115_2_2_L4.bmp : tented arch
+out/classes/loop_whorl/1253_1_1_P5.bmp : unknown
+out/classes/loop_whorl/1115_1_2_L4.bmp : unknown
+out/classes/loop_whorl/1115_2_2_P5.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_1_3_L4.bmp : whorl or twin loop
+out/classes/loop_whorl/1213_3_2_P4.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_3_1_L4.bmp : unknown
+out/classes/loop_whorl/1115_1_2_L5.bmp : left loop
+out/classes/loop_whorl/1253_3_1_P5.bmp : whorl or twin loop
+out/classes/loop_whorl/1213_3_3_P4.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_2_L5.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_3_L4.bmp : left loop
+out/classes/loop_whorl/1115_1_1_L5.bmp : arch
+out/classes/loop_whorl/1253_2_1_P2.bmp : whorl or twin loop
+out/classes/loop_whorl/1213_3_3_P2.bmp : whorl or twin loop
+out/classes/loop_whorl/1253_2_1_P5.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_1_P5.bmp : tented arch
+out/classes/loop_whorl/1115_1_3_P5.bmp : unknown
+out/classes/loop_whorl/1115_2_1_L4.bmp : tented arch
+out/classes/loop_whorl/1115_1_1_P5.bmp : unknown
+out/classes/loop_whorl/1213_3_1_P2.bmp : whorl or twin loop
+out/classes/loop_whorl/1115_2_3_L5.bmp : whorl or twin loop
+out/classes/loop_whorl/1233_1_3_P2.bmp : whorl or twin loop
+out/classes/loop_whorl/1101_2_1_L4.bmp : unknown
+out/classes/loop_whorl/1233_3_3_P1.bmp : whorl or twin loop
+out/classes/loop_whorl/1213_3_2_P2.bmp : whorl or twin loop
+Number of tested files: 32Number of correct classifications: 17Error rate: 46.875

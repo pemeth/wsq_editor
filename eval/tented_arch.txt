@@ -1,0 +1,13 @@
+FILE : CLASS
+out/classes/tented_arch/1184_2_1_L2.bmp : tented arch
+out/classes/tented_arch/1284_1_1_L4.bmp : tented arch
+out/classes/tented_arch/1284_1_2_L4.bmp : tented arch
+out/classes/tented_arch/1184_1_3_L2.bmp : tented arch
+out/classes/tented_arch/1284_1_3_P2.bmp : tented arch
+out/classes/tented_arch/1184_2_2_L2.bmp : whorl or twin loop
+out/classes/tented_arch/1184_3_2_L2.bmp : tented arch
+out/classes/tented_arch/1284_3_3_P2.bmp : tented arch
+out/classes/tented_arch/1284_1_1_P2.bmp : tented arch
+out/classes/tented_arch/1184_2_3_L2.bmp : tented arch
+out/classes/tented_arch/1184_3_1_L2.bmp : whorl or twin loop
+Number of tested files: 11Number of correct classifications: 9Error rate: 18.181818181818183

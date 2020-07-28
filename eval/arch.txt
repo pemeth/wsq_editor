@@ -1,0 +1,23 @@
+FILE : CLASS
+out/classes/arch/1143_1_2_P2.bmp : arch
+out/classes/arch/1143_1_2_L2.bmp : arch
+out/classes/arch/1143_1_3_L2.bmp : arch
+out/classes/arch/1143_1_1_L3.bmp : arch
+out/classes/arch/1143_1_1_P3.bmp : arch
+out/classes/arch/1143_2_3_P2.bmp : arch
+out/classes/arch/1143_1_1_P2.bmp : arch
+out/classes/arch/1143_1_3_P3.bmp : arch
+out/classes/arch/1143_1_3_P2.bmp : arch
+out/classes/arch/1143_2_2_L3.bmp : arch
+out/classes/arch/1143_1_2_L3.bmp : arch
+out/classes/arch/1143_2_2_P2.bmp : arch
+out/classes/arch/1284_3_3_L1.bmp : unknown
+out/classes/arch/1143_2_1_P3.bmp : arch
+out/classes/arch/1143_1_3_L3.bmp : arch
+out/classes/arch/1143_2_1_P2.bmp : arch
+out/classes/arch/1143_2_3_L2.bmp : arch
+out/classes/arch/1143_2_2_L2.bmp : arch
+out/classes/arch/1143_2_2_P3.bmp : arch
+out/classes/arch/1143_1_2_P3.bmp : arch
+out/classes/arch/1143_1_1_L2.bmp : arch
+Number of tested files: 21Number of correct classifications: 20Error rate: 4.761904761904762

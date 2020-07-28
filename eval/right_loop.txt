@@ -1,0 +1,26 @@
+FILE : CLASS
+out/classes/right_loop/1115_1_1_P3.bmp : whorl or twin loop
+out/classes/right_loop/1115_2_1_P3.bmp : right loop
+out/classes/right_loop/1115_3_2_P3.bmp : unknown
+out/classes/right_loop/1115_2_1_P4.bmp : tented arch
+out/classes/right_loop/1115_1_3_P3.bmp : right loop
+out/classes/right_loop/1265_1_3_P3.bmp : whorl or twin loop
+out/classes/right_loop/1184_1_2_P3.bmp : tented arch
+out/classes/right_loop/1101_1_1_P3.bmp : right loop
+out/classes/right_loop/1101_1_3_P3.bmp : right loop
+out/classes/right_loop/1115_1_3_P4.bmp : tented arch
+out/classes/right_loop/1101_1_2_P3.bmp : unknown
+out/classes/right_loop/1184_1_3_P2.bmp : whorl or twin loop
+out/classes/right_loop/1115_1_2_P4.bmp : whorl or twin loop
+out/classes/right_loop/1115_2_2_P4.bmp : tented arch
+out/classes/right_loop/1115_1_1_P4.bmp : whorl or twin loop
+out/classes/right_loop/1284_1_2_P3.bmp : right loop
+out/classes/right_loop/1284_1_2_P5.bmp : whorl or twin loop
+out/classes/right_loop/1284_1_2_P4.bmp : right loop
+out/classes/right_loop/1115_2_2_P3.bmp : right loop
+out/classes/right_loop/1115_1_2_P3.bmp : right loop
+out/classes/right_loop/1115_2_3_P3.bmp : right loop
+out/classes/right_loop/1115_2_3_P4.bmp : tented arch
+out/classes/right_loop/1233_1_3_P3.bmp : right loop
+out/classes/right_loop/1101_2_1_P2.bmp : unknown
+Number of tested files: 24Number of correct classifications: 10Error rate: 58.333333333333336

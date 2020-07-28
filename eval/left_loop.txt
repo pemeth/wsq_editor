@@ -1,0 +1,25 @@
+FILE : CLASS
+out/classes/left_loop/1115_1_1_L3.bmp : left loop
+out/classes/left_loop/1101_1_2_L5.bmp : whorl or twin loop
+out/classes/left_loop/1101_1_2_L2.bmp : left loop
+out/classes/left_loop/1115_1_2_L2.bmp : left loop
+out/classes/left_loop/1101_1_3_L2.bmp : left loop
+out/classes/left_loop/1101_1_1_L2.bmp : left loop
+out/classes/left_loop/1101_1_2_L3.bmp : unknown
+out/classes/left_loop/1115_2_3_L3.bmp : left loop
+out/classes/left_loop/1213_2_2_L2.bmp : right loop
+out/classes/left_loop/1115_2_2_L3.bmp : unknown
+out/classes/left_loop/1101_2_1_L2.bmp : left loop
+out/classes/left_loop/1213_1_3_L5.bmp : tented arch
+out/classes/left_loop/1115_2_1_L3.bmp : left loop
+out/classes/left_loop/1101_2_2_L5.bmp : unknown
+out/classes/left_loop/1115_1_3_L3.bmp : left loop
+out/classes/left_loop/1213_1_1_L5.bmp : left loop
+out/classes/left_loop/1265_1_1_L2.bmp : arch
+out/classes/left_loop/1213_1_1_L3.bmp : left loop
+out/classes/left_loop/1115_2_1_L2.bmp : whorl or twin loop
+out/classes/left_loop/1284_1_1_L1.bmp : left loop
+out/classes/left_loop/1115_1_1_L2.bmp : left loop
+out/classes/left_loop/1115_1_2_L3.bmp : left loop
+out/classes/left_loop/1101_2_3_L5.bmp : left loop
+Number of tested files: 23Number of correct classifications: 15Error rate: 34.78260869565217
