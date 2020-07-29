@@ -846,7 +846,9 @@
   
   \subsection{Diskrétna vlnková transformácia}
   Prvým krokom v kompresii snímok vo formáte WSQ je diskrétna vlnková transformácia, ktorá prevedie viacúrovňovú dekompozíciu vstupnej snímky na 
-  podpásma. Jedna úroveň transformácie je zobrazená na obrázku~{\ref{obr:DWT_uroven}}. Vstupný signál $I$ je rozdelený na podpásma párom filtrov horného
+  podpásma. Jedna úroveň transformácie je zobrazená na obrázku~{\ref{obr:DWT_uroven}}, kde bloky H predstavujú filtre s horným priepustom,
+  bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál. Kombinácie HH, HL, LH a LL reprezentujú
+  výstupné signály filtrované vo vyznačenom poradí. Vstupný signál $I$ je rozdelený na podpásma párom filtrov horného
   a dolného priepustu. Tento pár filtrov sa najprv aplikuje pozdĺž riadkov vstupnej snímky (signálu), čo vyprodukuje dva výstupy - jeden výstup reprezentuje
   vstupný signál filtrovaný vysokým priepustom a druhý reprezentuje vstupný signál filtrovaný nízkym priepustom. Tieto dva signály sa následne podvzorkujú
   a sú na ne aplikované rovnaké páry filtrov a následné podvzorkovanie ako v prvom kroku, ale tentoraz po stĺpcoch.
@@ -854,9 +856,7 @@
   \begin{figure}[h]
     \centering
     \includegraphics[width=10cm]{obrazky-figures/DWT_level.pdf}
-    \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem, kde bloky H predstavujú filtre s horným priepustom,
-    bloky L filtre s dolným priepustom, bloky so šípkou nadol značia podvzorkovanie a blok I je vstupný signál. Kombinácie HH, HL, LH a LL reprezentujú
-    výstupné signály filtrované vo vyznačenom poradí.}
+    \caption{Diagram zobrazujúci jednu úroveň rozkladu vstupnej snímky do korešpondujúcich podpásem.}
     \label{obr:DWT_uroven}
   \end{figure}
 
