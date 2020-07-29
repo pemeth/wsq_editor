@@ -1696,9 +1696,10 @@
   Niektoré kroky spracovania je možné parametrizovať cez grafické rozhranie aplikácie.
 
   Implementované algoritmy automatickej analýzy boli otestované na manuálne roztriedenej vzorke odtlačkov prstov. V závislosti od faktorov ako kvalita snímky,
-  a pri klasifikácii aj od samotnej triedy odtlačku, sa dosahovali rôzne výsledky. Pri analýze markantov sa detegovali často falošné markanty na okrajoch
+  a pri klasifikácii aj od samotnej triedy odtlačku, sa dosahovali rôzne výsledky. Algoritmy analýzy pracujú na snímkoch vysokej kvality korektne.
+  Pri analýze markantov sa detegovali často falošné markanty na okrajoch
   oblasti záujmu a v prípade snímky nižšej kvality aj v rámci oblasti záujmu. Klasifikácia dosahovala najlepšie výsledky pri triede oblúk a najhoršie
-  pri pravých sľučkách. Aplikácia spĺňa všetky požiadavky zadania práce.
+  pri pravých sľučkách. Vzhľadom k vyššie uvedenému aplikácia spĺňa všetky požiadavky zadania práce.
 
   Výsledná aplikácia však má priestor pre vylepšenie. Asi jej najvýraznejším nedostatkom je rýchlosť niektorých algoritmov, ktoré sa spoliehajú na
   cykly pre prácu s dátami snímok, pričom takáto implementácia v jazyku Python nie je ideálnym riešením. Prepísanie algoritmov do jazyka Cython by umožnilo
