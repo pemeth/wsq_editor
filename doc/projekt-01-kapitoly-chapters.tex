@@ -1431,7 +1431,7 @@
   a daný pixel spolu s jeho okamžitým okolím (tzn. okno $3$$\times{}$$3$ so stredom súčasného pixelu) odovzdá funkcii \texttt{poincareIndex}. Tu sa okno,
   ktoré tvorí susedné pixely súčasného pixelu, cyklicky odvinie
   proti smeru hodinových ručičiek. Na odvinutom okne sa vypočíta Poincaré index pre daný pixel a táto hodnota sa vráti hlavnej riadiacej funkcii.
-  V~závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota - 1, ak sa jedná o singularitu, 0 inak.
+  V~závislosti hodnoty indexu sa jednotlivým snímkam singularít alebo jadier priradí príslušná hodnota: 1, ak sa jedná o singularitu, 0 inak.
   Výsledkom sú dve binárne snímky jadier a delt, ktoré majú vyznačené singularity v príslušných bodoch (rovnako ako pri markantoch).
   
   Normalizácia snímok singularít sa vykonáva vo funkcii \texttt{singularityCleanup}, ktorá plní tri účely. V prvom rade nahrádza oblasti s veľkým
