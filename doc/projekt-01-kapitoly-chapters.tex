@@ -685,7 +685,7 @@
   na základe smeru $\theta{}_c$ a veľkosti kroku $\mu$, ktorý udáva počet preskočených pixelov v danom smere. V novom bode sa získajú hodnoty šedej
   naprieč prierezovou sekciou, ktorá je vytvorená kolmo na pôvodný smer $\theta{}_c$ a je dĺžky $2\sigma + 1$. Na základe získaných hodnôt šedej sa
   v rámci sekcie nájde lokálne maximum, pozícia ktorého sa označí ako $[x_n, y_n]$. Tento nový bod sa stáva bodom $[x_c, y_c]$,
-  vypočíta sa nový smer $\theta{}_c$ a algoritmus začína novú iteráciu. Algoritmus je znázornený na~{\ref{obr:sledovanie_linii}}.
+  vypočíta sa nový smer $\theta{}_c$ a algoritmus začína novú iteráciu. Algoritmus je znázornený na obrázku~{\ref{obr:sledovanie_linii}}.
 
   \begin{figure}[h]
     \centering
@@ -731,7 +731,7 @@
 
   Iwasokun a Akinyokun \cite{iwasokun2014singularities} navrhli metódu detekcie jadier a delt na základe Poincaré indexu, ktorý využíva extrahované orientácie
   pomocou metódy navrhnutej v \cite{Hong}. Detekcia singularít funguje nasledovne. V snímke orientácií $O(i,j)$ pre každý pixel $(i,j)$ sa zvolí
-  okno veľkosti $3$$\times{}$$3$ (znázornené na~{\ref{obr:okno_orientacie}}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
+  okno veľkosti $3$$\times{}$$3$ (znázornené na obrázku~{\ref{obr:okno_orientacie}}). V tomto okne sa vypočítajú rozdiely medzi jednotlivými pármi pixelov
   obklopujúcich pixel $O(i,j)$ v smere proti behu hodinových ručičiek~{\ref{eq:poincare_3}}. Toto okno je kruhové, čiže sa počíta aj rozdiel medzi prvým
   a posledným pixelov v okne. Na~základe rozdielov susedných buniek okna sa podľa rovnice~{\ref{eq:poincare_2}} vráti špecifická hodnota $\beta{}_c$.
   Nakoniec sa jednotlivé
